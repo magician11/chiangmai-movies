@@ -1,0 +1,16 @@
+{
+  "name": "get-movies",
+  "version": "1.0.0",
+  "description": "Scrape websites to show movie information.",
+  "main": "get-movies.js",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "request": "^2.74.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
+  "license": "ISC"
+}
