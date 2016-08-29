@@ -1,22 +1,26 @@
 const request = require('request');
+
+// https://github.com/cheeriojs/cheerio
 const cheerio = require('cheerio');
 
-const movieData = {
-  ccode: 'CMIVIS2K',
-  mcode: '',
-  submit: {
-    x: 46,
-    y: 6,
-  },
-  submit: 'submit'
-};
+const movieData = {};
 
-
-request.post({url:'http://www.sfcinemacity.com/index.php/en/timetable/lookup', form: movieData}, function(err,httpResponse,body) {
+request('https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936', (err, httpResponse, body) => {
   const $ = cheerio.load(body);
 
-  $(".content_list > li").each(function() {
-    const movie = $(this).find('h3 > a').text();
-    console.log(movie);
+  let currentMovie;
+  let currentDate;
+  $('#tblShowTimes td').each(function () {
+    //console.log($(this).text());
+    if ($(this).hasClass('PrintShowTimesFilm')) {
+      currentMovie = $(this).text();
+      movieData[currentMovie] = {};
+    } else if ($(this).hasClass('PrintShowTimesDay')) {
+      currentDate = $(this).text();
+    } else if ($(this).hasClass('PrintShowTimesSession')) {
+      movieData[currentMovie][currentDate] = $(this).text();
+    }
   });
+
+  console.log(movieData);
 });
