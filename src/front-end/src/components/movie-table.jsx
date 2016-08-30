@@ -20,8 +20,8 @@ const MovieTable = props => {
     <Table striped bordered condensed hover>
       <thead>
         <tr>
-          <th>Movie</th>
-          <th>Time</th>
+          <th>Movie Title</th>
+          <th>Show Times</th>
         </tr>
       </thead>
       <tbody>

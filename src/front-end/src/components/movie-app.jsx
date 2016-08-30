@@ -13,7 +13,7 @@ class MovieApp extends Component {
       availableDates: [],
     };
 
-    request('http://128.199.143.40:3000/maya-mall', (er, response, body) => {
+    request('http://128.199.143.40:3000/maya-mall?language=E', (er, response, body) => {
       if (er) {
         throw er;
       }
@@ -60,6 +60,7 @@ class MovieApp extends Component {
           <Form inline>
             <FormGroup controlId="formControlsSelect">
               <ControlLabel>Date</ControlLabel>
+              {' '}
               <FormControl
                 componentClass="select"
                 placeholder="select"
@@ -68,8 +69,10 @@ class MovieApp extends Component {
                 {this.state.availableDates.map((date, index) => <option key={index} value={index}>{date}</option>)}
               </FormControl>
             </FormGroup>
-            <MovieTable movieData={movieData} targetDate={this.state.targetDate} />
+
           </Form>
+          <br />
+          <MovieTable movieData={movieData} targetDate={this.state.targetDate} />
         </div>
       );
     }
