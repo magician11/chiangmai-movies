@@ -20,6 +20,8 @@ const basicInterface = (
         </div>
         <hr />
         <MovieTimes />
+        <hr />
+        <p className="text-center">Webapp made by <a href="http://www.golightlyplus.com">Golightly+</a></p>
       </Col>
     </Row>
   </Grid>

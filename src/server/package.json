@@ -4,6 +4,7 @@
   "description": "Scrape websites to show movie information for Maya Mall in Chiang Mai, Thailand.",
   "dependencies": {
     "cheerio": "^0.22.0",
+    "cors": "^2.8.0",
     "express": "^4.14.0",
     "request": "^2.74.0",
     "request-promise-native": "^1.0.3"

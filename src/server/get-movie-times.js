@@ -1,8 +1,10 @@
 const cheerio = require('cheerio');
 const rp = require('request-promise-native');
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 app.get('/maya-mall', (req, res) => {
   const options = {
