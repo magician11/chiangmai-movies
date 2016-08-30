@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Row, Col, Glyphicon } from 'react-bootstrap';
-import MovieTimes from './components/movie-times';
+import { Grid, Row, Col, Glyphicon, PageHeader } from 'react-bootstrap';
+import MovieApp from './components/movie-app';
 
 require('bootstrap/dist/css/bootstrap.css');
 
@@ -12,16 +12,12 @@ const basicInterface = (
   <Grid>
     <Row>
       <Col xs={12}>
-        <div className="text-center">
-          <h1><Glyphicon glyph="film" /> Movie times</h1>
-          <h2>
-            <Glyphicon glyph="star" /> Maya Mall in Chiang Mai, Thailand <Glyphicon glyph="star" />
-          </h2>
-        </div>
+        <PageHeader className="text-center">
+          Movie Times <small>Maya Mall in Chiang Mai, Thailand</small>
+        </PageHeader>
+        <MovieApp />
         <hr />
-        <MovieTimes />
-        <hr />
-        <p className="text-center">Webapp made by <a href="http://www.golightlyplus.com">Golightly+</a></p>
+        <p className="text-center"><Glyphicon glyph="film" /> webapp made by <a href="http://www.golightlyplus.com">Golightly+</a></p>
       </Col>
     </Row>
   </Grid>
