@@ -8,12 +8,11 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "cheerio": "^0.22.0",
+    "browser-request": "^0.3.3",
+    "html-webpack-plugin": "^2.22.0",
     "react": "^15.3.1",
     "react-bootstrap": "^0.30.3",
     "react-dom": "^15.3.1",
-    "html-webpack-plugin": "^2.22.0",
-    "request": "^2.74.0"
   },
   "devDependencies": {
     "babel-loader": "^6.2.5",
