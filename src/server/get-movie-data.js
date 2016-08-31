@@ -44,8 +44,12 @@ app.get('/maya-mall', (req, res) => {
           times: movieData[movieName][movieDate],
         });
       }
+
+      const titleAndLanguage = movieName.match(/(.+) \((.+)\)/);
+
       formattedMovieData.push({
-        title: movieName,
+        title: titleAndLanguage[1],
+        language: titleAndLanguage[2],
         showTimes,
       });
     }
@@ -55,14 +59,45 @@ app.get('/maya-mall', (req, res) => {
   .then((movieData) => { // filter out the language requested
     if (req.query.language) {
       const filteredMovieData = movieData
-      .filter((movie) => movie.title.includes(`(${req.query.language}`));
+      .filter((movie) => movie.language.startsWith(req.query.language));
       return filteredMovieData;
     }
 
     return movieData;
   })
-  // todo add data from http://www.omdbapi.com/
-  // something like http://www.omdbapi.com/?t=PETE%27S%20DRAGON&y=2016&plot=full&r=json&tomatoes=true
+  .then((filteredMovieData) => { // add movie meta data from omdb
+    const addMovieData = (movie) => {
+      return new Promise((resolve, reject) => {
+        const omdbOptions = {
+          uri: `http://www.omdbapi.com/?t=${encodeURIComponent(movie.title)}&r=json&tomatoes=true`,
+          json: true,
+        };
+
+        rp(omdbOptions)
+        .then((movieData) => {
+          const extraMetaData = {
+            plot: movieData.Plot,
+            rottenTomatoesScore: movieData.tomatoMeter,
+            actors: movieData.Actors,
+            rottenTomatoesUrl: movieData.tomatoURL,
+          };
+          resolve(Object.assign(movie, extraMetaData));
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      });
+    };
+
+    const moviesWithMetaData = [];
+    filteredMovieData.forEach((movie) => {
+      moviesWithMetaData.push(new Promise((resolve, reject) => {
+        resolve(addMovieData(movie));
+      }));
+    });
+
+    return Promise.all(moviesWithMetaData);
+  })
   .then((movieData) => res.json(movieData)) // return data as a json response
   .catch((err) => {
     res.send(err);
