@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 const webpackConfig = {
   entry: './src/index.jsx',
@@ -16,11 +17,11 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
+        loader: 'style-loader!css-loader!postcss-loader',
       },
       {
         test: /\.scss$/,
-        loader: 'style!css!sass',
+        loader: 'style!css!sass!postcss-loader',
       },
       {
         test: /\.png$/,
@@ -48,6 +49,7 @@ const webpackConfig = {
       },
     ],
   },
+  postcss: [autoprefixer({ browsers: ['last 2 versions'] })],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },

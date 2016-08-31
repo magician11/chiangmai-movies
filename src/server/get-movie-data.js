@@ -8,7 +8,7 @@ app.use(cors());
 
 /*
 Optional parameters:
-- language e.g. E for English
+- language e.g. E for English (language=E)
 */
 app.get('/maya-mall', (req, res) => {
   const options = {
@@ -21,7 +21,7 @@ app.get('/maya-mall', (req, res) => {
     const movieData = {};
     let currentMovie;
     let currentDate;
-    $('#tblShowTimes td').each(function () {
+    $('#tblShowTimes td').each(function process() {
       if ($(this).hasClass('PrintShowTimesFilm')) {
         currentMovie = $(this).text();
         movieData[currentMovie] = {};
@@ -56,11 +56,14 @@ app.get('/maya-mall', (req, res) => {
     if (req.query.language) {
       const filteredMovieData = movieData
       .filter((movie) => movie.title.includes(`(${req.query.language}`));
-      return res.json(filteredMovieData);
+      return filteredMovieData;
     }
 
-    return res.json(movieData);
+    return movieData;
   })
+  // todo add data from http://www.omdbapi.com/
+  // something like http://www.omdbapi.com/?t=PETE%27S%20DRAGON&y=2016&plot=full&r=json&tomatoes=true
+  .then((movieData) => res.json(movieData)) // return data as a json response
   .catch((err) => {
     res.send(err);
   });
@@ -69,5 +72,6 @@ app.get('/maya-mall', (req, res) => {
 const port = 3000;
 
 app.listen(port, () => {
+  // eslint-disable-next-line
   console.log(`Movies data app listening on port ${port}.`);
 });

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import request from 'browser-request';
-// import moment from 'moment';
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import MovieTable from './movie-table';
+import styling from '../styles/movie-app.scss';
 
 class MovieApp extends Component {
   constructor() {
@@ -53,7 +53,12 @@ class MovieApp extends Component {
     let content;
 
     if (!movieData) {
-      content = <h1>loading</h1>;
+      content = (
+        <div className={styling.spinner}>
+          <div className={styling['double-bounce1']} />
+          <div className={styling['double-bounce2']} />
+        </div>
+      );
     } else {
       content = (
         <div>
@@ -66,7 +71,8 @@ class MovieApp extends Component {
                 placeholder="select"
                 onChange={this.handleDateChange}
               >
-                {this.state.availableDates.map((date, index) => <option key={index} value={index}>{date}</option>)}
+                {this.state.availableDates
+                  .map((date, index) => <option key={index} value={index}>{date}</option>)}
               </FormControl>
             </FormGroup>
 
