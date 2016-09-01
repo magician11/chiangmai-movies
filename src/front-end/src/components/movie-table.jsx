@@ -3,36 +3,43 @@ import { Table } from 'react-bootstrap';
 
 const MovieTable = props => {
   const movieData = props.movieData;
-  const movieTimes = [];
-  for (const movieName of Object.keys(movieData)) {
-    for (const movieDate of Object.keys(movieData[movieName])) {
-      if (movieDate.includes(` ${props.targetDate.getDate()} `)) {
-        movieTimes.push(
-          <tr key={`${movieName}${movieDate}`}>
-            <td>{movieName}</td><td>{movieData[movieName][movieDate]}</td>
+  const movieShowings = [];
+  movieData.forEach((movie) => {
+    movie.showTimes.forEach((showTime) => {
+      if (showTime.date.includes(` ${props.targetDate.getDate()} `)) {
+        movieShowings.push(
+          <tr key={`${movie.title} - ${showTime.date}`}>
+            <td>{movie.title}</td>
+            <td>{movie.plot}</td>
+            <td>{movie.actors}</td>
+            <td>{showTime.times}</td>
+            <td>{movie.rottenTomatoesScore}%</td>
           </tr>
         );
       }
-    }
-  }
+    });
+  });
 
   return (
     <Table striped bordered condensed hover>
       <thead>
         <tr>
           <th>Movie Title</th>
+          <th>Description</th>
+          <th>Cast</th>
           <th>Show Times</th>
+          <th>Rotten Tomatoes Score</th>
         </tr>
       </thead>
       <tbody>
-        {movieTimes}
+        {movieShowings}
       </tbody>
     </Table>
   );
 };
 
 MovieTable.propTypes = {
-  movieData: React.PropTypes.object.isRequired,
+  movieData: React.PropTypes.array.isRequired,
   targetDate: React.PropTypes.object.isRequired,
 };
 

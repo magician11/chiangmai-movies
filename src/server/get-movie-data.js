@@ -69,7 +69,7 @@ app.get('/maya-mall', (req, res) => {
     const addMovieData = (movie) => {
       return new Promise((resolve, reject) => {
         const omdbOptions = {
-          uri: `http://www.omdbapi.com/?t=${encodeURIComponent(movie.title)}&r=json&tomatoes=true`,
+          uri: `http://www.omdbapi.com/?t=${encodeURIComponent(movie.title)}&r=json&tomatoes=true&y=${new Date().getFullYear()}`,
           json: true,
         };
 

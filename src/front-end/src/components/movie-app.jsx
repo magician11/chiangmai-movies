@@ -28,12 +28,11 @@ class MovieApp extends Component {
 
   getUniqueDates(movieData) {
     const dates = {};
-    for (const movieName of Object.keys(movieData)) {
-      for (const movieDate of Object.keys(movieData[movieName])) {
-        dates[movieDate] = true;
-      }
-    }
-
+    movieData.forEach((movie) => {
+      movie.showTimes.forEach((showTime) => {
+        dates[showTime.date] = true;
+      });
+    });
     return Object.keys(dates);
   }
 
@@ -71,11 +70,9 @@ class MovieApp extends Component {
                 placeholder="select"
                 onChange={this.handleDateChange}
               >
-                {this.state.availableDates
-                  .map((date, index) => <option key={index} value={index}>{date}</option>)}
+                {this.state.availableDates.map((date, index) => <option key={index} value={index}>{date}</option>)}
               </FormControl>
             </FormGroup>
-
           </Form>
           <br />
           <MovieTable movieData={movieData} targetDate={this.state.targetDate} />
