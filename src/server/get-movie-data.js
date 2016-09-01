@@ -65,21 +65,21 @@ app.get('/maya-mall', (req, res) => {
 
     return movieData;
   })
-  .then((filteredMovieData) => { // add movie meta data from omdb
+  .then((filteredMovieData) => { // add movie meta data from https://www.themoviedb.org/
     const addMovieData = (movie) => {
       return new Promise((resolve, reject) => {
-        const omdbOptions = {
-          uri: `http://www.omdbapi.com/?t=${encodeURIComponent(movie.title)}&r=json&tomatoes=true&y=${new Date().getFullYear()}`,
+        const movieDbOptions = {
+          uri: `http://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movie.title)}&api_key=41c36dd400094f4bdbec4a66c776d775`,
           json: true,
         };
 
-        rp(omdbOptions)
-        .then((movieData) => {
+        rp(movieDbOptions)
+        .then((result) => {
+          const movieData = result.results[0];
           const extraMetaData = {
-            plot: movieData.Plot,
-            rottenTomatoesScore: movieData.tomatoMeter,
-            actors: movieData.Actors,
-            rottenTomatoesUrl: movieData.tomatoURL,
+            overview: movieData.overview,
+            score: movieData.vote_average,
+            image: `http://image.tmdb.org/t/p/w500${movieData.poster_path}`,
           };
           resolve(Object.assign(movie, extraMetaData));
         })

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import request from 'browser-request';
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import MovieTable from './movie-table';
+import MovieListing from './movie-listing';
 import styling from '../styles/movie-app.scss';
 
 class MovieApp extends Component {
@@ -75,7 +75,7 @@ class MovieApp extends Component {
             </FormGroup>
           </Form>
           <br />
-          <MovieTable movieData={movieData} targetDate={this.state.targetDate} />
+          <MovieListing movieData={movieData} targetDate={this.state.targetDate} />
         </div>
       );
     }
