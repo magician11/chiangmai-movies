@@ -69,19 +69,23 @@ app.get('/maya-mall', (req, res) => {
     const addMovieData = (movie) => {
       return new Promise((resolve, reject) => {
         const movieDbOptions = {
-          uri: `http://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movie.title)}&api_key=41c36dd400094f4bdbec4a66c776d775`,
+          uri: `http://api.themoviedb.org/3/search/movie?query=${movie.title}&api_key=41c36dd400094f4bdbec4a66c776d775`,
           json: true,
         };
 
         rp(movieDbOptions)
         .then((result) => {
           const movieData = result.results[0];
-          const extraMetaData = {
-            overview: movieData.overview,
-            score: movieData.vote_average,
-            image: `http://image.tmdb.org/t/p/w500${movieData.poster_path}`,
-          };
-          resolve(Object.assign(movie, extraMetaData));
+          if (movieData) { // if we get a result for this search
+            const extraMetaData = {
+              overview: movieData.overview,
+              score: movieData.vote_average,
+              image: `http://image.tmdb.org/t/p/w500${movieData.poster_path}`,
+            };
+            resolve(Object.assign(movie, extraMetaData));
+          } else {
+            resolve(movie);
+          }
         })
         .catch((err) => {
           reject(err);
@@ -92,7 +96,11 @@ app.get('/maya-mall', (req, res) => {
     const moviesWithMetaData = [];
     filteredMovieData.forEach((movie) => {
       moviesWithMetaData.push(new Promise((resolve, reject) => {
-        resolve(addMovieData(movie));
+        try {
+          resolve(addMovieData(movie));
+        } catch (err) {
+          reject(err);
+        }
       }));
     });
 
@@ -100,7 +108,7 @@ app.get('/maya-mall', (req, res) => {
   })
   .then((movieData) => res.json(movieData)) // return data as a json response
   .catch((err) => {
-    res.send(err);
+    res.send(err.toString());
   });
 });
 
