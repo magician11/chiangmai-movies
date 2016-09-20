@@ -20,7 +20,7 @@ class MovieApp extends Component {
 
       const movieData = JSON.parse(body);
       const availableDates = this.getUniqueDates(movieData);
-      this.setState({ movieData, availableDates, targetDate: this.setTargetDate(0) });
+      this.setState({ movieData, availableDates, targetDate: availableDates[0] });
     });
 
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -36,15 +36,8 @@ class MovieApp extends Component {
     return Object.keys(dates);
   }
 
-  setTargetDate(daysAhead) {
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + daysAhead);
-
-    return targetDate;
-  }
-
   handleDateChange(event) {
-    this.setState({ targetDate: this.setTargetDate(parseInt(event.target.value, 10)) });
+    this.setState({ targetDate: event.target.value });
   }
 
   render() {
@@ -70,7 +63,7 @@ class MovieApp extends Component {
                 placeholder="select"
                 onChange={this.handleDateChange}
               >
-                {this.state.availableDates.map((date, index) => <option key={index} value={index}>{date}</option>)}
+                {this.state.availableDates.map((date) => <option key={date} value={date}>{date}</option>)}
               </FormControl>
             </FormGroup>
           </Form>

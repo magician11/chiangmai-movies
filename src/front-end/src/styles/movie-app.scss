@@ -1,4 +1,16 @@
 :local {
+  .title, .showtimes {
+    width: 22rem;
+  }
+
+  .rating {
+    width: 11rem;
+  }
+  
+  .image {
+    width: 18rem;
+  }
+
   // from http://tobiasahlin.com/spinkit/
   .spinner {
     width: 40px;

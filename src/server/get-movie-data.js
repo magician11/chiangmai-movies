@@ -76,16 +76,21 @@ app.get('/maya-mall', (req, res) => {
         rp(movieDbOptions)
         .then((result) => {
           const movieData = result.results[0];
+          let extraMetaData = {};
           if (movieData) { // if we get a result for this search
-            const extraMetaData = {
+            extraMetaData = {
               overview: movieData.overview,
               score: movieData.vote_average,
               image: `http://image.tmdb.org/t/p/w500${movieData.poster_path}`,
             };
-            resolve(Object.assign(movie, extraMetaData));
           } else {
-            resolve(movie);
+            extraMetaData = {
+              overview: 'not known',
+              score: 'not rated',
+              image: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjAiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0iI2ZhbHNlIiA+ICAgIDxwYXRoIGQ9Ik0gMjcuNSAwIEMgMjIuNzYzNzg0IDAgMTguODM2MDgxIDMuNDkxMzgzNCAxOC4xMjUgOC4wMzEyNSBDIDE2Ljg2NzgzNiA1LjY0NjQxNjIgMTQuMzc3Njg1IDQgMTEuNSA0IEMgNy4zNjUgNCA0IDcuMzY1IDQgMTEuNSBDIDQgMTQuODU5Njg3IDYuMjMwMjk2NiAxNy43MDUxMDEgOS4yODEyNSAxOC42NTYyNSBDIDcuMzI3NzQ3NCAxOS42MzUwNDYgNiAyMS42MjcwOTMgNiAyNCBMIDYgMzUgQyA2IDM4LjM2NCA4LjYzNiA0MSAxMiA0MSBMIDI5IDQxIEMgMzIuMzY0IDQxIDM1IDM4LjM2NCAzNSAzNSBMIDM1IDI0IEMgMzUgMjEuMzM4OTA3IDMzLjM1NDUzNCAxOS4xMTgwMSAzMSAxOC4zMTI1IEMgMzQuNTA0OTA1IDE2LjkxMjk0MSAzNyAxMy40OTgxMjMgMzcgOS41IEMgMzcgNC4yNjIgMzIuNzM4IDAgMjcuNSAwIHogTSAxOC43ODEyNSAxMy4yNSBDIDE5LjY3NDIzMyAxNS4zMTUzNjMgMjEuMjc0NzY2IDE3LjAwMDkzMiAyMy4yODEyNSAxOCBMIDE1LjIxODc1IDE4IEMgMTYuOTc4MzAzIDE2Ljk4Njk2IDE4LjI5MjEyIDE1LjI3MzcxNyAxOC43ODEyNSAxMy4yNSB6IE0gNDYgMTguMzc1IEwgMzYuOTM3NSAyMi45MDYyNSBDIDM2Ljk4MzUgMjMuMjU5MjUgMzcgMjMuNjMyIDM3IDI0IEwgMzcgMzUgQyAzNyAzNS42OTEgMzYuOTA3IDM2LjM2MyAzNi43NSAzNyBMIDQ2IDQxLjYyNSBMIDQ2IDE4LjM3NSB6IE0gMTUuNSA0MyBMIDE0LjUgNDQgTCA4LjUgNTAgTCAxMSA1MCBMIDE0IDUwIEwgMTYuNSA1MCBMIDIxIDQ1LjUgTCAyNS41IDUwIEwgMjcuOTM3NSA1MCBMIDI4IDUwIEwgMzMuNSA1MCBMIDI3LjUgNDQgTCAyNi41IDQzIEwgMTUuNSA0MyB6Ij48L3BhdGg+PC9zdmc+',
+            };
           }
+          resolve(Object.assign(movie, extraMetaData));
         })
         .catch((err) => {
           reject(err);
