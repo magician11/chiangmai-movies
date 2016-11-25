@@ -2,12 +2,12 @@ import React from 'react';
 import { Table, Image, Glyphicon } from 'react-bootstrap';
 import styling from '../styles/movie-app.scss';
 
-const MovieListing = props => {
-  const movieData = props.movieData;
+const MovieListing = (props) => {
+  const { movieData, targetDate } = props;
   const movieShowings = [];
   movieData.forEach((movie) => {
     movie.showTimes.forEach((showTime) => {
-      if (showTime.date === props.targetDate) {
+      if (showTime.date === targetDate) {
         movieShowings.push(
           <tr key={`${movie.title} - ${showTime.date}`}>
             <td><Image src={movie.image} alt={movie.title} thumbnail responsive /></td>
@@ -15,7 +15,7 @@ const MovieListing = props => {
             <td>{movie.score}</td>
             <td>{showTime.times}</td>
             <td>{movie.overview}</td>
-          </tr>
+          </tr>,
         );
       }
     });
@@ -40,7 +40,7 @@ const MovieListing = props => {
 };
 
 MovieListing.propTypes = {
-  movieData: React.PropTypes.array.isRequired,
+  movieData: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   targetDate: React.PropTypes.string.isRequired,
 };
 

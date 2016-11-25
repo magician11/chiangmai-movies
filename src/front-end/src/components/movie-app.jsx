@@ -5,6 +5,16 @@ import MovieListing from './movie-listing';
 import styling from '../styles/movie-app.scss';
 
 class MovieApp extends Component {
+  static getUniqueDates(movieData) {
+    const dates = {};
+    movieData.forEach((movie) => {
+      movie.showTimes.forEach((showTime) => {
+        dates[showTime.date] = true;
+      });
+    });
+    return Object.keys(dates);
+  }
+
   constructor() {
     super();
     this.state = {
@@ -26,16 +36,6 @@ class MovieApp extends Component {
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  getUniqueDates(movieData) {
-    const dates = {};
-    movieData.forEach((movie) => {
-      movie.showTimes.forEach((showTime) => {
-        dates[showTime.date] = true;
-      });
-    });
-    return Object.keys(dates);
-  }
-
   handleDateChange(event) {
     this.setState({ targetDate: event.target.value });
   }
@@ -52,24 +52,25 @@ class MovieApp extends Component {
         </div>
       );
     } else {
-      content = (
-        <div>
-          <Form inline>
-            <FormGroup controlId="formControlsSelect">
-              <ControlLabel>Date</ControlLabel>
-              {' '}
-              <FormControl
-                componentClass="select"
-                placeholder="select"
-                onChange={this.handleDateChange}
-              >
-                {this.state.availableDates.map((date) => <option key={date} value={date}>{date}</option>)}
-              </FormControl>
-            </FormGroup>
-          </Form>
-          <br />
-          <MovieListing movieData={movieData} targetDate={this.state.targetDate} />
-        </div>
+      content = (<div>
+        <Form inline>
+          <FormGroup controlId="formControlsSelect">
+            <ControlLabel>Date</ControlLabel>
+            {' '}
+            <FormControl
+              componentClass="select"
+              placeholder="select"
+              onChange={this.handleDateChange}
+            >
+              {this.state.availableDates.map(
+                date => <option key={date} value={date}>{date}</option>,
+              )}
+            </FormControl>
+          </FormGroup>
+        </Form>
+        <br />
+        <MovieListing movieData={movieData} targetDate={this.state.targetDate} />
+      </div>
       );
     }
 

@@ -53,7 +53,9 @@ const webpackConfig = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin({
+    title: 'English Movies at Maya Mall in Chiang Mai, Thailand',
+  })],
 };
 
 module.exports = webpackConfig;

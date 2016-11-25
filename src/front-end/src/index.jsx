@@ -13,7 +13,7 @@ const basicInterface = (
     <Row>
       <Col xs={12}>
         <PageHeader className="text-center">
-          Movie Times <small>Maya Mall in Chiang Mai, Thailand</small>
+          English Movies <small>@ Maya Mall in Chiang Mai, Thailand</small>
         </PageHeader>
         <MovieApp />
         <hr />
