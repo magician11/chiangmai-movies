@@ -1,47 +1,49 @@
 :local {
+  /*
   .title, .showtimes {
-    width: 22rem;
+  width: 22rem;
+}
+
+.rating {
+width: 11rem;
+}
+
+.image {
+width: 18rem;
+}
+*/
+
+// from http://tobiasahlin.com/spinkit/
+.spinner {
+  width: 40px;
+  height: 40px;
+
+  position: relative;
+  margin: 100px auto;
+
+  .double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    animation: sk-bounce 2.0s infinite ease-in-out;
   }
 
-  .rating {
-    width: 11rem;
-  }
-  
-  .image {
-    width: 18rem;
+  .double-bounce2 {
+    animation-delay: -1.0s;
   }
 
-  // from http://tobiasahlin.com/spinkit/
-  .spinner {
-    width: 40px;
-    height: 40px;
-
-    position: relative;
-    margin: 100px auto;
-
-    .double-bounce1, .double-bounce2 {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background-color: #333;
-      opacity: 0.6;
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      animation: sk-bounce 2.0s infinite ease-in-out;
+  @keyframes :local(sk-bounce) {
+    0%, 100% {
+      transform: scale(0.0);
+    } 50% {
+      transform: scale(1.0);
     }
-
-    .double-bounce2 {
-      animation-delay: -1.0s;
-    }
-
-    @keyframes :local(sk-bounce) {
-      0%, 100% {
-        transform: scale(0.0);
-      } 50% {
-        transform: scale(1.0);
-      }
-    }
   }
+}
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import request from 'browser-request';
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import MovieListing from './movie-listing';
+import MovieListings from './movie-listing';
 import styling from '../styles/movie-app.scss';
 
 class MovieApp extends Component {
@@ -29,7 +29,7 @@ class MovieApp extends Component {
       }
 
       const movieData = JSON.parse(body);
-      const availableDates = this.getUniqueDates(movieData);
+      const availableDates = MovieApp.getUniqueDates(movieData);
       this.setState({ movieData, availableDates, targetDate: availableDates[0] });
     });
 
@@ -69,7 +69,7 @@ class MovieApp extends Component {
           </FormGroup>
         </Form>
         <br />
-        <MovieListing movieData={movieData} targetDate={this.state.targetDate} />
+        <MovieListings movieData={movieData} targetDate={this.state.targetDate} />
       </div>
       );
     }
