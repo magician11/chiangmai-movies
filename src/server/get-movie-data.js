@@ -119,8 +119,8 @@ app.get('/maya-mall', (req, res) => {
         return Promise.resolve(Object.assign(movie, extraMetaData));
       })
       .then((finalMovieObject) => {
-        console.log('Final movie object');
-        console.log(finalMovieObject);
+        // console.log('Final movie object');
+        // console.log(finalMovieObject);
         resolve(finalMovieObject);
       })
       .catch((err) => {

@@ -17,7 +17,10 @@ const basicInterface = (
         </PageHeader>
         <MovieApp />
         <hr />
-        <p className="text-center"><Glyphicon glyph="film" /> webapp made by <a href="http://www.golightlyplus.com">Golightly+</a></p>
+        <div className="text-center">
+          <p><Glyphicon glyph="info-sign" /> Data scraped from <a href="https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936">https://booking.sfcinemacity.com</a></p>
+          <p><Glyphicon glyph="heart" /> webapp made by <a href="http://www.golightlyplus.com">Golightly+</a></p>
+        </div>
       </Col>
     </Row>
   </Grid>

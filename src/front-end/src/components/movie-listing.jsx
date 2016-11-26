@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Image, Button, Glyphicon } from 'react-bootstrap';
 import styling from '../styles/movie-app.scss';
+
 /*
 TODO
 Add trailers. Currently a bug on YouTube's end
@@ -31,17 +32,17 @@ const MovieListings = (props) => {
                 <Glyphicon glyph="facetime-video" /> View Trailer
               </Button>
             </Col>
-          </Row>,
-      );
-    }
+          </Row> // eslint-disable-line comma-dangle
+        );
+      }
+    });
   });
-});
 
-return (
-  <Grid>
-    {movieShowings}
-  </Grid>
-);
+  return (
+    <Grid>
+      {movieShowings}
+    </Grid>
+  );
 };
 
 MovieListings.propTypes = {
