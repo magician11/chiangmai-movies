@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-// import styling from '../styles/movie-app.scss';
 
 const Showtimes = (props) => {
   const { times } = props;
@@ -16,7 +15,7 @@ const Showtimes = (props) => {
       case 'E/ATMOS': movieType = 'English with Atmos surround sound'; break;
       default: movieType = movieVariant;
     }
-    return <tr><td>{movieType}</td><td>{times[movieVariant]}</td></tr>;
+    return <tr key={movieVariant}><td>{movieType}</td><td>{times[movieVariant]}</td></tr>;
   });
 
   return (
@@ -35,9 +34,7 @@ const Showtimes = (props) => {
 };
 
 Showtimes.propTypes = {
-  times: React.PropTypes.shape({
-    movieVariant: React.PropTypes.string.isRequired,
-  }),
+  times: React.PropTypes.objectOf(React.PropTypes.string),
 };
 
 export default Showtimes;

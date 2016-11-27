@@ -6,10 +6,6 @@ const cors = require('cors'); // Cross-Origin Resource Sharing
 const app = express();
 app.use(cors());
 
-/*
-Optional parameters:
-- language e.g. E for English (language=E)
-*/
 app.get('/maya-mall', (req, res) => {
   const options = {
     uri: 'https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936',
@@ -50,7 +46,7 @@ app.get('/maya-mall', (req, res) => {
   /*
   Next coalesce the same movies with different languages and sound systems.
   So we have
-  movieTitle -> language -> [date, times]
+  movieTitle -> showTimes -> date -> language -> times
   */
   .then((movieData) => {
     const coalescedMovieData = {};
@@ -66,10 +62,10 @@ app.get('/maya-mall', (req, res) => {
           coalescedMovieData[titleAndLanguage[1]].showTimes[movieDate] = {};
         }
 
+        // eslint-disable-next-line max-len
         coalescedMovieData[titleAndLanguage[1]].showTimes[movieDate][titleAndLanguage[2]] = movieData[movieName][movieDate];
       }
     }
-    // console.log(coalescedMovieData);
     return coalescedMovieData;
   })
   // add movie meta data from https://www.themoviedb.org/
