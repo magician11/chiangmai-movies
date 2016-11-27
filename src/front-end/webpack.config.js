@@ -54,7 +54,7 @@ const webpackConfig = {
     extensions: ['', '.js', '.jsx'],
   },
   plugins: [new HtmlWebpackPlugin({
-    title: 'English Movies at Maya Mall in Chiang Mai, Thailand',
+    template: 'src/index.html',
   })],
 };
 
