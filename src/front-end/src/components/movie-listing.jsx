@@ -25,14 +25,18 @@ const MovieListings = (props) => {
             </Col>
             <Col xs={12} md={8}>
               <h2>{movie.title}</h2>
+              <h3>Overview</h3>
               <p>{movie.overview}</p>
-              <p><strong>Show times:</strong> {showTime.times}</p>
-              <p><strong>Rating:</strong> {movie.score}</p>
+              <h3>Showtimes</h3>
+              <p>{showTime.times}</p>
+              <h3>Rating</h3>
+              <p>{movie.score} / 10</p>
               <Button bsStyle="primary" href={`https://www.youtube.com/watch?v=${movie.trailer}`}>
-                <Glyphicon glyph="facetime-video" /> View Trailer
+                <Glyphicon glyph="facetime-video" /> View Trailer on YouTube
               </Button>
             </Col>
-          </Row> // eslint-disable-line comma-dangle
+          </Row>,
+          <Row><Col xs={12}><hr /></Col></Row>,
         );
       }
     });

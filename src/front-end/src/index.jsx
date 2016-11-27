@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Row, Col, Glyphicon, Navbar } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Navbar, Alert } from 'react-bootstrap';
 import MovieApp from './components/movie-app';
 import styling from './styles/movie-app.scss';
 
@@ -25,9 +25,12 @@ const basicInterface = (
       <Row>
         <Col xs={12}>
           <MovieApp />
-          <hr />
           <div className="text-center">
-            <p><Glyphicon glyph="info-sign" /> Data scraped from <a href="https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936">https://booking.sfcinemacity.com</a></p>
+            <Alert bsStyle="info">
+              <Glyphicon glyph="info-sign" /> <strong>Movie Data Sources</strong>
+              <p>Showtime data scraped from <a href="https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936">SF Cinema City</a></p>
+              <p>Movie detail data acquired from <a href="https://www.themoviedb.org/">The Movie DB</a></p>
+            </Alert>
             <p><Glyphicon glyph="heart" /> webapp made by <a href="http://www.golightlyplus.com">Golightly+</a></p>
           </div>
         </Col>
