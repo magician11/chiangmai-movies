@@ -8,10 +8,8 @@ class MovieApp extends Component {
   static getUniqueDates(movieData) {
     const dates = {};
     movieData.forEach((movie) => {
-      Object.keys(movieData[movie].showTimes).forEach((movieVariant) => {
-        movieData[movie].showTimes[movieVariant].forEach((showTime) => {
-          dates[showTime.date] = true;
-        });
+      Object.keys(movie.showTimes).forEach((movieDate) => {
+        dates[movieDate] = true;
       });
     });
     return Object.keys(dates);

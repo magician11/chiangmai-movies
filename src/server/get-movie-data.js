@@ -55,25 +55,21 @@ app.get('/maya-mall', (req, res) => {
   .then((movieData) => {
     const coalescedMovieData = {};
     for (const movieName of Object.keys(movieData)) {
-      const showTimes = [];
+      const titleAndLanguage = movieName.match(/(.+) \((.+)\)/);
+      if (!coalescedMovieData[titleAndLanguage[1]]) {
+        coalescedMovieData[titleAndLanguage[1]] = {};
+        coalescedMovieData[titleAndLanguage[1]].title = titleAndLanguage[1];
+        coalescedMovieData[titleAndLanguage[1]].showTimes = {};
+      }
       for (const movieDate of Object.keys(movieData[movieName])) {
-        showTimes.push({
-          date: movieDate,
-          times: movieData[movieName][movieDate],
-        });
-
-        const titleAndLanguage = movieName.match(/(.+) \((.+)\)/);
-
-        if (coalescedMovieData[titleAndLanguage[1]]) {
-          coalescedMovieData[titleAndLanguage[1]].showTimes[titleAndLanguage[2]] = showTimes;
-        } else {
-          coalescedMovieData[titleAndLanguage[1]] = {};
-          coalescedMovieData[titleAndLanguage[1]].title = titleAndLanguage[1];
-          coalescedMovieData[titleAndLanguage[1]].showTimes = {};
-          coalescedMovieData[titleAndLanguage[1]].showTimes[titleAndLanguage[2]] = showTimes;
+        if (!coalescedMovieData[titleAndLanguage[1]].showTimes[movieDate]) {
+          coalescedMovieData[titleAndLanguage[1]].showTimes[movieDate] = {};
         }
+
+        coalescedMovieData[titleAndLanguage[1]].showTimes[movieDate][titleAndLanguage[2]] = movieData[movieName][movieDate];
       }
     }
+    // console.log(coalescedMovieData);
     return coalescedMovieData;
   })
   // add movie meta data from https://www.themoviedb.org/

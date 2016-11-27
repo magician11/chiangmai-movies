@@ -16,10 +16,10 @@ const MovieListings = (props) => {
   const { movieData, targetDate } = props;
   const movieShowings = [];
   movieData.forEach((movie) => {
-    movie.showTimes.forEach((showTime) => {
-      if (showTime.date === targetDate) {
+    Object.keys(movie.showTimes).forEach((movieDate) => {
+      if (movieDate === targetDate) {
         movieShowings.push(
-          <Row key={`${movie.title} - ${showTime.date}`} className={styling.movie}>
+          <Row key={`${movie.title}`} className={styling.movie}>
             <Col xs={12} md={4}>
               <Image src={movie.image} alt={movie.title} thumbnail responsive />
             </Col>
@@ -28,7 +28,7 @@ const MovieListings = (props) => {
               <h3>Overview</h3>
               <p>{movie.overview}</p>
               <h3>Showtimes</h3>
-              <p>{showTime.times}</p>
+              <p>{JSON.stringify(movieData[movie][movieDate])}</p>
               <h3>Rating</h3>
               <p>{movie.score} / 10</p>
               <Button bsStyle="primary" href={`https://www.youtube.com/watch?v=${movie.trailer}`}>
