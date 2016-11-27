@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import request from 'browser-request';
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import MovieListings from './movie-listing';
+import MovieListings from './movie-listings';
 import styling from '../styles/movie-app.scss';
 
 class MovieApp extends Component {

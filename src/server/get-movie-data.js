@@ -119,7 +119,7 @@ app.get('/maya-mall', (req, res) => {
         }
         extraMetaData = {
           overview: 'No description available.',
-          score: 'not rated',
+          score: 'unknown',
           image: '',
           youTubeVideoId: '',
         };

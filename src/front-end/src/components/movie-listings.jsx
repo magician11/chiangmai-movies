@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Image, Button, Glyphicon } from 'react-bootstrap';
 import styling from '../styles/movie-app.scss';
+import Showtimes from './showtimes';
 
 /*
 TODO
@@ -19,7 +20,7 @@ const MovieListings = (props) => {
     Object.keys(movie.showTimes).forEach((movieDate) => {
       if (movieDate === targetDate) {
         movieShowings.push(
-          <Row key={`${movie.title}`} className={styling.movie}>
+          <Row key={`${movie.title} - `} className={styling.movie}>
             <Col xs={12} md={4}>
               <Image src={movie.image} alt={movie.title} thumbnail responsive />
             </Col>
@@ -28,12 +29,12 @@ const MovieListings = (props) => {
               <h3>Overview</h3>
               <p>{movie.overview}</p>
               <h3>Showtimes</h3>
-              <p>{JSON.stringify(movieData[movie][movieDate])}</p>
+              <Showtimes times={movie.showTimes[movieDate]} />
               <h3>Rating</h3>
               <p>{movie.score} / 10</p>
-              <Button bsStyle="primary" href={`https://www.youtube.com/watch?v=${movie.trailer}`}>
+              {movie.youTubeVideoId && <Button bsStyle="primary" href={`https://www.youtube.com/watch?v=${movie.youTubeVideoId}`}>
                 <Glyphicon glyph="facetime-video" /> View Trailer on YouTube
-              </Button>
+              </Button> }
             </Col>
           </Row>,
           <Row><Col xs={12}><hr /></Col></Row>,
