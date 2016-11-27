@@ -65,13 +65,12 @@ app.get('/maya-mall', (req, res) => {
         const titleAndLanguage = movieName.match(/(.+) \((.+)\)/);
 
         if (coalescedMovieData[titleAndLanguage[1]]) {
-          coalescedMovieData[titleAndLanguage[1]][titleAndLanguage[2]] = showTimes;
+          coalescedMovieData[titleAndLanguage[1]].showTimes[titleAndLanguage[2]] = showTimes;
         } else {
           coalescedMovieData[titleAndLanguage[1]] = {};
           coalescedMovieData[titleAndLanguage[1]].title = titleAndLanguage[1];
-          // console.log("%j", coalescedMovieData);
-          coalescedMovieData[titleAndLanguage[1]][titleAndLanguage[2]] = showTimes;
-          // console.log("%j", coalescedMovieData);
+          coalescedMovieData[titleAndLanguage[1]].showTimes = {};
+          coalescedMovieData[titleAndLanguage[1]].showTimes[titleAndLanguage[2]] = showTimes;
         }
       }
     }
@@ -112,7 +111,7 @@ app.get('/maya-mall', (req, res) => {
                 overview: movieData.overview,
                 score: movieData.vote_average,
                 image: `http://image.tmdb.org/t/p/w500${movieData.poster_path}`,
-                trailer: trailerVideo,
+                youTubeVideoId: trailerVideo,
               };
               // this will overwrite the title from sf cinema city
               resolveVideoData(Object.assign(movie, extraMetaData));
@@ -126,7 +125,7 @@ app.get('/maya-mall', (req, res) => {
           overview: 'No description available.',
           score: 'not rated',
           image: '',
-          trailer: '',
+          youTubeVideoId: '',
         };
 
         return Promise.resolve(Object.assign(movie, extraMetaData));

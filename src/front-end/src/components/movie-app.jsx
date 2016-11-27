@@ -8,8 +8,10 @@ class MovieApp extends Component {
   static getUniqueDates(movieData) {
     const dates = {};
     movieData.forEach((movie) => {
-      movie.showTimes.forEach((showTime) => {
-        dates[showTime.date] = true;
+      Object.keys(movieData[movie].showTimes).forEach((movieVariant) => {
+        movieData[movie].showTimes[movieVariant].forEach((showTime) => {
+          dates[showTime.date] = true;
+        });
       });
     });
     return Object.keys(dates);
@@ -23,7 +25,7 @@ class MovieApp extends Component {
       availableDates: [],
     };
 
-    request('http://128.199.143.40:3000/maya-mall?language=E', (er, response, body) => {
+    request('http://128.199.143.40:3000/maya-mall', (er, response, body) => {
       if (er) {
         throw er;
       }
