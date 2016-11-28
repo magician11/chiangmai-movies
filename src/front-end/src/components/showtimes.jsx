@@ -10,7 +10,7 @@ const Showtimes = (props) => {
       case 'E': movieType = 'English'; break;
       case 'F': movieType = 'First Class Cinema'; break;
       case 'T': movieType = 'Thai'; break;
-      case 'J': movieType = 'Japanese'; break;
+      case 'J': movieType = 'Japanese with Thai subtitles'; break;
       case 'T/E.SUB': movieType = 'Thai with English subtitles'; break;
       case 'E/ATMOS': movieType = 'English with Atmos surround sound'; break;
       default: movieType = movieVariant;

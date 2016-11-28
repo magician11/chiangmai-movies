@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const rp = require('request-promise-native');
 const express = require('express');
 const cors = require('cors'); // Cross-Origin Resource Sharing
-const Fuse = require('fuse.js');
+const Fuse = require('fuse.js'); // https://github.com/krisk/fuse
 
 const app = express();
 app.use(cors());
