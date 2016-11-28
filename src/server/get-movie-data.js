@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const rp = require('request-promise-native');
 const express = require('express');
 const cors = require('cors'); // Cross-Origin Resource Sharing
+const Fuse = require('fuse.js');
 
 const app = express();
 app.use(cors());
@@ -79,11 +80,16 @@ app.get('/maya-mall', (req, res) => {
 
       rp(movieDbOptions)
       .then((result) => {
-        /*
-        todo: get the most recent release date result
-        "release_date": "2016-08-26",
-        */
-        const movieData = result.results[0];
+        // Get the movie title with the closest fuzzy string match
+        const fuseOptions = {
+          tokenize: true,
+          matchAllTokens: true,
+          keys: ['title'],
+        };
+
+        const fuse = new Fuse(result.results, fuseOptions);
+        const movieData = fuse.search(movie.title)[0];
+
         let extraMetaData = {};
         if (movieData) { // if we get a result for this search
           return new Promise((resolveVideoData, rejectVideoData) => {
@@ -113,7 +119,7 @@ app.get('/maya-mall', (req, res) => {
               resolveVideoData(Object.assign(movie, extraMetaData));
             })
             .catch((error) => {
-              rejectVideoData(error);
+              rejectVideoData(`Video data error: ${error}`);
             });
           });
         }
@@ -130,7 +136,7 @@ app.get('/maya-mall', (req, res) => {
         resolve(finalMovieObject);
       })
       .catch((err) => {
-        reject(err);
+        reject(`movie db error: ${err}`);
       });
     });
 
@@ -140,7 +146,7 @@ app.get('/maya-mall', (req, res) => {
         try {
           resolve(addMovieData(sfcinemacityMovieData[movieName]));
         } catch (err) {
-          reject(err);
+          reject(`Failed to add movie data: ${err}`);
         }
       }));
     }
