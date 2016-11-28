@@ -33,7 +33,13 @@ class MovieApp extends Component {
 
       const movieData = JSON.parse(body);
       const availableDates = MovieApp.getUniqueDates(movieData);
-      this.setState({ movieData, availableDates, targetDate: availableDates[0] });
+      // eslint-disable-next-line max-len
+      const movieDataSortedByRating = movieData.sort((m1, m2) => ((m1.rating > m2.rating) ? -1 : 1));
+      this.setState({
+        movieData: movieDataSortedByRating,
+        availableDates,
+        targetDate: availableDates[0],
+      });
     });
 
     ReactGA.initialize('UA-63340534-3');

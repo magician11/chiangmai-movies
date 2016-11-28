@@ -9,6 +9,6 @@ export default () => (
       <p>Movie detail data acquired from <a href="https://www.themoviedb.org/">The Movie DB</a></p>
       <p>All data is updated on every page load.</p>
     </Alert>
-    <p><Glyphicon glyph="heart" /> webapp made by <a href="http://www.golightlyplus.com">Golightly+</a></p>
+    <p><Glyphicon glyph="heart" /> Web app made by <a href="http://www.golightlyplus.com">Golightly+</a>. Source code on <a href="https://github.com/magician11/get-movie-times/">GitHub</a>.</p>
   </div>
 );
