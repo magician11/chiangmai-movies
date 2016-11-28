@@ -5,10 +5,10 @@ const Header = props => (
   <Navbar fixedTop>
     <Navbar.Header>
       <Navbar.Brand>
-        Movies
+        Chiang Mai Movies
       </Navbar.Brand>
       <Navbar.Text>
-        Maya Mall, Chiang Mai - {props.date}
+        Maya Mall - {props.date}
       </Navbar.Text>
     </Navbar.Header>
   </Navbar>

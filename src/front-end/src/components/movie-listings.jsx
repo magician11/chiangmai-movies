@@ -18,7 +18,9 @@ const MovieListings = (props) => {
               <Image src={movieImage} alt={movie.title} thumbnail responsive />
             </Col>
             <Col xs={12} md={9}>
-              <h2>{movie.title} <small><Label bsStyle="info">{movie.rating} / 10</Label></small></h2>
+              <h2>
+                {movie.title} <small><Label bsStyle="info">{movie.rating} / 10</Label></small>
+              </h2>
               <h3>Overview</h3>
               <p>{movie.overview}</p>
               <h3>Showtimes</h3>

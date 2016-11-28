@@ -79,6 +79,10 @@ app.get('/maya-mall', (req, res) => {
 
       rp(movieDbOptions)
       .then((result) => {
+        /*
+        todo: get the most recent release date result
+        "release_date": "2016-08-26",
+        */
         const movieData = result.results[0];
         let extraMetaData = {};
         if (movieData) { // if we get a result for this search

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import request from 'browser-request';
+import ReactGA from 'react-ga';
 import { Grid, Col, Row, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import MovieListings from './movie-listings';
 import Header from './header';
@@ -34,6 +35,8 @@ class MovieApp extends Component {
       const availableDates = MovieApp.getUniqueDates(movieData);
       this.setState({ movieData, availableDates, targetDate: availableDates[0] });
     });
+
+    ReactGA.initialize('UA-63340534-3');
 
     this.handleDateChange = this.handleDateChange.bind(this);
   }
