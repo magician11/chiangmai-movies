@@ -101,7 +101,7 @@ app.get('/maya-mall', (req, res) => {
               extraMetaData = {
                 title: movieData.title,
                 overview: movieData.overview,
-                score: movieData.vote_average,
+                rating: movieData.vote_average,
                 image: `http://image.tmdb.org/t/p/w500${movieData.poster_path}`,
                 youTubeVideoId: trailerVideo,
               };
@@ -115,7 +115,7 @@ app.get('/maya-mall', (req, res) => {
         }
         extraMetaData = {
           overview: 'No description available.',
-          score: 'unknown',
+          rating: 'unknown',
           image: '',
           youTubeVideoId: '',
         };

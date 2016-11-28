@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import request from 'browser-request';
-import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Grid, Col, Row, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import MovieListings from './movie-listings';
+import Header from './header';
+import Footer from './footer';
 import styling from '../styles/movie-app.scss';
 
 class MovieApp extends Component {
@@ -19,7 +21,7 @@ class MovieApp extends Component {
     super();
     this.state = {
       movieData: null,
-      targetDate: null,
+      targetDate: 'loading...',
       availableDates: [],
     };
 
@@ -76,7 +78,15 @@ class MovieApp extends Component {
 
     return (
       <div>
-        {content}
+        <Header date={this.state.targetDate} />
+        <Grid className={styling['movie-app-container']}>
+          <Row>
+            <Col xs={12}>
+              {content}
+              <Footer />
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }
