@@ -23,7 +23,7 @@ const Showtimes = (props) => {
       <thead>
         <tr>
           <th>Movie Type</th>
-          <th>Times</th>
+          <th>Showtimes</th>
         </tr>
       </thead>
       <tbody>
