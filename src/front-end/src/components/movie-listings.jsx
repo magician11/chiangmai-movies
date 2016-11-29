@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Row, Col, Image, Button, Glyphicon, Label } from 'react-bootstrap';
-import styling from '../styles/movie-app.scss';
 import Showtimes from './showtimes';
 
 const MovieListings = (props) => {
@@ -15,7 +14,7 @@ const MovieListings = (props) => {
         const showTimes = <Showtimes times={movie.showTimes[movieDate]} />;
 
         movieShowings.push(
-          <Row key={movie.title} className={styling.movie}>
+          <Row key={movie.title}>
             <Col xs={4}>
               <Image src={movieImage} alt={movie.title} thumbnail responsive />
             </Col>

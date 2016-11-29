@@ -7,7 +7,6 @@
     "dev": "./node_modules/.bin/webpack-dev-server --inline"
   },
   "dependencies": {
-    "autoprefixer": "^6.5.3",
     "bootstrap": "^3.3.7",
     "browser-request": "^0.3.3",
     "html-webpack-plugin": "^2.24.1",
@@ -17,6 +16,7 @@
     "react-ga": "^2.1.2"
   },
   "devDependencies": {
+    "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
@@ -28,7 +28,6 @@
     "eslint-plugin-react": "^6.7.1",
     "file-loader": "^0.9.0",
     "node-sass": "^3.13.0",
-    "postcss-loader": "^1.1.1",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
