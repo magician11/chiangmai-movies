@@ -42,7 +42,9 @@ class MovieApp extends Component {
       });
     });
 
+    // track app views with Google Analytics
     ReactGA.initialize('UA-63340534-3');
+    ReactGA.pageview(window.location.pathname);
 
     this.handleDateChange = this.handleDateChange.bind(this);
   }
