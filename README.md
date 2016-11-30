@@ -10,3 +10,4 @@ Current demo [here](http://chiangmaimovies.com).
 - add other cinemas in Chiang Mai
 - make UI even more awesome
 - try and incorporate [Rotten Tomatoes](https://www.rottentomatoes.com/) data. Waiting on approval to access [their API](http://developer.rottentomatoes.com/).
+- Going to experiment with the database from http://www.omdbapi.com/ to add Rotten Tomatoes and IMDB links.
