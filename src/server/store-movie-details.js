@@ -5,6 +5,7 @@ combine into a single useful movie object to be saved on Firebase.
 
 const admin = require('firebase-admin');
 const sfcinemacity = require('./modules/sfcinemacity');
+const movieDatabases = require('./modules/movie-databases');
 
 admin.initializeApp({
   credential: admin.credential.cert('./private-key.json'),
@@ -22,4 +23,9 @@ sfcinemacity.getShowtimes(9936)
 .catch((error) => {
   // eslint-disable-next-line no-console
   console.log(error);
+});
+
+movieDatabases.omdb('Moana')
+.then((data) => {
+  console.log(data);
 });
