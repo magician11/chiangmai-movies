@@ -6,6 +6,30 @@ const normaliseKey = key => key.replace(/\/|\./g, '-');
 
 class SFCinemaCity {
 
+  getMovieTitles(cinemaId) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        uri: `https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=${cinemaId}`,
+        transform: (body) => cheerio.load(body),
+      };
+
+      rp(options)
+      .then(($) => {
+        const movieTitles = {};
+        $('#tblShowTimes td').each(function process() {
+          if ($(this).hasClass('PrintShowTimesFilm')) {
+            movieTitles[$(this).text().match(/(.+) \(/)[1]] = true;
+          }
+        });
+
+        resolve(Object.keys(movieTitles));
+      })
+      .catch((error) => {
+        reject(`SF Cinema City - trouble getting movie titles: ${error}`);
+      });
+    });
+  }
+
   /*
   Takes a cinema ID and returns the showtimes for them as a JS object
   */
@@ -76,7 +100,7 @@ class SFCinemaCity {
         resolve(coalescedMovieData);
       })
       .catch((error) => {
-        reject(`SF Cinema City error: ${error}`);
+        reject(`SF Cinema City - trouble getting showtimes: ${error}`);
       });
     });
   }
