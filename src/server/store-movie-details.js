@@ -21,12 +21,26 @@ const mayaMallId = 9936;
 // get all the current movie titles for Maya Mall
 sfcinemacity.getMovieTitles(mayaMallId)
 
-// then grab OMDB data for those movie titles and write that to Firebase
+// then grab movie data for those movie titles and write that to Firebase
 .then((movieTitles) => {
+  // go through every movie title
   movieTitles.forEach((movieTitle) => {
+    // and grab the OMDB movie data
     movieDatabases.omdb(movieTitle)
     .then((movieData) => {
       ref.child(movieTitle).set(movieData);
+    })
+
+    // and add The Movie DB data too
+    .then(() => movieDatabases.theMovieDB(movieTitle))
+    .then((theMovieDbData) => {
+      ref.child(movieTitle).update({ trailer: theMovieDbData });
+    })
+
+    // Any errors, then print them out
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.log(`Oops: ${error}`);
     });
   });
 });
