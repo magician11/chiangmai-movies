@@ -80,7 +80,7 @@ class MovieDatabases {
       };
 
       const movieMetaData = {
-        title: '',
+        title: movieTitle,
         overview: '',
         actors: '',
         runtime: '',
