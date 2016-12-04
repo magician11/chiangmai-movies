@@ -83,6 +83,7 @@ class MovieDatabases {
         title: '',
         overview: '',
         actors: '',
+        runtime: '',
         imdbRating: '',
         tomatoMeter: '',
         tomatoConsensus: '',
@@ -97,6 +98,7 @@ class MovieDatabases {
           movieMetaData.title = checkForValue(result.Title);
           movieMetaData.overview = checkForValue(result.Plot);
           movieMetaData.actors = checkForValue(result.Actors);
+          movieMetaData.runtime = checkForValue(result.Runtime);
           movieMetaData.imdbRating = checkForValue(result.imdbRating);
           movieMetaData.tomatoMeter = checkForValue(result.tomatoMeter);
           movieMetaData.tomatoConsensus = checkForValue(result.tomatoConsensus);

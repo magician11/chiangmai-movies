@@ -19,23 +19,31 @@ const ref = db.ref('movie-data');
 const mayaMallId = 9936;
 
 // get all the current movie titles for Maya Mall
-sfcinemacity.getMovieTitles(mayaMallId)
+sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
 
 // then grab movie data for those movie titles and write that to Firebase
-.then((movieTitles) => {
+.then((movies) => {
   // go through every movie title
-  movieTitles.forEach((movieTitle) => {
-    // and grab the OMDB movie data
-    movieDatabases.omdb(movieTitle)
+  movies.forEach((movie) => {
+    // we'll first save the rating as set on the sfcinemacity website
+    ref.child(movie.title).update({ rating: movie.rating });
+
+    // then grab the OMDB movie data
+    movieDatabases.omdb(movie.title)
     .then((movieData) => {
-      ref.child(movieTitle).set(movieData);
+      ref.child(movie.title).update(movieData);
     })
 
-    // and add The Movie DB data too
-    .then(() => movieDatabases.theMovieDB(movieTitle))
+    // then add The Movie DB data too
+    .then(() => movieDatabases.theMovieDB(movie.title))
     .then((theMovieDbData) => {
-      ref.child(movieTitle).update({ trailer: theMovieDbData });
+      ref.child(movie.title).update({ trailer: theMovieDbData });
     })
+    // todo: close the database connection
+    // https://firebase.google.com/docs/reference/admin/node/admin.database.Database#goOffline
+    // .then(() => {
+    //
+    // })
 
     // Any errors, then print them out
     .catch((error) => {

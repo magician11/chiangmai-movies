@@ -1,12 +1,9 @@
 const cheerio = require('cheerio');
 const rp = require('request-promise-native');
 
-// replace special characters with hyphens
-const normaliseKey = key => key.replace(/\/|\./g, '-');
-
 class SFCinemaCity {
 
-  getMovieTitles(cinemaId) {
+  getMovieTitlesAndRatings(cinemaId) {
     return new Promise((resolve, reject) => {
       const options = {
         uri: `https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=${cinemaId}`,
@@ -18,11 +15,16 @@ class SFCinemaCity {
         const movieTitles = {};
         $('#tblShowTimes td').each(function process() {
           if ($(this).hasClass('PrintShowTimesFilm')) {
-            movieTitles[$(this).text().match(/(.+) \(/)[1]] = true;
+            const titleAndRating = $(this).text().match(/(.+) \(.+\[(.+)\]/);
+            movieTitles[titleAndRating[1]] = titleAndRating[2];
           }
         });
 
-        resolve(Object.keys(movieTitles));
+        const movies = [];
+        Object.keys(movieTitles).forEach((movieTitle) => {
+          movies.push({ title: movieTitle, rating: movieTitles[movieTitle] });
+        });
+        resolve(movies);
       })
       .catch((error) => {
         reject(`SF Cinema City - trouble getting movie titles: ${error}`);
@@ -77,6 +79,9 @@ class SFCinemaCity {
       movieTitle -> showTimes -> date -> movietype -> times
       */
       .then((movieData) => {
+        // replace special characters with hyphens
+        const normaliseKey = key => key.replace(/\/|\./g, '-');
+
         const coalescedMovieData = {};
         for (const movieName of Object.keys(movieData)) {
           const titleAndLanguage = movieName.match(/(.+) \((.+)\)/);
