@@ -11,8 +11,8 @@ const Showtimes = (props) => {
       case 'F': movieType = 'First Class Cinema'; break;
       case 'T': movieType = 'Thai'; break;
       case 'J': movieType = 'Japanese with Thai subtitles'; break;
-      case 'T/E.SUB': movieType = 'Thai with English subtitles'; break;
-      case 'E/ATMOS': movieType = 'English with Atmos surround sound'; break;
+      case 'T-E-SUB': movieType = 'Thai with English subtitles'; break;
+      case 'E-ATMOS': movieType = 'English with Atmos surround sound'; break;
       default: movieType = movieVariant;
     }
     return <tr key={movieVariant}><td>{movieType}</td><td>{times[movieVariant]}</td></tr>;
@@ -22,7 +22,7 @@ const Showtimes = (props) => {
     <Table bordered condensed>
       <thead>
         <tr>
-          <th>Movie Type</th>
+          <th>Language</th>
           <th>Showtimes</th>
         </tr>
       </thead>

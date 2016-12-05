@@ -89,7 +89,7 @@ class MovieDatabases {
         tomatoConsensus: '',
         posterImage: '',
         imdbUrl: '',
-        rottentomatoesUrl: '',
+        rottenTomatoesUrl: '',
       };
 
       rpn(movieDbOptions)
@@ -104,7 +104,7 @@ class MovieDatabases {
           movieMetaData.tomatoConsensus = checkForValue(result.tomatoConsensus);
           movieMetaData.posterImage = checkForValue(result.Poster);
           movieMetaData.imdbUrl = (checkForValue(result.imdbID) !== '') ? `http://www.imdb.com/title/${result.imdbID}` : '';
-          movieMetaData.rottentomatoesUrl = checkForValue(result.tomatoURL);
+          movieMetaData.rottenTomatoesUrl = checkForValue(result.tomatoURL);
         }
         resolve(movieMetaData);
       })
