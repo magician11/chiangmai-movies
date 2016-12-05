@@ -64,5 +64,6 @@ const updateMovieDatabase = () => {
   });
 };
 
-// update the Firebase database every 3 hours
+// run once, then update the Firebase database every 3 hours
+updateMovieDatabase();
 setInterval(updateMovieDatabase, 3 * 60 * 60 * 1000);

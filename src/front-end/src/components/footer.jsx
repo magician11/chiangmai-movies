@@ -6,9 +6,8 @@ export default () => (
     <Alert bsStyle="info">
       <Glyphicon glyph="info-sign" /> <strong>Movie Data Sources</strong>
       <p>Showtime data scraped from <a href="https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936">SF Cinema City</a></p>
-      <p>Movie detail data acquired from <a href="https://www.themoviedb.org/">The Movie DB</a></p>
-      <p>All data is updated on every page load.</p>
+      <p>Movie data from <a href="https://www.themoviedb.org/">The Movie DB</a> and <a href="http://www.omdbapi.com/">OMDb</a></p>
     </Alert>
-    <p><Glyphicon glyph="heart" /> Web app made by <a href="http://www.golightlyplus.com">Golightly+</a>. Source code on <a href="https://github.com/magician11/get-movie-times/">GitHub</a>.</p>
+    <p><Glyphicon glyph="heart" /> Created by <a href="http://www.golightlyplus.com">Golightly+</a></p>
   </div>
 );
