@@ -24,6 +24,13 @@ class MovieDatabases {
         json: true,
       };
 
+      const theMovieDbData = {
+        overview: '',
+        posterImage: '',
+        trailer: '',
+        title: movieTitle,
+      };
+
       rpn(theMovieDbOptions)
       .then((result) => {
         if (result.results.length > 0) {
@@ -37,10 +44,9 @@ class MovieDatabases {
           const fuse = new Fuse(result.results, fuseOptions);
           const bestMatchingMovie = fuse.search(movieTitle)[0];
 
-          const theMovieDbData = {
-            overview: bestMatchingMovie.overview,
-            posterImage: `http://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`,
-          };
+          theMovieDbData.overview = bestMatchingMovie.overview;
+          theMovieDbData.posterImage = `http://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`;
+          theMovieDbData.title = bestMatchingMovie.title;
 
           // Get the movie trailer for it
           theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/videos?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
@@ -56,18 +62,14 @@ class MovieDatabases {
                   theMovieDbData.trailer = `https://www.youtube.com/watch?v=${video.key}`;
                 }
               });
-
-              resolve(theMovieDbData);
-            } else {
-              resolve({});
             }
           })
           .catch((trailerError) => {
             reject(`Error grabbing trailer: ${trailerError}`);
           });
-        } else {
-          resolve({});
         }
+
+        resolve(theMovieDbData);
       });
     });
   }
@@ -85,7 +87,6 @@ class MovieDatabases {
       };
 
       const movieMetaData = {
-        title: movieTitle,
         actors: '',
         runtime: '',
         imdbRating: '',
@@ -98,7 +99,6 @@ class MovieDatabases {
       rpn(movieDbOptions)
       .then((result) => {
         if (!result.Error) {
-          movieMetaData.title = checkForValue(result.Title);
           movieMetaData.actors = checkForValue(result.Actors);
           movieMetaData.runtime = checkForValue(result.Runtime);
           movieMetaData.imdbRating = checkForValue(result.imdbRating);
