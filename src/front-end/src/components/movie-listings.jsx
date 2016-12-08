@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import React from 'react';
 import { Grid, Row, Col, Image, Button, Glyphicon, Label, Tabs, Tab } from 'react-bootstrap';
 import Showtimes from './showtimes';
@@ -66,15 +68,18 @@ const MovieListings = (props) => {
                       <blockquote>
                         <p>{movie.tomatoConsensus}</p>
                         <footer>
-                          <cite title="Source Title">
-                            <a href={movie.rottenTomatoesUrl}>Rotten Tomatoes</a>
-                          </cite>
+                          <cite title="Source Title">Rotten Tomatoes</cite>
                         </footer>
                       </blockquote>
                     }
-                    { (movie.tomatoMeter || movie.imdbRating) && <h4>Scores</h4> }
-                    { movie.tomatoMeter && <p>Rotten Tomatoes: {movie.tomatoMeter}%</p> }
-                    { movie.imdbRating && <p>IMDb: {movie.imdbRating} / 10</p> }
+                    { (movie.tomatoMeter || movie.imdbRating) && <h4>Scores</h4>
+                    }
+                    { movie.tomatoMeter &&
+                      <p>Rotten Tomatoes: {movie.tomatoMeter}% (<a href={movie.rottenTomatoesUrl}>view website</a>)</p>
+                    }
+                    { movie.imdbRating &&
+                      <p>IMDb: {movie.imdbRating} / 10 (<a href={movie.imdbUrl}>view website</a>)</p>
+                    }
                   </Tab>
                 </Tabs>
               </div>

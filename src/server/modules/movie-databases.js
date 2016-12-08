@@ -63,13 +63,12 @@ class MovieDatabases {
                 }
               });
             }
+            resolve(theMovieDbData);
           })
           .catch((trailerError) => {
             reject(`Error grabbing trailer: ${trailerError}`);
           });
         }
-
-        resolve(theMovieDbData);
       });
     });
   }
