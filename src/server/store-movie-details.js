@@ -43,7 +43,7 @@ const updateMovieDatabase = () => {
         // then add The Movie DB data too
         .then(() => movieDatabases.theMovieDB(movie.title))
         .then((theMovieDbData) => {
-          ref.child(movie.title).update({ trailer: theMovieDbData });
+          ref.child(movie.title).update(theMovieDbData);
           resolve(movie.title);
         })
 

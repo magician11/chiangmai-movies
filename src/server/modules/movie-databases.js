@@ -37,6 +37,11 @@ class MovieDatabases {
           const fuse = new Fuse(result.results, fuseOptions);
           const bestMatchingMovie = fuse.search(movieTitle)[0];
 
+          const theMovieDbData = {
+            overview: bestMatchingMovie.overview,
+            posterImage: `http://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`,
+          };
+
           // Get the movie trailer for it
           theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/videos?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
           rpn(theMovieDbOptions)
@@ -46,22 +51,22 @@ class MovieDatabases {
               Loop through the results to find the object that is tagged with type 'Trailer'.
               note: this returns the final trailer in the video array.
               */
-              let trailerVideo;
               videoData.results.forEach((video) => {
                 if (video.type === 'Trailer') {
-                  trailerVideo = video.key;
+                  theMovieDbData.trailer = video.key;
                 }
               });
-              resolve(`https://www.youtube.com/watch?v=${trailerVideo}`);
+
+              resolve(theMovieDbData);
             } else {
-              resolve('');
+              resolve({});
             }
           })
           .catch((trailerError) => {
             reject(`Error grabbing trailer: ${trailerError}`);
           });
         } else {
-          resolve('');
+          resolve({});
         }
       });
     });
@@ -81,13 +86,11 @@ class MovieDatabases {
 
       const movieMetaData = {
         title: movieTitle,
-        overview: '',
         actors: '',
         runtime: '',
         imdbRating: '',
         tomatoMeter: '',
         tomatoConsensus: '',
-        posterImage: '',
         imdbUrl: '',
         rottenTomatoesUrl: '',
       };
@@ -96,13 +99,11 @@ class MovieDatabases {
       .then((result) => {
         if (!result.Error) {
           movieMetaData.title = checkForValue(result.Title);
-          movieMetaData.overview = checkForValue(result.Plot);
           movieMetaData.actors = checkForValue(result.Actors);
           movieMetaData.runtime = checkForValue(result.Runtime);
           movieMetaData.imdbRating = checkForValue(result.imdbRating);
           movieMetaData.tomatoMeter = checkForValue(result.tomatoMeter);
           movieMetaData.tomatoConsensus = checkForValue(result.tomatoConsensus);
-          movieMetaData.posterImage = checkForValue(result.Poster);
           movieMetaData.imdbUrl = (checkForValue(result.imdbID) !== '') ? `http://www.imdb.com/title/${result.imdbID}` : '';
           movieMetaData.rottenTomatoesUrl = checkForValue(result.tomatoURL);
         }

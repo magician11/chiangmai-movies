@@ -30,7 +30,7 @@ const MovieListings = (props) => {
                 </Button>}
                 <br />
                 <br />
-                <Tabs defaultActiveKey={1} id="movie-details">
+                <Tabs defaultActiveKey={2} id="movie-details">
                   <Tab eventKey={1} title="Showtimes">
                     {showTimes}
                   </Tab>
@@ -53,7 +53,7 @@ const MovieListings = (props) => {
                         <p>{movie.runtime}</p>
                       </div>
                     }
-                    { movie.rated &&
+                    { movie.rating &&
                       <div>
                         <h4>Rated</h4>
                         <p>{movie.rating}</p>
