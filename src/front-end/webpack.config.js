@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 const webpackConfig = {
   entry: './src/index.jsx',
@@ -54,6 +55,11 @@ const webpackConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
     }),
   ],
 };
