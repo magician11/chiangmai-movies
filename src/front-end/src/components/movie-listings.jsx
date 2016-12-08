@@ -80,19 +80,23 @@ const MovieListings = (props) => {
               </div>
               <div className="visible-xs">
                 <h4>{ movie.title }</h4>
-                { movie.tomatoMeter && <p><Glyphicon glyph="star" /> {movie.tomatoMeter}%</p> }
-                { movie.trailer &&
-                  <p>
-                    <a href={movie.trailer}><Glyphicon glyph="facetime-video" /> View Trailer</a>
-                  </p>
-                }
-                { movie.rottenTomatoesUrl &&
+                { movie.tomatoMeter &&
                   <p>
                     <a href={movie.rottenTomatoesUrl}>
-                      <Glyphicon glyph="link" /> View on Rotten Tomatoes
+                      <Glyphicon glyph="star" /> {movie.tomatoMeter}% (Rotten Tomatoes)
                     </a>
                   </p>
                 }
+                { movie.imdbRating &&
+                  <p>
+                    <a href={movie.imdbUrl}>
+                      <Glyphicon glyph="star" /> {movie.imdbRating} / 10 (IMDb)
+                    </a>
+                  </p>
+                }
+                <p>
+                  <a href={movie.trailer}><Glyphicon glyph="facetime-video" /> View Trailer</a>
+                </p>
               </div>
             </Col>
           </Row>,
