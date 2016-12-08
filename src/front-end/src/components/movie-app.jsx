@@ -8,6 +8,11 @@ import Footer from './footer';
 import styling from '../styles/movie-app.css';
 
 class MovieApp extends Component {
+
+  /*
+  Grab the showtimes for a movie, find the unique dates,
+  and then return those dates sorted by date.
+  */
   static getUniqueDates(movieData) {
     const dates = {};
     movieData.forEach((movie) => {
@@ -15,7 +20,12 @@ class MovieApp extends Component {
         dates[movieDate] = true;
       });
     });
-    return Object.keys(dates);
+
+    return Object.keys(dates).sort((date1, date2) => {
+      const dateNum1 = parseInt(date1.match(/\d+/)[0], 10);
+      const dateNum2 = parseInt(date2.match(/\d+/)[0], 10);
+      return (dateNum1 > dateNum2) ? 1 : -1;
+    });
   }
 
   constructor() {
