@@ -53,7 +53,7 @@ class MovieDatabases {
               */
               videoData.results.forEach((video) => {
                 if (video.type === 'Trailer') {
-                  theMovieDbData.trailer = video.key;
+                  theMovieDbData.trailer = `https://www.youtube.com/watch?v=${video.key}`;
                 }
               });
 
