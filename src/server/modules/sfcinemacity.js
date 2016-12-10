@@ -33,7 +33,11 @@ class SFCinemaCity {
   }
 
   /*
-  Takes a cinema ID and returns the showtimes for them as a JS object
+  Takes a cinema ID and returns an array of objects.
+
+  Each object looks like:
+
+  movieTitle -> [showTimes] -> date -> [movietype] -> times
   */
   getShowtimes(cinemaId) {
     return new Promise((resolve, reject) => {
