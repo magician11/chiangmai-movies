@@ -11,9 +11,9 @@ const rpn = require('request-promise-native');
 const Fuse = require('fuse.js'); // https://github.com/krisk/fuse
 
 class MovieDatabases {
+
   /*
   Fetch movie data from The Movie DB.
-  Currently only fetching a trailer associated to the supplied movie title.
   */
   theMovieDB(movieTitle) {
     const theMovieDbBaseUrl = 'http://api.themoviedb.org/3';
@@ -62,13 +62,21 @@ class MovieDatabases {
                   theMovieDbData.trailer = `https://www.youtube.com/watch?v=${video.key}`;
                 }
               });
+              resolve(theMovieDbData);
+            } else {
+              resolve(theMovieDbData);
             }
-            resolve(theMovieDbData);
           })
           .catch((trailerError) => {
             reject(`Error grabbing trailer: ${trailerError}`);
           });
+        } else {
+          resolve(theMovieDbData);
         }
+      })
+
+      .catch((error) => {
+        reject(`Error getting data from The Movie DB: ${error}`);
       });
     });
   }
@@ -80,8 +88,7 @@ class MovieDatabases {
     const checkForValue = (value) => ((value === 'N/A') ? '' : value);
     return new Promise((resolve, reject) => {
       const movieDbOptions = {
-        // make sure to strip out any titles that end in ", A" or ", The"; omdb doesn't like it.
-        uri: `http://www.omdbapi.com/?t=${movieTitle.split(',')[0]}&y=&plot=short&r=json&tomatoes=true`,
+        uri: `http://www.omdbapi.com/?t=${movieTitle}&y=&plot=short&r=json&tomatoes=true`,
         json: true,
       };
 
