@@ -8,6 +8,10 @@ export default () => (
       <p>Showtime data scraped from <a href="https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936">SF Cinema City</a></p>
       <p>Movie data from <a href="https://www.themoviedb.org/">The Movie DB</a> and <a href="http://www.omdbapi.com/">OMDb</a></p>
     </Alert>
-    <p><Glyphicon glyph="heart" /> Created by <a href="http://www.golightlyplus.com">Andrew Golightly</a></p>
+    <p>
+      <Glyphicon glyph="heart" /> Created by <a href="http://www.golightlyplus.com">Andrew Golightly</a> (
+      <a href="https://github.com/magician11/chiangmai-movies">source code</a>
+      )
+    </p>
   </div>
 );
