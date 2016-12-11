@@ -14,6 +14,44 @@ const MovieListings = (props) => {
         const movieImage = (movie.posterImage) ? movie.posterImage : 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==';
         const showTimes = <Showtimes times={movie.showTimes[movieDate]} />;
 
+        let rtUrl;
+        if (movie.tomatoMeter && movie.rottenTomatoesUrl) {
+          rtUrl = (
+            <p>
+              <a href={movie.rottenTomatoesUrl}>
+                <Glyphicon glyph="star" /> {movie.tomatoMeter}% (Rotten Tomatoes)
+              </a>
+            </p>
+          );
+        } else if (movie.rottenTomatoesUrl) {
+          rtUrl = (
+            <p>
+              <a href={movie.rottenTomatoesUrl}>
+                <Glyphicon glyph="link" /> Rotten Tomatoes
+              </a>
+            </p>
+          );
+        }
+
+        let imdbUrl;
+        if (movie.imdbRating && movie.imdbUrl) {
+          imdbUrl = (
+            <p>
+              <a href={movie.imdbUrl}>
+                <Glyphicon glyph="star" /> {movie.imdbRating} / 10 (IMDb)
+              </a>
+            </p>
+          );
+        } else if (movie.imdbUrl) {
+          imdbUrl = (
+            <p>
+              <a href={movie.imdbUrl}>
+                <Glyphicon glyph="link" /> IMDb
+              </a>
+            </p>
+          );
+        }
+
         movieShowings.push(
           <Row key={movie.title}>
             <Col xs={4}>
@@ -72,36 +110,20 @@ const MovieListings = (props) => {
                         </footer>
                       </blockquote>
                     }
-                    { (movie.tomatoMeter || movie.imdbRating) && <h4>Scores</h4>
-                    }
-                    { movie.tomatoMeter &&
-                      <p>Rotten Tomatoes: {movie.tomatoMeter}% (<a href={movie.rottenTomatoesUrl}>view website</a>)</p>
-                    }
-                    { movie.imdbRating &&
-                      <p>IMDb: {movie.imdbRating} / 10 (<a href={movie.imdbUrl}>view website</a>)</p>
-                    }
+                    { rtUrl }
+                    { imdbUrl }
                   </Tab>
                 </Tabs>
               </div>
               <div className="visible-xs">
                 <h4>{ movie.title }</h4>
-                { movie.tomatoMeter &&
+                { rtUrl }
+                { imdbUrl }
+                {movie.trailer &&
                   <p>
-                    <a href={movie.rottenTomatoesUrl}>
-                      <Glyphicon glyph="star" /> {movie.tomatoMeter}% (Rotten Tomatoes)
-                    </a>
+                    <a href={movie.trailer}><Glyphicon glyph="facetime-video" /> View Trailer</a>
                   </p>
                 }
-                { movie.imdbRating &&
-                  <p>
-                    <a href={movie.imdbUrl}>
-                      <Glyphicon glyph="star" /> {movie.imdbRating} / 10 (IMDb)
-                    </a>
-                  </p>
-                }
-                <p>
-                  <a href={movie.trailer}><Glyphicon glyph="facetime-video" /> View Trailer</a>
-                </p>
               </div>
             </Col>
           </Row>,
