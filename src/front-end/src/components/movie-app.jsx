@@ -44,9 +44,9 @@ class MovieApp extends Component {
       const movieData = JSON.parse(body);
       const availableDates = MovieApp.getUniqueDates(movieData);
       // eslint-disable-next-line max-len
-      const movieDataSortedByRating = movieData.sort((m1, m2) => ((m1.tomatoMeter > m2.tomatoMeter) ? -1 : 1));
+      movieData.sort((m1, m2) => ((parseInt(m1.tomatoMeter, 10) > parseInt(m2.tomatoMeter, 10)) ? -1 : 1));
       this.setState({
-        movieData: movieDataSortedByRating,
+        movieData,
         availableDates,
         targetDate: availableDates[0],
       });
