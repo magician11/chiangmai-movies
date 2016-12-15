@@ -55,9 +55,9 @@ app.set('port', 3003);
 
 // Connections from Facebook Messenger App have to be encrypted
 const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/goforself.me/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/goforself.me/fullchain.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/goforself.me/chain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/golightlyplus.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/golightlyplus.com/fullchain.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/golightlyplus.com/chain.pem'),
 };
 
 // startup the https server

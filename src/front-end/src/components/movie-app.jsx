@@ -36,7 +36,7 @@ class MovieApp extends Component {
       availableDates: [],
     };
 
-    request('https://128.199.143.40:3003/maya-mall', (er, response, body) => {
+    request('https://golightlyplus.com:3003/maya-mall', (er, response, body) => {
       if (er) {
         throw er;
       }
