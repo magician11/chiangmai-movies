@@ -1,5 +1,7 @@
 // libraries
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const cors = require('cors'); // Cross-Origin Resource Sharing
 const admin = require('firebase-admin');
 
@@ -49,9 +51,17 @@ app.get('/maya-mall', (req, res) => {
   });
 });
 
-const port = 3003;
+app.set('port', 3003);
 
-app.listen(port, () => {
+// Connections from Facebook Messenger App have to be encrypted
+const sslOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/live/goforself.me/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/goforself.me/fullchain.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/goforself.me/chain.pem'),
+};
+
+// startup the https server
+https.createServer(sslOptions, app).listen(app.get('port'), () => {
   // eslint-disable-next-line no-console
-  console.log(`Movies data app listening on port ${port}.`);
+  console.log(`Movies data app listening on port ${app.get('port')}.`);
 });
