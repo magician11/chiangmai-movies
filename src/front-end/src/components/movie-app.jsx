@@ -44,7 +44,17 @@ class MovieApp extends Component {
       const movieData = JSON.parse(body);
       const availableDates = MovieApp.getUniqueDates(movieData);
       // eslint-disable-next-line max-len
-      movieData.sort((m1, m2) => ((parseInt(m1.tomatoMeter, 10) > parseInt(m2.tomatoMeter, 10)) ? -1 : 1));
+      movieData.sort((m1, m2) => {
+        /*
+        parseInt() on an empty string is NaN.
+        And any number is not greater than NaN. e.g. 75 > NaN is false.
+        So need to check for empty string otherwise sorting doesn't work.
+        */
+        const rating1 = m1.imdbRating ? parseInt(m1.imdbRating, 10) : 0;
+        const rating2 = m2.imdbRating ? parseInt(m2.imdbRating, 10) : 0;
+        return rating1 < rating2;
+      });
+
       this.setState({
         movieData,
         availableDates,
