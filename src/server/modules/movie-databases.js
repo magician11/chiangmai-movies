@@ -45,7 +45,7 @@ class MovieDatabases {
           const bestMatchingMovie = fuse.search(movieTitle)[0];
 
           theMovieDbData.overview = bestMatchingMovie.overview;
-          theMovieDbData.posterImage = `http://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`;
+          theMovieDbData.posterImage = `https://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`;
           theMovieDbData.title = bestMatchingMovie.title;
 
           // Get the movie trailer for it
