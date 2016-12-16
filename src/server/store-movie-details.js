@@ -5,8 +5,11 @@ combine into a single useful movie object to be saved on Firebase.
 
 /* eslint-disable no-console */
 
+// npm libraries
 const admin = require('firebase-admin');
-const sfcinemacity = require('./modules/sfcinemacity');
+const sfcinemacity = require('sfcinemacity');
+
+// modules
 const movieDatabases = require('./modules/movie-databases');
 
 // setup Firebase
@@ -44,7 +47,7 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
       })
 
       // then grab the OMDB movie data with the title from The Movie DB
-      .then((movieTitle) => movieDatabases.omdb(movieTitle))
+      .then(movieTitle => movieDatabases.omdb(movieTitle))
       .then((omdbMovieData) => {
         newMovie = Object.assign(newMovie, omdbMovieData);
       })

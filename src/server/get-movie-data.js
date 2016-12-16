@@ -4,9 +4,7 @@ const https = require('https');
 const fs = require('fs');
 const cors = require('cors'); // Cross-Origin Resource Sharing
 const admin = require('firebase-admin');
-
-// modules
-const sfcinemacity = require('./modules/sfcinemacity');
+const sfcinemacity = require('sfcinemacity');
 
 // setup express
 const app = express();
