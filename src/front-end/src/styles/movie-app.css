@@ -7,6 +7,10 @@
       font-family: "Satisfy";
       font-size: 4.4rem;
     }
+
+    .movie-links, .movie-details {
+      margin-top: 2.2rem;
+    }
   }
 
   // from http://tobiasahlin.com/spinkit/
