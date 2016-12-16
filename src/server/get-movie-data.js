@@ -29,10 +29,10 @@ app.get('/maya-mall', (req, res) => {
   // then augment movie data with movie database details
   .then((movies) => {
     const moviePromises = [];
-    Object.keys(movies).forEach((movie) => {
+    movies.forEach((movie) => {
       moviePromises.push(new Promise((resolve) => {
-        ref.child(movie).once('value', (snapshot) => {
-          resolve(Object.assign(movies[movie], snapshot.val()));
+        ref.child(movie.title).once('value', (snapshot) => {
+          resolve(Object.assign(movie, snapshot.val()));
         });
       }));
     });
@@ -41,7 +41,7 @@ app.get('/maya-mall', (req, res) => {
   })
 
   // return data as a json response
-  .then((movieData) => res.json(movieData))
+  .then(movieData => res.json(movieData))
 
   // send any errors back as a response
   .catch((err) => {
