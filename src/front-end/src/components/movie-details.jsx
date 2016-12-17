@@ -7,6 +7,18 @@ const MovieDetails = (props) => {
   const { movie, targetDate, defaultTab } = props;
   const showTimes = <Showtimes times={movie.showTimes[targetDate]} />;
 
+  let review;
+  if (movie.tomatoConsensus) {
+    review = (
+      <div>
+        <p><em>"{movie.tomatoConsensus}"</em></p>
+        <p className="pull-right">&mdash; Critics Consensus on Rotten Tomatoes</p>
+      </div>
+    );
+  } else {
+    review = <p>No reviews currently available.</p>;
+  }
+
   return (
     <Tabs defaultActiveKey={defaultTab} id="movie-details" className={styling['movie-details']}>
       <Tab eventKey={1} title="Showtimes">
@@ -38,6 +50,10 @@ const MovieDetails = (props) => {
           </div>
         }
       </Tab>
+      <Tab eventKey={3} title="Reviews">
+        <br />
+        { review }
+      </Tab>
     </Tabs>
   );
 };
@@ -63,27 +79,3 @@ MovieDetails.propTypes = {
 };
 
 export default MovieDetails;
-
-/*
-TODO: once we have better data coming through.
-
-let review;
-if (movie.tomatoConsensus) {
-review = (
-<blockquote>
-<p>{movie.tomatoConsensus}</p>
-<footer>
-<cite title="Source Title">Rotten Tomatoes</cite>
-</footer>
-</blockquote>
-);
-} else {
-review = <p>No reviews currently available.</p>;
-}
-
-<Tab eventKey={3} title="Reviews">
-<br />
-{ review }
-</Tab>
-
-*/
