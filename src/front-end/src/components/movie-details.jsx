@@ -11,7 +11,7 @@ const MovieDetails = (props) => {
   if (movie.tomatoConsensus) {
     review = (
       <div>
-        <p><em>"{movie.tomatoConsensus}"</em></p>
+        <p><em>&quot;{movie.tomatoConsensus}&quot;</em></p>
         <p className="pull-right">&mdash; Critics Consensus on Rotten Tomatoes</p>
       </div>
     );
