@@ -50,6 +50,13 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
       .then(movieTitle => movieDatabases.omdb(movieTitle))
       .then((omdbMovieData) => {
         newMovie = Object.assign(newMovie, omdbMovieData);
+        return newMovie.rottenTomatoesUrl;
+      })
+
+      // then augment with the latest data from Rotten Tomatoes
+      .then(rottenTomatoesUrl => movieDatabases.rottenTomatoes(rottenTomatoesUrl))
+      .then((rottenTomatoesData) => {
+        newMovie = Object.assign(newMovie, rottenTomatoesData);
       })
 
       // write the newMovie object to Firebase

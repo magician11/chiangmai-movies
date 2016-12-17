@@ -3,11 +3,13 @@ Get movie data for a particular movie title.
 Currently accessing:
 - OMDB (https://www.omdbapi.com/)
 - The Movie DB (https://www.themoviedb.org/)
+- Rotten Tomatoes (https://www.rottentomatoes.com/)
 */
 
 /* eslint-disable max-len */
 
 const rpn = require('request-promise-native');
+const cheerio = require('cheerio');
 const Fuse = require('fuse.js'); // https://github.com/krisk/fuse
 
 class MovieDatabases {
@@ -15,7 +17,7 @@ class MovieDatabases {
   /*
   Fetch movie data from The Movie DB.
   */
-  theMovieDB(movieTitle) {
+  static theMovieDB(movieTitle) {
     const theMovieDbBaseUrl = 'http://api.themoviedb.org/3';
 
     return new Promise((resolve, reject) => {
@@ -84,8 +86,8 @@ class MovieDatabases {
   /*
   Fetch a range of movie data from OMDB
   */
-  omdb(movieTitle) {
-    const checkForValue = (value) => ((value === 'N/A') ? '' : value);
+  static omdb(movieTitle) {
+    const checkForValue = value => ((value === 'N/A') ? '' : value);
     return new Promise((resolve, reject) => {
       const movieDbOptions = {
         uri: `http://www.omdbapi.com/?t=${movieTitle}&y=&plot=short&r=json&tomatoes=true`,
@@ -96,8 +98,6 @@ class MovieDatabases {
         actors: '',
         runtime: '',
         imdbRating: '',
-        tomatoMeter: '',
-        tomatoConsensus: '',
         imdbUrl: '',
         rottenTomatoesUrl: '',
       };
@@ -108,8 +108,6 @@ class MovieDatabases {
           movieMetaData.actors = checkForValue(result.Actors);
           movieMetaData.runtime = checkForValue(result.Runtime);
           movieMetaData.imdbRating = checkForValue(result.imdbRating);
-          movieMetaData.tomatoMeter = checkForValue(result.tomatoMeter);
-          movieMetaData.tomatoConsensus = checkForValue(result.tomatoConsensus);
           movieMetaData.imdbUrl = (checkForValue(result.imdbID) !== '') ? `http://www.imdb.com/title/${result.imdbID}` : '';
           movieMetaData.rottenTomatoesUrl = checkForValue(result.tomatoURL);
         }
@@ -121,6 +119,36 @@ class MovieDatabases {
     });
   }
 
+  /*
+  Fetch data from Rotten Tomatoes itself.
+  */
+  static rottenTomatoes(rottenTomatoesUrl) {
+    const rottenTomatoesMetaData = {
+      tomatoMeter: '',
+      tomatoConsensus: '',
+    };
+
+    if (!rottenTomatoesUrl) {
+      return Promise.resolve(rottenTomatoesMetaData);
+    }
+
+    return new Promise((resolve, reject) => {
+      const options = {
+        uri: rottenTomatoesUrl,
+        transform: body => cheerio.load(body),
+      };
+
+      rpn(options)
+      .then(($) => {
+        rottenTomatoesMetaData.tomatoMeter = $('#all-critics-numbers .meter-value span').text();
+        rottenTomatoesMetaData.tomatoConsensus = $('#all-critics-numbers .critic_consensus').text().replace('Critics Consensus:', '').trim();
+        resolve(rottenTomatoesMetaData);
+      })
+      .catch((err) => {
+        reject(`Error grabbing data from Rotten Tomatoes: ${err}`);
+      });
+    });
+  }
 }
 
-module.exports = new MovieDatabases();
+module.exports = MovieDatabases;
