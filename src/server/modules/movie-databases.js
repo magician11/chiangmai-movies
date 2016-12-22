@@ -90,7 +90,7 @@ class MovieDatabases {
     const checkForValue = value => ((value === 'N/A') ? '' : value);
     return new Promise((resolve, reject) => {
       const movieDbOptions = {
-        uri: `http://www.omdbapi.com/?t=${movieTitle}&y=&plot=short&r=json&tomatoes=true`,
+        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=${new Date().getFullYear()}`,
         json: true,
       };
 
