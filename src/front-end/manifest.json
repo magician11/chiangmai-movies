@@ -1,7 +1,7 @@
 {
   "short_name": "CM Movies",
   "name": "Chiang Mai Movies",
-  "background-color": "#00BFFF",
+  "background_color": "#00BFFF",
   "icons": [
     {
       "src": "Movie Projector-128.png",
