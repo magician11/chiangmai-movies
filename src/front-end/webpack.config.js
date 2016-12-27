@@ -64,6 +64,7 @@ const webpackConfig = {
     }),
     new CopyWebpackPlugin([
       { from: 'manifest.json' },
+      { from: 'src/sw.js' },
       { from: 'icons' },
     ]),
   ],
