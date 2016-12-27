@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 const webpackConfig = {
@@ -61,6 +62,10 @@ const webpackConfig = {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
+    new CopyWebpackPlugin([
+      { from: 'manifest.json' },
+      { from: 'icons' },
+    ]),
   ],
 };
 

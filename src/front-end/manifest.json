@@ -2,30 +2,30 @@
   "name": "Chiang Mai Movies",
   "icons": [
     {
-      "src": "Movie Projector-128.png",
+      "src": "icons/Movie Projector-128.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "Movie Projector-192.png",
+      "src": "icons/Movie Projector-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "Movie Projector-256.png",
+      "src": "icons/Movie Projector-256.png",
       "sizes": "256x256",
       "type": "image/png"
     },
     {
-      "src": "Movie Projector-384.png",
+      "src": "icons/Movie Projector-384.png",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "Movie Projector-512.png",
+      "src": "icons/Movie Projector-512.png",
       "sizes": "512x512",
       "type": "image/png"
-    },
+    }
   ],
   "start_url": "/index.html",
   "display": "standalone",
