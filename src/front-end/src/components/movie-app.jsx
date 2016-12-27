@@ -119,7 +119,6 @@ class MovieApp extends Component {
             </Col>
           </Row>
         </Panel>
-        <br />
         <MovieListings movieData={movieData} targetDate={this.state.targetDate} />
       </div>
       );

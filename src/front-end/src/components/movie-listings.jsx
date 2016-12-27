@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import React from 'react';
-import { Grid, Row, Col, Image } from 'react-bootstrap';
+import { Row, Col, Image } from 'react-bootstrap';
 import MovieDetails from './movie-details';
 import MovieLinks from './movie-links';
 
@@ -51,9 +51,9 @@ const MovieListings = (props) => {
   });
 
   return (
-    <Grid>
+    <div>
       {movieShowings}
-    </Grid>
+    </div>
   );
 };
 
