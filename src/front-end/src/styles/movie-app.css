@@ -23,11 +23,25 @@
 
     .footer {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
 
-      .fb-like {
-        padding-left: 4px;
+      .social-media-buttons {
+        display: flex;
+        margin-top: 1rem;
+
+        .fb-like {
+          padding-left: 4px;
+        }
+      }
+
+      @media screen and (min-width: 412px) {
+        flex-direction: row;
+        justify-content: space-between;
+
+        .social-media-buttons {
+          margin-top: 0;
+        }
       }
     }
 

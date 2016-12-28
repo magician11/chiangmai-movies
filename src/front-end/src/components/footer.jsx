@@ -46,7 +46,7 @@ class Footer extends Component {
           <Button onClick={() => this.setState({ showModal: true })}>
             <Glyphicon glyph="info-sign" /> About CM Movies
           </Button>
-          <div className="text-right">
+          <div className={`${styling['social-media-buttons']} text-right`}>
             <a href="https://twitter.com/share" className="twitter-share-button" data-show-count="false">Tweet</a>
             <div
               className={`${styling['fb-like']} fb-like`}
