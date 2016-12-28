@@ -32,8 +32,9 @@ class Footer extends Component {
             <h4>How Does It Work Exactly?</h4>
             <p>Everytime you load the page, the list of available movies and their showtimes are scraped from <a href="https://booking.sfcinemacity.com/visPrintShowTimes.aspx?visLang=1&visCinemaId=9936">the SF Cinema City booking system</a>. This data is then augmented with movie metadata that is periodically retrieved from <a href="https://www.themoviedb.org/">The Movie DB</a>, <a href="http://www.omdbapi.com/">OMDb</a>, and <a href="http://www.rottentomatoes.com">Rotten Tomatoes</a> itself.</p>
             <p>The movie listings are sorted by their Rotten Tomoatoes score (highest to lowest/unknown).</p>
-            <h4>Questions/Feedback</h4>
+            <h4>Questions/Feedback/Contribute</h4>
             <p>I welcome all questions and feedback. The whole purpose of this app was to make it super easy for people to decide what to watch in Chiang Mai. So if you have any suggestions or feedback to support this mission, you can get in touch with me <a href="http://golightlyplus.com/contact/">here</a>.</p>
+            <p>If you are a developer, you can <a href="https://github.com/magician11/chiangmai-movies">view the source code on GitHub</a>.</p>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.setState({ showModal: false })}>Close</Button>
@@ -44,11 +45,6 @@ class Footer extends Component {
             <Glyphicon glyph="info-sign" /> About
           </Button>
         </Alert>
-        <p>
-          <Glyphicon glyph="heart" /> Created by <a href="http://www.golightlyplus.com">Andrew Golightly</a> (
-          <a href="https://github.com/magician11/chiangmai-movies">source code</a>
-          )
-        </p>
       </div>
     );
   }
