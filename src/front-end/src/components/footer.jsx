@@ -60,8 +60,8 @@ class Footer extends Component {
           </div>
         </Alert>
       </div>
-      );
-    }
+    );
   }
+}
 
-  export default Footer;
+export default Footer;
