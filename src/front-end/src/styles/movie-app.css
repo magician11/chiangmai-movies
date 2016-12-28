@@ -21,6 +21,16 @@
       }
     }
 
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .fb-like {
+        padding-left: 4px;
+      }
+    }
+
     /* from http://tobiasahlin.com/spinkit/ */
     .spinner {
       width: 40px;
