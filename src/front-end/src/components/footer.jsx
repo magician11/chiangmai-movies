@@ -37,6 +37,10 @@ class Footer extends Component {
             <h4>Questions/Feedback/Contribute</h4>
             <p>I welcome all questions and feedback. The whole purpose of this app was to make it super easy for people to decide what to watch in Chiang Mai. So if you have any suggestions or feedback to support this mission, you can get in touch with me <a href="http://golightlyplus.com/contact/">here</a>.</p>
             <p>If you are a developer, you can <a href="https://github.com/magician11/chiangmai-movies">view the source code on GitHub</a>.</p>
+            <br />
+            <p>Thank you for using this web app!</p>
+            <p>Andrew</p>
+            <p><Glyphicon glyph="heart" /> </p>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.setState({ showModal: false })}>Close</Button>
