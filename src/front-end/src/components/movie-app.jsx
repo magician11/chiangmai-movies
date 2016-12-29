@@ -12,6 +12,9 @@ class MovieApp extends Component {
   /*
   Grab the showtimes for a movie, find the unique dates,
   and then return those dates sorted by date.
+
+  When sorting, if we're in December and we see a January date, assume it's
+  for the next year.
   */
   static getUniqueDates(movieData) {
     const dates = {};
@@ -21,10 +24,23 @@ class MovieApp extends Component {
       });
     });
 
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+
+    // add a year so we can sort across years
+    const addYear = (date) => {
+      const month = date.match(/\w{3}$/)[0];
+      if ((currentMonth === 11) && (month === 'Jan')) {
+        return `${date} ${currentYear + 1}`;
+      }
+
+      return `${date} ${currentYear}`;
+    };
+
     return Object.keys(dates).sort((date1, date2) => {
-      const dateNum1 = parseInt(date1.match(/\d+/)[0], 10);
-      const dateNum2 = parseInt(date2.match(/\d+/)[0], 10);
-      return (dateNum1 > dateNum2) ? 1 : -1;
+      const dateObj1 = new Date(addYear(date1));
+      const dateObj2 = new Date(addYear(date2));
+      return (dateObj1 > dateObj2) ? 1 : -1;
     });
   }
 
