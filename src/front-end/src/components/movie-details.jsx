@@ -40,7 +40,7 @@ const MovieDetails = (props) => {
         { movie.runtime &&
           <div>
             <h4>Runtime</h4>
-            <p>{movie.runtime}</p>
+            <p>{movie.runtime} mins</p>
           </div>
         }
         { movie.rating &&

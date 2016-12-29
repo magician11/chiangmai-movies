@@ -62,8 +62,6 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
       // write the newMovie object to Firebase
       .then(() => {
         ref.child(movie.title).update(newMovie, () => {
-          console.log(movie.title);
-          console.log(newMovie);
           console.log(`Updated ${newMovie.title}`);
           resolve(movie.title);
         });

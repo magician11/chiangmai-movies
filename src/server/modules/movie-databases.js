@@ -30,7 +30,10 @@ class MovieDatabases {
         overview: '',
         posterImage: '',
         trailer: '',
+        runtime: '',
         title: movieTitle,
+        tagline: '',
+        imdbUrl: '',
       };
 
       rpn(theMovieDbOptions)
@@ -50,6 +53,7 @@ class MovieDatabases {
           theMovieDbData.posterImage = `https://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`;
           theMovieDbData.title = bestMatchingMovie.title;
 
+
           // Get the movie trailer for it
           theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/videos?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
           rpn(theMovieDbOptions)
@@ -64,19 +68,38 @@ class MovieDatabases {
                   theMovieDbData.trailer = `https://www.youtube.com/watch?v=${video.key}`;
                 }
               });
-              resolve(theMovieDbData);
-            } else {
-              resolve(theMovieDbData);
             }
+
+            // now get other movie details
+            theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
+            return rpn(theMovieDbOptions);
           })
-          .catch((trailerError) => {
-            reject(`Error grabbing trailer: ${trailerError}`);
+          .then((movieData) => {
+            theMovieDbData.runtime = movieData.runtime;
+            theMovieDbData.tagline = movieData.tagline;
+            theMovieDbData.imdbUrl = `http://www.imdb.com/title/${movieData.imdb_id}`;
+
+            // now get the actors
+            theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/credits?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
+            return rpn(theMovieDbOptions);
+          })
+          .then((actorData) => {
+            const actors = [];
+            const numCastListed = actorData.cast.length;
+            for (let i = 0; (i < numCastListed) && (i < 5); i += 1) {
+              const actor = actorData.cast[i];
+              actors.push(`${actor.name} (${actor.character})`);
+            }
+            theMovieDbData.actors = actors.join(', ');
+            resolve(theMovieDbData);
+          })
+          .catch((tmdError) => {
+            reject(tmdError);
           });
         } else {
           resolve(theMovieDbData);
         }
       })
-
       .catch((error) => {
         reject(`Error getting data from The Movie DB: ${error}`);
       });
@@ -95,20 +118,14 @@ class MovieDatabases {
       };
 
       const movieMetaData = {
-        actors: '',
-        runtime: '',
         imdbRating: '',
-        imdbUrl: '',
         rottenTomatoesUrl: '',
       };
 
       rpn(movieDbOptions)
       .then((result) => {
         if (!result.Error) {
-          movieMetaData.actors = checkForValue(result.Actors);
-          movieMetaData.runtime = checkForValue(result.Runtime);
           movieMetaData.imdbRating = checkForValue(result.imdbRating);
-          movieMetaData.imdbUrl = (checkForValue(result.imdbID) !== '') ? `http://www.imdb.com/title/${result.imdbID}` : '';
           movieMetaData.rottenTomatoesUrl = checkForValue(result.tomatoURL);
         }
         resolve(movieMetaData);
