@@ -10,7 +10,7 @@ Currently accessing:
 
 const rpn = require('request-promise-native');
 const cheerio = require('cheerio');
-const Fuse = require('fuse.js'); // https://github.com/krisk/fuse
+// const Fuse = require('fuse.js'); // https://github.com/krisk/fuse
 
 class MovieDatabases {
 
@@ -40,14 +40,18 @@ class MovieDatabases {
       .then((result) => {
         if (result.results.length > 0) {
           // Get the movie title with the closest fuzzy string match
-          const fuseOptions = {
-            tokenize: true,
-            matchAllTokens: true,
-            keys: ['title'],
-          };
+          // const fuseOptions = {
+          //   tokenize: true,
+          //   matchAllTokens: true,
+          //   keys: ['title'],
+          // };
 
-          const fuse = new Fuse(result.results, fuseOptions);
-          const bestMatchingMovie = fuse.search(movieTitle)[0];
+          // console.log(result.results);
+          //
+          //           const fuse = new Fuse(result.results, fuseOptions);
+          //           const bestMatchingMovie = fuse.search(movieTitle)[0];
+          // console.log(bestMatchingMovie);
+          const bestMatchingMovie = result.results[0];
 
           theMovieDbData.overview = bestMatchingMovie.overview;
           theMovieDbData.posterImage = `https://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`;
@@ -113,7 +117,8 @@ class MovieDatabases {
     const checkForValue = value => ((value === 'N/A') ? '' : value);
     return new Promise((resolve, reject) => {
       const movieDbOptions = {
-        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=${new Date().getFullYear()}`,
+        // TODO: set the year to be last year up till mid Jan maybe
+        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=2016`,
         json: true,
       };
 

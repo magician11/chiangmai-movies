@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Modal, Glyphicon, Button } from 'react-bootstrap';
 
-import styling from '../styles/movie-app.css';
-
 /* eslint-disable max-len */
 
 class Footer extends Component {
@@ -46,22 +44,10 @@ class Footer extends Component {
             <Button onClick={() => this.setState({ showModal: false })}>Close</Button>
           </Modal.Footer>
         </Modal>
-        <Alert bsStyle="info" className={styling.footer}>
+        <Alert bsStyle="info" className="text-center">
           <Button onClick={() => this.setState({ showModal: true })}>
             <Glyphicon glyph="info-sign" /> About CM Movies
           </Button>
-          <div className={`${styling['social-media-buttons']} text-right`}>
-            <a href="https://twitter.com/share" className="twitter-share-button" data-show-count="false">Tweet</a>
-            <div
-              className={`${styling['fb-like']} fb-like`}
-              data-href="https://chiangmaimovies.com"
-              data-layout="button_count"
-              data-action="like"
-              data-size="small"
-              data-show-faces="true"
-              data-share="true"
-            />
-          </div>
         </Alert>
       </div>
     );

@@ -10,23 +10,10 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Satisfy" rel="stylesheet" />
 </head>
 <body>
-  <!-- for Facebook like button -->
   <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=903647429646348";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
 
-  <!-- for twitter share button -->
-  <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-  <!-- div for app to bind to -->
   <div id="app"></div>
 
-  <!-- registering a service worker so app becomes a PWA -->
   <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
@@ -37,6 +24,24 @@
       });
     });
   }
+  </script>
+
+  <script>
+  function loadSocialMedia() {
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=903647429646348";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    var script = document.createElement('script');
+    script.src = "//platform.twitter.com/widgets.js";
+    document.getElementsByTagName('body')[0].appendChild(script);
+  }
+
+  setTimeout(loadSocialMedia, 5300);
   </script>
 </body>
 </html>

@@ -106,6 +106,18 @@ class MovieApp extends Component {
           <Row>
             <Col xs={6} sm={3}>
               <h2>MAYA Mall</h2>
+              <div className={styling['social-media-buttons']}>
+                <a href="https://twitter.com/share" className="twitter-share-button" data-show-count="false">Tweet</a>
+                <div
+                  className={`${styling['fb-like']} fb-like`}
+                  data-href="https://chiangmaimovies.com"
+                  data-layout="button_count"
+                  data-action="like"
+                  data-size="small"
+                  data-show-faces="true"
+                  data-share="true"
+                />
+              </div>
             </Col>
             <Col className="text-center" sm={6} xsHidden>
               <h1>Chiang Mai Movies</h1>

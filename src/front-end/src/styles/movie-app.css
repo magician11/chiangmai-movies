@@ -3,6 +3,15 @@
     margin-top: 8rem;
     font-family: "Open Sans";
 
+    .social-media-buttons {
+      display: flex;
+      margin-top: 1rem;
+
+      .fb-like {
+        padding-left: 4px;
+      }
+    }
+
     h1 {
       font-family: "Satisfy";
       font-size: 4.4rem;
@@ -18,30 +27,6 @@
 
       @media screen and (min-width: 375px) {
         font-size: inherit;
-      }
-    }
-
-    .footer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .social-media-buttons {
-        display: flex;
-        margin-top: 1rem;
-
-        .fb-like {
-          padding-left: 4px;
-        }
-      }
-
-      @media screen and (min-width: 412px) {
-        flex-direction: row;
-        justify-content: space-between;
-
-        .social-media-buttons {
-          margin-top: 0;
-        }
       }
     }
 
