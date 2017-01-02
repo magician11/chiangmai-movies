@@ -5,7 +5,8 @@
 
     .social-media-buttons {
       display: flex;
-      margin-top: 1rem;
+      justify-content: center;
+      margin-top: 2.2rem;
 
       .fb-like {
         padding-left: 4px;
