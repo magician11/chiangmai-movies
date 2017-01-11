@@ -45,7 +45,7 @@ class MovieListings extends Component {
                   <Modal.Header closeButton>
                     <Modal.Title>{movie.title}</Modal.Title>
                   </Modal.Header>
-                  <Modal.Body>
+                  <Modal.Body className="text-center">
                     <Image src={movieImage} alt={movie.title} thumbnail responsive />
                   </Modal.Body>
                   <Modal.Footer>
