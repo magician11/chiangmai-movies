@@ -30,6 +30,7 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
 
 // then grab movie data for those movie titles and write that to Firebase
 .then((movies) => {
+  console.log(`Processing ${movies.length} movies.`);
   const moviePromises = [];
   // go through every movie title
   movies.forEach((movie) => {
