@@ -44,11 +44,11 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
       movieDatabases.theMovieDB(movie.title)
       .then((theMovieDbData) => {
         newMovie = Object.assign(newMovie, theMovieDbData);
-        return theMovieDbData.title;
+        return theMovieDbData;
       })
 
       // then grab the OMDB movie data with the title from The Movie DB
-      .then(movieTitle => movieDatabases.omdb(movieTitle))
+      .then(theMovieDbData => movieDatabases.omdb(theMovieDbData.title, theMovieDbData.releaseDate.match(/\d{4}/)[0]))
       .then((omdbMovieData) => {
         newMovie = Object.assign(newMovie, omdbMovieData);
         return newMovie.rottenTomatoesUrl;

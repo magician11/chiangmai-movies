@@ -34,6 +34,7 @@ class MovieDatabases {
         title: movieTitle,
         tagline: '',
         imdbUrl: '',
+        releaseDate: '',
       };
 
       rpn(theMovieDbOptions)
@@ -56,7 +57,7 @@ class MovieDatabases {
           theMovieDbData.overview = bestMatchingMovie.overview;
           theMovieDbData.posterImage = `https://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`;
           theMovieDbData.title = bestMatchingMovie.title;
-
+          theMovieDbData.releaseDate = bestMatchingMovie.release_date;
 
           // Get the movie trailer for it
           theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/videos?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
@@ -113,12 +114,12 @@ class MovieDatabases {
   /*
   Fetch a range of movie data from OMDB
   */
-  static omdb(movieTitle) {
+  static omdb(movieTitle, releaseYear) {
     const checkForValue = value => ((value === 'N/A') ? '' : value);
     return new Promise((resolve, reject) => {
       const movieDbOptions = {
         // TODO: set the year to be last year up till mid Jan maybe
-        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=2016`,
+        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=${releaseYear}`,
         json: true,
       };
 
