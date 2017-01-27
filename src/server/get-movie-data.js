@@ -31,7 +31,8 @@ app.get('/maya-mall', (req, res) => {
     const moviePromises = [];
     movies.forEach((movie) => {
       moviePromises.push(new Promise((resolve) => {
-        ref.child(movie.title).once('value', (snapshot) => {
+        const dbMovieTitle = movie.title.replace(/\.|#|\$|\[|]/g, '-');
+        ref.child(dbMovieTitle).once('value', (snapshot) => {
           resolve(Object.assign(movie, snapshot.val()));
         });
       }));
