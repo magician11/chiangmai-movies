@@ -48,7 +48,10 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
       })
 
       // then grab the OMDB movie data with the title from The Movie DB
-      .then(theMovieDbData => movieDatabases.omdb(theMovieDbData.title, theMovieDbData.releaseDate.match(/\d{4}/)[0]))
+      .then((theMovieDbData) => {
+        const releaseDate = theMovieDbData.releaseDate ? theMovieDbData.releaseDate.match(/\d{4}/)[0] : '';
+        return movieDatabases.omdb(theMovieDbData.title, releaseDate);
+      })
       .then((omdbMovieData) => {
         newMovie = Object.assign(newMovie, omdbMovieData);
         return newMovie.rottenTomatoesUrl;
@@ -62,7 +65,8 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
 
       // write the newMovie object to Firebase
       .then(() => {
-        ref.child(movie.title).update(newMovie, () => {
+        const dbMovieTitle = movie.title.replace(/\.|#|\$|\[|]/g, '-');
+        ref.child(dbMovieTitle).update(newMovie, () => {
           console.log(`Updated ${newMovie.title}`);
           resolve(movie.title);
         });
