@@ -113,13 +113,15 @@ class MovieDatabases {
 
   /*
   Fetch a range of movie data from OMDB
+
+  I tried adding releaseYear, but OMDb seems to return incorrect results with this sometimes.
+  uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=${releaseYear}`,
   */
-  static omdb(movieTitle, releaseYear) {
+  static omdb(movieTitle) {
     const checkForValue = value => ((value === 'N/A') ? '' : value);
     return new Promise((resolve, reject) => {
       const movieDbOptions = {
-        // TODO: set the year to be last year up till mid Jan maybe
-        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=${releaseYear}`,
+        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true`,
         json: true,
       };
 
