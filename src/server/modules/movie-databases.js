@@ -1,7 +1,7 @@
 /*
 Get movie data for a particular movie title.
 Currently accessing:
-- OMDB (https://www.omdbapi.com/)
+- Google (https://www.google.com/)
 - The Movie DB (https://www.themoviedb.org/)
 - Rotten Tomatoes (https://www.rottentomatoes.com/)
 */
@@ -10,7 +10,6 @@ Currently accessing:
 
 const rpn = require('request-promise-native');
 const cheerio = require('cheerio');
-// const Fuse = require('fuse.js'); // https://github.com/krisk/fuse
 
 class MovieDatabases {
 
@@ -40,18 +39,6 @@ class MovieDatabases {
       rpn(theMovieDbOptions)
       .then((result) => {
         if (result.results.length > 0) {
-          // Get the movie title with the closest fuzzy string match
-          // const fuseOptions = {
-          //   tokenize: true,
-          //   matchAllTokens: true,
-          //   keys: ['title'],
-          // };
-
-          // console.log(result.results);
-          //
-          //           const fuse = new Fuse(result.results, fuseOptions);
-          //           const bestMatchingMovie = fuse.search(movieTitle)[0];
-          // console.log(bestMatchingMovie);
           const bestMatchingMovie = result.results[0];
 
           theMovieDbData.overview = bestMatchingMovie.overview;
@@ -112,62 +99,35 @@ class MovieDatabases {
   }
 
   /*
-  Fetch a range of movie data from OMDB
-
-  I tried adding releaseYear, but OMDb seems to return incorrect results with this sometimes.
-  uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true&y=${releaseYear}`,
-  */
-  static omdb(movieTitle) {
-    const checkForValue = value => ((value === 'N/A') ? '' : value);
-    return new Promise((resolve, reject) => {
-      const movieDbOptions = {
-        uri: `http://www.omdbapi.com/?t=${movieTitle}&plot=short&r=json&tomatoes=true`,
-        json: true,
-      };
-
-      const movieMetaData = {
-        imdbRating: '',
-        rottenTomatoesUrl: '',
-      };
-
-      rpn(movieDbOptions)
-      .then((result) => {
-        if (!result.Error) {
-          movieMetaData.imdbRating = checkForValue(result.imdbRating);
-          movieMetaData.rottenTomatoesUrl = checkForValue(result.tomatoURL);
-        }
-        resolve(movieMetaData);
-      })
-      .catch((err) => {
-        reject(`Error grabbing data from omdb: ${err}`);
-      });
-    });
-  }
-
-  /*
   Fetch data from Rotten Tomatoes itself.
   */
-  static rottenTomatoes(rottenTomatoesUrl) {
-    const rottenTomatoesMetaData = {
-      tomatoMeter: '',
-      tomatoConsensus: '',
-    };
-
-    if (!rottenTomatoesUrl) {
-      return Promise.resolve(rottenTomatoesMetaData);
-    }
-
+  static rottenTomatoes(movieTitle) {
     return new Promise((resolve, reject) => {
+      // options for request promise native
       const options = {
-        uri: rottenTomatoesUrl,
+        uri: '',
         transform: body => cheerio.load(body),
       };
 
+      // first find the Rotten Tomatoes URL on google for this movie
+      options.uri = `https://www.google.com/search?as_q=rotten+tomatoes+${movieTitle}`;
       rpn(options)
+
+      // then extract it and grab that page from Rotten Tomatoes
       .then(($) => {
-        rottenTomatoesMetaData.tomatoMeter = $('#all-critics-numbers .meter-value span').text();
-        rottenTomatoesMetaData.tomatoConsensus = $('#all-critics-numbers .critic_consensus').text().replace('Critics Consensus:', '').trim();
-        resolve(rottenTomatoesMetaData);
+        if ($('.sla').text() === '') {
+          resolve({ tomatoMeter: '', tomatoConsensus: '' });
+        } else {
+          // then get the tomato meter score and the consensus
+          options.uri = $('.sla').attr('href').match(/(https.+)\/reviews/)[1];
+          rpn(options)
+          .then((rtData) => {
+            resolve({
+              tomatoMeter: rtData('#all-critics-numbers .meter-value span').text(),
+              tomatoConsensus: rtData('#all-critics-numbers .critic_consensus').text().replace('Critics Consensus:', '').trim(),
+            });
+          });
+        }
       })
       .catch((err) => {
         reject(`Error grabbing data from Rotten Tomatoes: ${err}`);

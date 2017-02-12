@@ -47,18 +47,8 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
         return theMovieDbData;
       })
 
-      // then grab the OMDB movie data with the title from The Movie DB
-      .then((theMovieDbData) => {
-        const releaseDate = theMovieDbData.releaseDate ? theMovieDbData.releaseDate.match(/\d{4}/)[0] : '';
-        return movieDatabases.omdb(theMovieDbData.title, releaseDate);
-      })
-      .then((omdbMovieData) => {
-        newMovie = Object.assign(newMovie, omdbMovieData);
-        return newMovie.rottenTomatoesUrl;
-      })
-
-      // then augment with the latest data from Rotten Tomatoes
-      .then(rottenTomatoesUrl => movieDatabases.rottenTomatoes(rottenTomatoesUrl))
+      // add the Rotten Tomatoes data
+      .then(theMovieDbData => movieDatabases.rottenTomatoes(theMovieDbData.title))
       .then((rottenTomatoesData) => {
         newMovie = Object.assign(newMovie, rottenTomatoesData);
       })
