@@ -61,8 +61,6 @@ const MovieDetails = (props) => {
 MovieDetails.propTypes = {
   movie: React.PropTypes.shape({
     actors: React.PropTypes.string.isRequired,
-    imdbRating: React.PropTypes.string.isRequired,
-    imdbUrl: React.PropTypes.string.isRequired,
     overview: React.PropTypes.string.isRequired,
     posterImage: React.PropTypes.string.isRequired,
     rating: React.PropTypes.string.isRequired,

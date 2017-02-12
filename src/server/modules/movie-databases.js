@@ -32,7 +32,6 @@ class MovieDatabases {
         runtime: '',
         title: movieTitle,
         tagline: '',
-        imdbUrl: '',
         releaseDate: '',
       };
 
@@ -69,7 +68,6 @@ class MovieDatabases {
           .then((movieData) => {
             theMovieDbData.runtime = movieData.runtime;
             theMovieDbData.tagline = movieData.tagline;
-            theMovieDbData.imdbUrl = `http://www.imdb.com/title/${movieData.imdb_id}`;
 
             // now get the actors
             theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/credits?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
@@ -115,11 +113,11 @@ class MovieDatabases {
 
       // then extract it and grab that page from Rotten Tomatoes
       .then(($) => {
-        if ($('.sla').text() === '') {
+        const rottenTomatoesMatch = $('#search .g a').first().attr('href').match(/(https:\/\/www\.rottentomatoes\.com\/m.+)\/&sa/);
+        if (!rottenTomatoesMatch) {
           resolve({ tomatoMeter: '', tomatoConsensus: '', rottenTomatoesUrl: '' });
         } else {
-          // then get the tomato meter score and the consensus
-          const rottenTomatoesUrl = $('.sla').attr('href').match(/(https.+)\/reviews/)[1];
+          const rottenTomatoesUrl = rottenTomatoesMatch[1];
           options.uri = rottenTomatoesUrl;
           rpn(options)
           .then((rtData) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Glyphicon } from 'react-bootstrap';
+import { Glyphicon, Button } from 'react-bootstrap';
 import styling from '../styles/movie-app.css';
 
 const MovieLinks = (props) => {
@@ -24,33 +24,13 @@ const MovieLinks = (props) => {
     );
   }
 
-  let imdbUrl;
-  if (movie.imdbRating && movie.imdbUrl) {
-    imdbUrl = (
-      <p>
-        <a href={movie.imdbUrl}>
-          <Glyphicon glyph="star" /> {movie.imdbRating} / 10 (IMDb)
-        </a>
-      </p>
-    );
-  } else if (movie.imdbUrl) {
-    imdbUrl = (
-      <p>
-        <a href={movie.imdbUrl}>
-          <Glyphicon glyph="link" /> IMDb
-        </a>
-      </p>
-    );
-  }
-
   return (
     <div className={styling['movie-links']}>
       { rtUrl }
-      { imdbUrl }
       { movie.trailer &&
-        <p>
+        <Button>
           <a href={movie.trailer}><Glyphicon glyph="facetime-video" /> View Trailer</a>
-        </p>
+        </Button>
       }
     </div>
   );
@@ -59,8 +39,6 @@ const MovieLinks = (props) => {
 MovieLinks.propTypes = {
   movie: React.PropTypes.shape({
     actors: React.PropTypes.string.isRequired,
-    imdbRating: React.PropTypes.string.isRequired,
-    imdbUrl: React.PropTypes.string.isRequired,
     overview: React.PropTypes.string.isRequired,
     posterImage: React.PropTypes.string.isRequired,
     rating: React.PropTypes.string.isRequired,
