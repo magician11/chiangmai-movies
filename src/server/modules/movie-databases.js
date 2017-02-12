@@ -116,13 +116,15 @@ class MovieDatabases {
       // then extract it and grab that page from Rotten Tomatoes
       .then(($) => {
         if ($('.sla').text() === '') {
-          resolve({ tomatoMeter: '', tomatoConsensus: '' });
+          resolve({ tomatoMeter: '', tomatoConsensus: '', rottenTomatoesUrl: '' });
         } else {
           // then get the tomato meter score and the consensus
-          options.uri = $('.sla').attr('href').match(/(https.+)\/reviews/)[1];
+          const rottenTomatoesUrl = $('.sla').attr('href').match(/(https.+)\/reviews/)[1];
+          options.uri = rottenTomatoesUrl;
           rpn(options)
           .then((rtData) => {
             resolve({
+              rottenTomatoesUrl,
               tomatoMeter: rtData('#all-critics-numbers .meter-value span').text(),
               tomatoConsensus: rtData('#all-critics-numbers .critic_consensus').text().replace('Critics Consensus:', '').trim(),
             });
