@@ -26,14 +26,17 @@ const mayaMallId = 9936;
 console.log(`Updating movie database information at ${new Date().toString()}`);
 
 // get all the current movie titles for Maya Mall
-sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
+sfcinemacity.getShowtimes(mayaMallId)
 
 // then grab movie data for those movie titles and write that to Firebase
 .then((movies) => {
+  // console.log(movies);
   console.log(`Processing ${movies.length} movies.`);
   const moviePromises = [];
   // go through every movie title
-  movies.forEach((movie) => {
+  // movies.forEach((movie) => {
+  for (let i = 0; i < 11; i += 1) {
+    const movie = movies[i];
     moviePromises.push(new Promise((resolve, reject) => {
       let newMovie = {};
 
@@ -67,7 +70,7 @@ sfcinemacity.getMovieTitlesAndRatings(mayaMallId)
         reject(`Error adding movie detail data: ${error}`);
       });
     }));
-  });
+  }
 
   // Close database connection after all data has been written to Fireabse
   return Promise.all(moviePromises).then(() => {

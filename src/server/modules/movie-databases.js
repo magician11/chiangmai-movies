@@ -16,12 +16,12 @@ class MovieDatabases {
   /*
   Fetch movie data from The Movie DB.
   */
-  static theMovieDB(movieTitle) {
+  static theMovieDB(movieTitle, year = new Date().getFullYear()) {
     const theMovieDbBaseUrl = 'http://api.themoviedb.org/3';
 
     return new Promise((resolve, reject) => {
       const theMovieDbOptions = {
-        uri: `${theMovieDbBaseUrl}/search/movie?query=${movieTitle}&api_key=${process.env.THE_MOVIE_DB_API_KEY}`,
+        uri: `${theMovieDbBaseUrl}/search/movie?query=${movieTitle}&api_key=${process.env.THE_MOVIE_DB_API_KEY}&year=${year}`,
         json: true,
       };
 
