@@ -35,13 +35,14 @@ sfcinemacity.getShowtimes(mayaMallId)
   const moviePromises = [];
   // go through every movie title
   // movies.forEach((movie) => {
-  for (let i = 0; i < 11; i += 1) {
+  for (let i = 1; i < movies.length; i += 1) {
     const movie = movies[i];
+console.log(movie);
     moviePromises.push(new Promise((resolve, reject) => {
       let newMovie = {};
 
       // set the rating as specified on the sfcinemacity website
-      newMovie.rating = movie.rating;
+      newMovie.rating = movie.rating ? movie.rating : 'unknown';
 
       // then add The Movie DB data too
       movieDatabases.theMovieDB(movie.title)

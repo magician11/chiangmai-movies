@@ -20,7 +20,7 @@ admin.initializeApp({
 const db = admin.database();
 const ref = db.ref('movie-data');
 
-const manualMovieTitle = 'Creepy';
+const manualMovieTitle = 'Chihayafuru Part 2';
 const manualMovieYear = 2016;
 
 console.log(`Updating movie database information at ${new Date().toString()}`);
