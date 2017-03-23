@@ -23,64 +23,70 @@ const ref = db.ref('movie-data');
 
 const mayaMallId = 9936;
 
-console.log(`Updating movie database information at ${new Date().toString()}`);
+const updateMovieDB = () => {
+  console.log(`Updating movie database information at ${new Date().toString()}`);
 
-// get all the current movie titles for Maya Mall
-sfcinemacity.getShowtimes(mayaMallId)
+  // get all the current movie titles for Maya Mall
+  sfcinemacity.getShowtimes(mayaMallId)
 
-// then grab movie data for those movie titles and write that to Firebase
-.then((movies) => {
-  // console.log(movies);
-  console.log(`Processing ${movies.length} movies.`);
-  const moviePromises = [];
-  // go through every movie title
-  // movies.forEach((movie) => {
-  for (let i = 1; i < movies.length; i += 1) {
-    const movie = movies[i];
-console.log(movie);
-    moviePromises.push(new Promise((resolve, reject) => {
-      let newMovie = {};
+  // then grab movie data for those movie titles and write that to Firebase
+  .then((movies) => {
+    // console.log(movies);
+    console.log(`Processing ${movies.length} movies.`);
+    const moviePromises = [];
+    // go through every movie title
+    // movies.forEach((movie) => {
+    for (let i = 0; i < movies.length; i += 1) {
+      const movie = movies[i];
+      // console.log(movie);
+      moviePromises.push(new Promise((resolve, reject) => {
+        let newMovie = {};
 
-      // set the rating as specified on the sfcinemacity website
-      newMovie.rating = movie.rating ? movie.rating : 'unknown';
+        // set the rating as specified on the sfcinemacity website
+        newMovie.rating = movie.rating ? movie.rating : 'unknown';
 
-      // then add The Movie DB data too
-      movieDatabases.theMovieDB(movie.title)
-      .then((theMovieDbData) => {
-        newMovie = Object.assign(newMovie, theMovieDbData);
-        return theMovieDbData;
-      })
+        // then add The Movie DB data too
+        movieDatabases.theMovieDB(movie.title)
+        .then((theMovieDbData) => {
+          newMovie = Object.assign(newMovie, theMovieDbData);
+          return theMovieDbData;
+        })
 
-      // add the Rotten Tomatoes data
-      .then(theMovieDbData => movieDatabases.rottenTomatoes(theMovieDbData.title))
-      .then((rottenTomatoesData) => {
-        newMovie = Object.assign(newMovie, rottenTomatoesData);
-      })
+        // add the Rotten Tomatoes data
+        .then(theMovieDbData => movieDatabases.rottenTomatoes(theMovieDbData.title))
+        .then((rottenTomatoesData) => {
+          newMovie = Object.assign(newMovie, rottenTomatoesData);
+        })
 
-      // write the newMovie object to Firebase
-      .then(() => {
-        const dbMovieTitle = movie.title.replace(/\.|#|\$|\[|]/g, '-');
-        ref.child(dbMovieTitle).update(newMovie, () => {
-          console.log(`Updated ${newMovie.title}`);
-          resolve(movie.title);
+        // write the newMovie object to Firebase
+        .then(() => {
+          const dbMovieTitle = movie.title.replace(/\.|#|\$|\[|]/g, '-');
+          ref.child(dbMovieTitle).update(newMovie, () => {
+            console.log(`Updated ${newMovie.title}`);
+            resolve(movie.title);
+          });
+        })
+
+        // Any errors, then print them out
+        .catch((error) => {
+          reject(`Error adding movie detail data: ${error}`);
         });
-      })
+      }));
+    }
 
-      // Any errors, then print them out
-      .catch((error) => {
-        reject(`Error adding movie detail data: ${error}`);
-      });
-    }));
-  }
+    // Close database connection after all data has been written to Fireabse
+    return Promise.all(moviePromises).then(() => {
+      console.log('All done.');
+      db.goOffline();
+    });
+  })
 
-  // Close database connection after all data has been written to Fireabse
-  return Promise.all(moviePromises).then(() => {
-    console.log('All done.');
-    db.goOffline();
+  // log out any errors
+  .catch((error) => {
+    console.log(`Something went wrong: ${error}`);
   });
-})
+};
 
-// log out any errors
-.catch((error) => {
-  console.log(`Something went wrong: ${error}`);
-});
+setInterval(() => {
+  updateMovieDB();
+}, 4.32e+7);
