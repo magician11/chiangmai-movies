@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, Modal, Glyphicon, Button } from 'react-bootstrap';
 
+import styling from '../styles/movie-app.css';
+
 /* eslint-disable max-len */
 
 class Footer extends Component {
@@ -38,16 +40,17 @@ class Footer extends Component {
             <br />
             <p>Thank you for using this web app!</p>
             <p>Andrew</p>
-            <p><Glyphicon glyph="heart" /> </p>
+            <p><Glyphicon glyph="heart" /></p>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.setState({ showModal: false })}>Close</Button>
           </Modal.Footer>
         </Modal>
-        <Alert bsStyle="info" className="text-center">
+        <Alert bsStyle="info" className={styling.author}>
           <Button onClick={() => this.setState({ showModal: true })}>
             <Glyphicon glyph="info-sign" /> About CM Movies
           </Button>
+          <p><Glyphicon glyph="copyright-mark" /> { new Date().getFullYear() } <a href="http://www.golightlyplus.com">Andrew Golightly</a></p>
         </Alert>
       </div>
     );
