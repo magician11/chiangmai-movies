@@ -52,11 +52,11 @@ app.get('/maya-mall', (req, res) => {
 
 app.set('port', 3003);
 
-// Connections from Facebook Messenger App have to be encrypted
+// Connections are encrypted
 const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/golightlyplus.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/golightlyplus.com/fullchain.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/golightlyplus.com/chain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/chiangmaimovies.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/chiangmaimovies.com/fullchain.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/chiangmaimovies.com/chain.pem'),
 };
 
 // startup the https server
