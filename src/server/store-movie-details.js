@@ -87,6 +87,7 @@ const updateMovieDB = () => {
   });
 };
 
-setInterval(() => {
-  updateMovieDB();
-}, 4.32e+7);
+updateMovieDB();
+// setInterval(() => {
+//   updateMovieDB();
+// }, 4.32e+7);
