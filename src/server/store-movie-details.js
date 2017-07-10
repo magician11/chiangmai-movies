@@ -3,8 +3,6 @@ Script to periodically grab movie data from various sources, and
 combine into a single useful movie object to be saved on Firebase.
 */
 
-/* eslint-disable no-console */
-
 // npm libraries
 const admin = require('firebase-admin');
 const sfcinemacity = require('sfcinemacity');
@@ -12,79 +10,73 @@ const sfcinemacity = require('sfcinemacity');
 // modules
 const movieDatabases = require('./modules/movie-databases');
 
+if (!process.env.MOVIES_DATABASE_URL) {
+  console.log(`The MOVIES_DATABASE_URL environment variable cannot be found.
+You might need to run something like: source ~/.bash_profile
+Aborting...`);
+  return;
+}
 // setup Firebase
-admin.initializeApp({
+const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert('./private-key.json'),
-  databaseURL: process.env.MOVIES_DATABASE_URL,
+  databaseURL: process.env.MOVIES_DATABASE_URL
 });
 
 const db = admin.database();
-const ref = db.ref('movie-data');
+const ref = db.ref('/');
 
-const mayaMallId = 9936;
+const updateMovieDB = async () => {
+  try {
+    console.log(
+      `Updating movie database information at ${new Date().toString()}`
+    );
 
-const updateMovieDB = () => {
-  console.log(`Updating movie database information at ${new Date().toString()}`);
+    const mayaMallId = 9936;
+    let movieTheatreData;
 
-  // get all the current movie titles for Maya Mall
-  sfcinemacity.getShowtimes(mayaMallId)
+    for (let dayOffset = 0; dayOffset < 3; dayOffset += 1) {
+      // get the showtimes
+      movieTheatreData = await sfcinemacity.getShowtimes(mayaMallId, dayOffset);
 
-  // then grab movie data for those movie titles and write that to Firebase
-  .then((movies) => {
-    // console.log(movies);
-    console.log(`Processing ${movies.length} movies.`);
-    const moviePromises = [];
-    // go through every movie title
-    // movies.forEach((movie) => {
-    for (let i = 0; i < movies.length; i += 1) {
-      const movie = movies[i];
-      // console.log(movie);
-      moviePromises.push(new Promise((resolve, reject) => {
-        let newMovie = {};
-
-        // set the rating as specified on the sfcinemacity website
-        newMovie.rating = movie.rating ? movie.rating : 'unknown';
-
-        // then add The Movie DB data too
-        movieDatabases.theMovieDB(movie.title)
-        .then((theMovieDbData) => {
-          newMovie = Object.assign(newMovie, theMovieDbData);
-          return theMovieDbData;
-        })
-
-        // add the Rotten Tomatoes data
-        .then(theMovieDbData => movieDatabases.rottenTomatoes(theMovieDbData.title))
-        .then((rottenTomatoesData) => {
-          newMovie = Object.assign(newMovie, rottenTomatoesData);
-        })
-
-        // write the newMovie object to Firebase
-        .then(() => {
-          const dbMovieTitle = movie.title.replace(/\.|#|\$|\[|]/g, '-');
-          ref.child(dbMovieTitle).update(newMovie, () => {
-            console.log(`Updated ${newMovie.title}`);
-            resolve(movie.title);
-          });
-        })
-
-        // Any errors, then print them out
-        .catch((error) => {
-          reject(`Error adding movie detail data: ${error}`);
-        });
-      }));
+      if (movieTheatreData.movies) {
+        // save that showtime info to Firebase
+        await ref
+          .child(
+            `movie-theatres/chiangmai/${mayaMallId}/${movieTheatreData.today}`
+          )
+          .update(movieTheatreData.movies);
+        console.log(
+          `Updated showtime data for ${movieTheatreData.movieTheatreName} for today + ${dayOffset} days.`
+        );
+      }
     }
 
-    // Close database connection after all data has been written to Fireabse
-    return Promise.all(moviePromises).then(() => {
-      console.log('All done.');
-      db.goOffline();
-    });
-  })
+    // go through each movie and save the meta data for it to Firebase
+    console.log('Updating movie details...');
+    for (let movieTitle of Object.keys(movieTheatreData.movies)) {
+      let movieData = {
+        rating: movieTheatreData.movies[movieTitle].rating
+      };
 
-  // log out any errors
-  .catch((error) => {
+      const movieDbData = await movieDatabases.theMovieDB(movieTitle);
+      movieData = Object.assign(movieData, movieDbData);
+
+      const rottenTomatoesData = await movieDatabases.rottenTomatoes(
+        movieTitle
+      );
+      movieData = Object.assign(movieData, rottenTomatoesData);
+
+      await ref.child(`movie-details/${movieTitle}`).update(movieData);
+      console.log(`Updated movie data for ${movieTitle}.`);
+    }
+
+    await firebaseApp.delete();
+    console.log('All done.');
+
+    // log out any errors
+  } catch (error) {
     console.log(`Something went wrong: ${error}`);
-  });
+  }
 };
 
 updateMovieDB();
