@@ -9,7 +9,7 @@ class MovieListings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModal: Array(props.movieData.length).fill(false),
+      showModal: Array(props.movieData.length).fill(false)
     };
 
     this.close = this.close.bind(this);
@@ -30,59 +30,87 @@ class MovieListings extends Component {
 
   render() {
     const { movieData, targetDate } = this.props;
+    const movieListingsForTargetDate =
+      movieData['movie-theatres'].chiangmai['9936'][targetDate];
+    const movieTitles = Object.keys(movieListingsForTargetDate);
     const movieShowings = [];
+    for (let i = 0; i < movieTitles.length; i += 1) {
+      const sfcinemaMovieData = movieListingsForTargetDate[movieTitles[i]];
+      const movieMetaData = movieData['movie-details'][movieTitles[i]];
+      console.log(sfcinemaMovieData);
+      console.log(movieMetaData);
+      const movieImage = movieMetaData.posterImage
+        ? movieMetaData.posterImage
+        : 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==';
 
-    movieData.forEach((movie, i) => {
-      Object.keys(movie.showTimes).forEach((movieDate) => {
-        if (movieDate === targetDate) {
-          const movieImage = (movie.posterImage) ? movie.posterImage : 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==';
-
-          movieShowings.push(
-            <Row key={movie.title}>
-              <Col xs={4}>
-                <Image src={movieImage} alt={movie.title} thumbnail responsive onClick={() => this.open(i)} />
-                <Modal show={this.state.showModal[i]} onHide={() => this.close(i)}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>{movie.title}</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body className="text-center">
-                    <Image src={movieImage} alt={movie.title} thumbnail responsive />
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button onClick={() => this.close(i)}>Close</Button>
-                  </Modal.Footer>
-                </Modal>
-              </Col>
-              <Col xs={8}>
-                <div className="hidden-xs">
-                  <h2>{movie.title}</h2>
-                  <MovieLinks movie={movie} />
-                  <MovieDetails
-                    movie={movie}
-                    targetDate={targetDate}
-                    defaultTab={2}
-                  />
-                </div>
-                <div className="visible-xs">
-                  <h4>{ movie.title }</h4>
-                  <MovieLinks movie={movie} />
-                </div>
-              </Col>
-            </Row>,
-            <Row key={`${movie.title} - timesAndTrailer`} className="visible-xs">
-              <Col xs={12}>
-                <MovieDetails
-                  movie={movie}
-                  targetDate={targetDate}
-                  defaultTab={1}
+      movieShowings.push(
+        <Row key={movieMetaData.title}>
+          <Col xs={4}>
+            <Image
+              src={movieImage}
+              alt={movieMetaData.title}
+              thumbnail
+              responsive
+              onClick={() => this.open(i)}
+            />
+            <Modal show={this.state.showModal[i]} onHide={() => this.close(i)}>
+              <Modal.Header closeButton>
+                <Modal.Title>
+                  {movieMetaData.title}
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="text-center">
+                <Image
+                  src={movieImage}
+                  alt={movieMetaData.title}
+                  thumbnail
+                  responsive
                 />
-              </Col>
-            </Row>,
-            <Row key={`${movie.title} - hr`}><Col xs={12}><hr /></Col></Row>,
-          );
-        }
-      });
-    });
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={() => this.close(i)}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+          </Col>
+          <Col xs={8}>
+            <div className="hidden-xs">
+              <h2>
+                {movieMetaData.title}
+              </h2>
+              <MovieLinks movie={movieMetaData} />
+              <MovieDetails
+                movie={movieMetaData}
+                sfcinemaData={sfcinemaMovieData}
+                defaultTab={2}
+              />
+            </div>
+            <div className="visible-xs">
+              <h4>
+                {movieMetaData.title}
+              </h4>
+              <MovieLinks movie={movieMetaData} />
+            </div>
+          </Col>
+        </Row>,
+        <Row
+          key={`${movieMetaData.title} - timesAndTrailer`}
+          className="visible-xs"
+        >
+          <Col xs={12}>
+            <MovieDetails
+              movie={movieMetaData}
+              sfcinemaData={sfcinemaMovieData}
+              defaultTab={1}
+            />
+          </Col>
+        </Row>,
+        <Row key={`${movieMetaData.title} - hr`}>
+          <Col xs={12}>
+            <hr />
+          </Col>
+        </Row>
+      );
+    }
 
     return (
       <div>
@@ -91,10 +119,5 @@ class MovieListings extends Component {
     );
   }
 }
-
-MovieListings.propTypes = {
-  movieData: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  targetDate: React.PropTypes.string.isRequired,
-};
 
 export default MovieListings;

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Modal, Glyphicon, Button } from 'react-bootstrap';
 
-import styling from '../styles/movie-app.css';
-
-/* eslint-disable max-len */
-
 class Footer extends Component {
   constructor() {
     super();
@@ -46,7 +42,7 @@ class Footer extends Component {
             <Button onClick={() => this.setState({ showModal: false })}>Close</Button>
           </Modal.Footer>
         </Modal>
-        <Alert bsStyle="info" className={styling.author}>
+        <Alert bsStyle="info" className='author'>
           <Button onClick={() => this.setState({ showModal: true })}>
             <Glyphicon glyph="info-sign" /> About CM Movies
           </Button>

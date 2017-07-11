@@ -14,8 +14,4 @@ const Header = props => (
   </Navbar>
 );
 
-Header.propTypes = {
-  date: React.PropTypes.string.isRequired,
-};
-
 export default Header;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Glyphicon, Button } from 'react-bootstrap';
-import styling from '../styles/movie-app.css';
 
 const MovieLinks = (props) => {
   const { movie } = props;
@@ -25,7 +24,7 @@ const MovieLinks = (props) => {
   }
 
   return (
-    <div className={styling['movie-links']}>
+    <div className='movie-links'>
       { rtUrl }
       { movie.trailer &&
         <Button>
@@ -34,22 +33,6 @@ const MovieLinks = (props) => {
       }
     </div>
   );
-};
-
-MovieLinks.propTypes = {
-  movie: React.PropTypes.shape({
-    actors: React.PropTypes.string.isRequired,
-    overview: React.PropTypes.string.isRequired,
-    posterImage: React.PropTypes.string.isRequired,
-    rating: React.PropTypes.string.isRequired,
-    rottenTomatoesUrl: React.PropTypes.string.isRequired,
-    runtime: React.PropTypes.string.isRequired,
-    showTimes: React.PropTypes.object.isRequired,
-    title: React.PropTypes.string.isRequired,
-    tomatoConsensus: React.PropTypes.string.isRequired,
-    tomatoMeter: React.PropTypes.string.isRequired,
-    trailer: React.PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default MovieLinks;

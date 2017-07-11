@@ -33,8 +33,4 @@ const Showtimes = (props) => {
   );
 };
 
-Showtimes.propTypes = {
-  times: React.PropTypes.objectOf(React.PropTypes.string),
-};
-
 export default Showtimes;
