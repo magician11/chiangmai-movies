@@ -1,27 +1,24 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 
-const Showtimes = (props) => {
-  const { times } = props;
+const Showtimes = props => {
+  const { showtimes } = props;
 
-  const movieTimes = Object.keys(times).map((movieVariant) => {
-    let movieType;
-    switch (movieVariant) {
-      case 'E': movieType = 'English'; break;
-      case 'F': movieType = 'First Class Cinema'; break;
-      case 'T': movieType = 'Thai'; break;
-      case 'J': movieType = 'Japanese with Thai subtitles'; break;
-      case 'T-E-SUB': movieType = 'Thai with English subtitles'; break;
-      case 'E-ATMOS': movieType = 'English with Atmos surround sound'; break;
-      default: movieType = movieVariant;
+  const movieTimes = Object.keys(showtimes).map((cinema) => {
+    let language;
+    switch (showtimes[cinema].language) {
+      case 'ENG': language = 'English'; break;
+      case 'TH': language = 'Thai'; break;
+      default: language = showtimes[cinema].language;
     }
-    return <tr key={movieVariant}><td>{movieType}</td><td>{times[movieVariant]}</td></tr>;
+    return <tr key={cinema}><td>{cinema}</td><td>{language}</td><td>{showtimes[cinema].times}</td></tr>;
   });
 
   return (
     <Table bordered condensed>
       <thead>
         <tr>
+          <th>Cinema</th>
           <th>Language</th>
           <th>Showtimes</th>
         </tr>

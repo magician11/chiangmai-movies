@@ -4,8 +4,7 @@ import Showtimes from './showtimes';
 
 const MovieDetails = (props) => {
   const { movie, sfcinemaData, defaultTab } = props;
-  const showTimes = <p>todo</p>;
-  // const showTimes = <Showtimes times={sfcinemaData.cinemas} />;
+  const showTimes = <Showtimes showtimes={sfcinemaData.cinemas} />;
 
   let review;
   if (movie.tomatoConsensus) {
