@@ -17,41 +17,6 @@ import Header from './header';
 import Footer from './footer';
 
 class MovieApp extends Component {
-  /*
-  Grab the showtimes for a movie, find the unique dates,
-  and then return those dates sorted by date.
-
-  When sorting, if we're in December and we see a January date, assume it's
-  for the next year.
-  */
-  // static getUniqueDates(movieData) {
-  //   const dates = {};
-  //   movieData.forEach(movie => {
-  //     Object.keys(movie.showTimes).forEach(movieDate => {
-  //       dates[movieDate] = true;
-  //     });
-  //   });
-  //
-  //   const currentYear = new Date().getFullYear();
-  //   const currentMonth = new Date().getMonth();
-  //
-  //   // add a year so we can sort across years
-  //   const addYear = date => {
-  //     const month = date.match(/\w{3}$/)[0];
-  //     if (currentMonth === 11 && month === 'Jan') {
-  //       return `${date} ${currentYear + 1}`;
-  //     }
-  //
-  //     return `${date} ${currentYear}`;
-  //   };
-
-  //   return Object.keys(dates).sort((date1, date2) => {
-  //     const dateObj1 = new Date(addYear(date1));
-  //     const dateObj2 = new Date(addYear(date2));
-  //     return dateObj1 > dateObj2 ? 1 : -1;
-  //   });
-  // }
-
   constructor() {
     super();
     this.state = {
@@ -73,23 +38,10 @@ class MovieApp extends Component {
     const database = firebase.database();
     database.ref('/').once('value').then(dataSnapshot => {
       const movieData = dataSnapshot.val();
-      console.log(movieData);
 
       const availableDates = Object.keys(
         movieData['movie-theatres'].chiangmai['9936']
       );
-      // console.log(availableDates);
-      // eslint-disable-next-line max-len
-      // movieData.sort((m1, m2) => {
-      //   /*
-      //   parseInt() on an empty string is NaN.
-      //   And any number is not greater than NaN. e.g. 75 > NaN is false.
-      //   So need to check for empty string otherwise sorting doesn't work.
-      //   */
-      //   const rating1 = m1.tomatoMeter ? parseInt(m1.tomatoMeter, 10) : 0;
-      //   const rating2 = m2.tomatoMeter ? parseInt(m2.tomatoMeter, 10) : 0;
-      //   return rating1 < rating2 ? 1 : -1;
-      // });
 
       this.setState({
         movieData,
