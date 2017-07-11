@@ -34,6 +34,11 @@ class MovieListings extends Component {
       movieData['movie-theatres'].chiangmai['9936'][targetDate];
     const movieTitles = Object.keys(movieListingsForTargetDate);
     // todo: sort the keys here by rottenTomatoes score
+    movieTitles.sort(
+      (movie1, movie2) =>
+        movieData['movie-details'][movie1].tomatoMeter <
+        movieData['movie-details'][movie2].tomatoMeter
+    );
     const movieShowings = [];
     for (let i = 0; i < movieTitles.length; i += 1) {
       const sfcinemaMovieData = movieListingsForTargetDate[movieTitles[i]];

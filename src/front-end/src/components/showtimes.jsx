@@ -4,14 +4,31 @@ import { Table } from 'react-bootstrap';
 const Showtimes = props => {
   const { showtimes } = props;
 
-  const movieTimes = Object.keys(showtimes).map((cinema) => {
+  const movieTimes = showtimes.map(cinema => {
     let language;
-    switch (showtimes[cinema].language) {
-      case 'ENG': language = 'English'; break;
-      case 'TH': language = 'Thai'; break;
-      default: language = showtimes[cinema].language;
+    switch (cinema.language) {
+      case 'ENG':
+        language = 'English';
+        break;
+      case 'TH':
+        language = 'Thai';
+        break;
+      default:
+        language = cinema.language;
     }
-    return <tr key={cinema}><td>{cinema}</td><td>{language}</td><td>{showtimes[cinema].times}</td></tr>;
+    return (
+      <tr key={`${cinema.cinemaNumber} - ${language}`}>
+        <td>
+          {cinema.cinemaNumber}
+        </td>
+        <td>
+          {language}
+        </td>
+        <td>
+          {cinema.times.replace(',', ', ')}
+        </td>
+      </tr>
+    );
   });
 
   return (
