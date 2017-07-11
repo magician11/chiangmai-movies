@@ -1,10 +1,10 @@
 # Chiang Mai Showtimes
 
-I find cinema websites in Chiang Mai cumbersome to navigate.
+This app quickly and easily shows all the showtimes for movies playing at Maya Mall, Chiang Mai.
 
-So I decided to build an app that scraped showtime data from those cinema sites, then supplemented that data with movie details from [The Movie Database](https://www.themoviedb.org/), [OMDb](http://www.omdbapi.com/), and [Rotten Tomatoes](http://www.rottentomatoes.com), and then render it in a simple and easy to use interface.
+What sets it apart from the SF Cinemacity site, is that it's simpler to use, shows more accurate meta data from [The Movie Database](https://www.themoviedb.org/), and displays ratings from [Rotten Tomatoes](http://www.rottentomatoes.com).
 
-http://chiangmaimovies.com
+You can view it from any device at http://chiangmaimovies.com
 
 ## Todo
 - add other cinemas in Chiang Mai
