@@ -83,6 +83,6 @@ const updateMovieDB = async () => {
 };
 
 updateMovieDB();
-// setInterval(() => {
-//   updateMovieDB();
-// }, 4.32e+7);
+setInterval(() => {
+  updateMovieDB();
+}, 3.96e+6);
