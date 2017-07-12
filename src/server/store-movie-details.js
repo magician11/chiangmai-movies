@@ -32,6 +32,10 @@ const updateMovieDB = async () => {
     );
 
     const mayaMallId = 9936;
+
+    // first wipe out current showtime info
+    await ref.child(`movie-theatres/chiangmai/${mayaMallId}`).remove();
+
     const totalDaysToFetch = 3;
 
     for (let dayOffset = 0; dayOffset < totalDaysToFetch; dayOffset += 1) {
