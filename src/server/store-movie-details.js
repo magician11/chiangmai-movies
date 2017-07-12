@@ -32,7 +32,7 @@ const updateMovieDB = async () => {
     );
 
     const mayaMallId = 9936;
-    const movieTheatreShowtimes = {}; // to hold showtimes for multiple days
+    // const movieTheatreShowtimes = {}; // to hold showtimes for multiple days
     let showtimes; // showtimes for a day. Re-used later.
     const totalDaysToFetch = 3;
 
@@ -40,38 +40,40 @@ const updateMovieDB = async () => {
       // get the showtimes for a specific day
       showtimes = await sfcinemacity.getShowtimes(mayaMallId, dayOffset);
 
-      // check movie times are listed for this day
-      if (showtimes.movieTimes) {
-        movieTheatreShowtimes[showtimes.date] = showtimes.movieTimes;
+      console.log(
+        `Getting showtimes for ${showtimes.movieTheatreName} for ${showtimes.date}`
+      );
+
+      // check if showtimes were returned
+      if (Object.keys(showtimes.movieTimes).length !== 0) {
+        // save that showtime info to Firebase
+        await ref
+          .child(`movie-theatres/chiangmai/${mayaMallId}/${showtimes.date}`)
+          .set(showtimes.movieTimes);
+        console.log(`Updated showtime data.`);
+
+        // go through each movie and save the meta data for it to Firebase
+        console.log('Updating movie metadata for this day...');
+        for (let movieTitle of Object.keys(showtimes.movieTimes)) {
+          let movieData = {
+            rating: showtimes.movieTimes[movieTitle].rating
+          };
+
+          const movieDbData = await movieDatabases.theMovieDB(movieTitle);
+          movieData = Object.assign(movieData, movieDbData);
+          const rottenTomatoesData = await movieDatabases.rottenTomatoes(
+            movieTitle
+          );
+          movieData = Object.assign(movieData, rottenTomatoesData);
+
+          await ref.child(`movie-details/${movieTitle}`).update(movieData);
+          console.log(`Updated movie data for ${movieTitle}.`);
+        }
+      } else {
+        console.log('No showtimes found.');
       }
     }
-
-    // save that showtime info to Firebase
-    await ref
-      .child(`movie-theatres/chiangmai/${mayaMallId}`)
-      .set(movieTheatreShowtimes);
-    console.log(`Updated showtime data for the next ${totalDaysToFetch} days.`);
-
-    // go through each movie and save the meta data for it to Firebase
-    console.log('Updating movie details...');
-    for (let movieTitle of Object.keys(showtimes.movieTimes)) {
-      let movieData = {
-        rating: showtimes.movieTimes[movieTitle].rating
-      };
-
-      const movieDbData = await movieDatabases.theMovieDB(movieTitle);
-      movieData = Object.assign(movieData, movieDbData);
-
-      const rottenTomatoesData = await movieDatabases.rottenTomatoes(
-        movieTitle
-      );
-      movieData = Object.assign(movieData, rottenTomatoesData);
-
-      await ref.child(`movie-details/${movieTitle}`).update(movieData);
-      console.log(`Updated movie data for ${movieTitle}.`);
-    }
-
-    console.log('All done.');
+    console.log('Data scraping complete.');
 
     // log out any errors
   } catch (error) {

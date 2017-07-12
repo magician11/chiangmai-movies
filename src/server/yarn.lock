@@ -17,8 +17,8 @@
   resolved "https://registry.yarnpkg.com/@types/mkdirp/-/mkdirp-0.3.29.tgz#7f2ad7ec55f914482fc9b1ec4bb1ae6028d46066"
 
 "@types/node@*":
-  version "8.0.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.9.tgz#19f44c3b6cb8a70d261d366f73650e3e3891ab2d"
+  version "8.0.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.11.tgz#3cf80de7185292c6dab156ece696dffed0cc3502"
 
 "@types/node@6.0.66", "@types/node@^6.0.46":
   version "6.0.66"
@@ -1381,9 +1381,9 @@ safe-buffer@^5.0.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
-sfcinemacity@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/sfcinemacity/-/sfcinemacity-2.0.0.tgz#b5963e0d847407586073518635601ecf1a825e8c"
+sfcinemacity@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/sfcinemacity/-/sfcinemacity-2.0.2.tgz#6914bc3d487138233b3c181fa98166c845f4fd8d"
   dependencies:
     cheerio "^1.0.0-rc.2"
     chrome-launcher "^0.3.1"

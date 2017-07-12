@@ -7,7 +7,7 @@
     "firebase-admin": "^4.1.1",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
-    "sfcinemacity": "^2.0.0"
+    "sfcinemacity": "^2.0.2"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
