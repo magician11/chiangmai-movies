@@ -50,9 +50,7 @@ const updateMovieDB = async () => {
     await ref
       .child(`movie-theatres/chiangmai/${mayaMallId}`)
       .set(movieTheatreShowtimes);
-    console.log(
-      `Updated showtime data for the next ${totalDaysToFetch} days.`
-    );
+    console.log(`Updated showtime data for the next ${totalDaysToFetch} days.`);
 
     // go through each movie and save the meta data for it to Firebase
     console.log('Updating movie details...');
@@ -73,7 +71,6 @@ const updateMovieDB = async () => {
       console.log(`Updated movie data for ${movieTitle}.`);
     }
 
-    await firebaseApp.delete();
     console.log('All done.');
 
     // log out any errors
@@ -85,4 +82,4 @@ const updateMovieDB = async () => {
 updateMovieDB();
 setInterval(() => {
   updateMovieDB();
-}, 3.96e+6);
+}, 3.96e6); // updates the movie db every 1.1 hours
