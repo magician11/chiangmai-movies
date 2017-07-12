@@ -32,13 +32,11 @@ const updateMovieDB = async () => {
     );
 
     const mayaMallId = 9936;
-    // const movieTheatreShowtimes = {}; // to hold showtimes for multiple days
-    let showtimes; // showtimes for a day. Re-used later.
     const totalDaysToFetch = 3;
 
     for (let dayOffset = 0; dayOffset < totalDaysToFetch; dayOffset += 1) {
       // get the showtimes for a specific day
-      showtimes = await sfcinemacity.getShowtimes(mayaMallId, dayOffset);
+      const showtimes = await sfcinemacity.getShowtimes(mayaMallId, dayOffset);
 
       console.log(
         `Getting showtimes for ${showtimes.movieTheatreName} for ${showtimes.date}`
@@ -50,7 +48,7 @@ const updateMovieDB = async () => {
         await ref
           .child(`movie-theatres/chiangmai/${mayaMallId}/${showtimes.date}`)
           .set(showtimes.movieTimes);
-        console.log(`Updated showtime data.`);
+        console.log(`Saved showtime data.`);
 
         // go through each movie and save the meta data for it to Firebase
         console.log('Updating movie metadata for this day...');
