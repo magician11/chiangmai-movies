@@ -8,7 +8,7 @@ const Header = props => (
         Chiang Mai Movies
       </Navbar.Brand>
       <Navbar.Text>
-        MAYA Mall - {props.date}
+        Maya Mall - {props.date}
       </Navbar.Text>
     </Navbar.Header>
   </Navbar>

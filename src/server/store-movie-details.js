@@ -36,7 +36,7 @@ const updateMovieDB = async () => {
     // first wipe out current showtime info
     await ref.child(`movie-theatres/chiangmai/${mayaMallId}`).remove();
 
-    const totalDaysToFetch = 3;
+    const totalDaysToFetch = 8;
 
     for (let dayOffset = 0; dayOffset < totalDaysToFetch; dayOffset += 1) {
       // get the showtimes for a specific day

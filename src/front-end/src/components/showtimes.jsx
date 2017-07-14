@@ -16,10 +16,23 @@ const Showtimes = props => {
       default:
         language = cinema.language;
     }
+
+    let cinemaNumber;
+    switch (parseInt(cinema.cinemaNumber, 10)) {
+      case 10:
+        cinemaNumber = `${cinema.cinemaNumber} (First Class Cinema)`;
+        break;
+      case 2:
+        cinemaNumber = `${cinema.cinemaNumber} (Dolby Atmos)`;
+        break;
+      default:
+        cinemaNumber = cinema.cinemaNumber;
+    }
+
     return (
-      <tr key={`${cinema.cinemaNumber} - ${language}`}>
+      <tr key={`${cinemaNumber} - ${language}`}>
         <td>
-          {cinema.cinemaNumber}
+          {cinemaNumber}
         </td>
         <td>
           {language}
