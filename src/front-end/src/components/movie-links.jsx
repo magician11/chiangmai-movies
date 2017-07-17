@@ -1,17 +1,35 @@
 import React from 'react';
 import { Glyphicon, Button } from 'react-bootstrap';
 
-const MovieLinks = (props) => {
+// rotten tomato icons
+import certifiedFresh from '../icons/certified-fresh.png';
+import fresh from '../icons/fresh.png';
+import splat from '../icons/splat.png';
+
+const MovieLinks = props => {
   const { movie } = props;
+
+  let rottenTomatoIcon;
+  if (movie.tomatoMeter >= 75) {
+    rottenTomatoIcon = certifiedFresh;
+  } else if (movie.tomatoMeter >= 60) {
+    rottenTomatoIcon = fresh;
+  } else {
+    rottenTomatoIcon = splat;
+  }
 
   let rtUrl;
   if (movie.tomatoMeter && movie.rottenTomatoesUrl) {
     rtUrl = (
-      <p>
+      <div className="rotten-tomatoes-score">
         <a href={movie.rottenTomatoesUrl}>
-          <Glyphicon glyph="star" /> {movie.tomatoMeter}% (Rotten Tomatoes)
+          <img
+            src={rottenTomatoIcon}
+            alt={`Icon for rating of ${movie.tomatoMeter}`}
+          />{' '}
+          {movie.tomatoMeter}%
         </a>
-      </p>
+      </div>
     );
   } else if (movie.rottenTomatoesUrl) {
     rtUrl = (
@@ -24,13 +42,14 @@ const MovieLinks = (props) => {
   }
 
   return (
-    <div className='movie-links'>
-      { rtUrl }
-      { movie.trailer &&
+    <div className="movie-links">
+      {rtUrl}
+      {movie.trailer &&
         <Button>
-          <a href={movie.trailer}><Glyphicon glyph="facetime-video" /> View Trailer</a>
-        </Button>
-      }
+          <a href={movie.trailer}>
+            <Glyphicon glyph="facetime-video" /> View Trailer
+          </a>
+        </Button>}
     </div>
   );
 };
