@@ -87,7 +87,7 @@ class Footer extends Component {
           <Button onClick={() => this.setState({ showModal: true })}>
             <Glyphicon glyph="info-sign" /> About CM Movies
           </Button>
-          <p>
+          <p className="text-right">
             <Glyphicon glyph="copyright-mark" /> {new Date().getFullYear()}{' '}
             <a href="http://www.golightlyplus.com">Andrew Golightly</a>
           </p>
