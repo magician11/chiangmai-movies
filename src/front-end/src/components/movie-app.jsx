@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
 import {
   Grid,
   Col,
@@ -36,23 +36,26 @@ class MovieApp extends Component {
     };
     firebase.initializeApp(config);
     const database = firebase.database();
-    database.ref('/').once('value').then(dataSnapshot => {
-      const movieData = dataSnapshot.val();
+    database
+      .ref('/')
+      .once('value')
+      .then(dataSnapshot => {
+        const movieData = dataSnapshot.val();
 
-      const availableDates = Object.keys(
-        movieData['movie-theatres'].chiangmai['9936']
-      );
+        const availableDates = Object.keys(
+          movieData['movie-theatres'].chiangmai['9936']
+        );
 
-      this.setState({
-        movieData,
-        availableDates,
-        targetDate: availableDates[0]
+        this.setState({
+          movieData,
+          availableDates,
+          targetDate: availableDates[0]
+        });
       });
-    });
 
     // track app views with Google Analytics
-    ReactGA.initialize('UA-63340534-3');
-    ReactGA.pageview(window.location.pathname);
+    // ReactGA.initialize('UA-63340534-3');
+    // ReactGA.pageview(window.location.pathname);
 
     this.handleDateChange = this.handleDateChange.bind(this);
   }
@@ -89,7 +92,7 @@ class MovieApp extends Component {
               </Col>
               <Col className="text-center" sm={6} xsHidden>
                 <h1>Chiang Mai Movies</h1>
-                <div className="social-media-buttons">
+                {/* <div className="social-media-buttons">
                   <a
                     href="https://twitter.com/share"
                     className="twitter-share-button"
@@ -106,7 +109,7 @@ class MovieApp extends Component {
                     data-show-faces="true"
                     data-share="true"
                   />
-                </div>
+                </div> */}
               </Col>
               <Col xs={6} sm={3} className="text-right">
                 <p>
@@ -129,15 +132,15 @@ class MovieApp extends Component {
                       placeholder="select"
                       onChange={this.handleDateChange}
                     >
-                      {this.state.availableDates.map(date =>
+                      {this.state.availableDates.map(date => (
                         <option key={date} value={date}>
                           {date}
                         </option>
-                      )}
+                      ))}
                     </FormControl>
                   </FormGroup>
                 </Form>
-                <Col
+                {/* <Col
                   xs={12}
                   className="social-media-buttons"
                   lgHidden
@@ -160,7 +163,7 @@ class MovieApp extends Component {
                     data-show-faces="true"
                     data-share="true"
                   />
-                </Col>
+                </Col> */}
               </Col>
             </Row>
           </Panel>
