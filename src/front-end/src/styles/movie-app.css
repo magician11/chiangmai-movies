@@ -1,20 +1,10 @@
 .movie-app-container {
   margin-top: 8rem;
-  font-family: "Open Sans";
-}
-
-.social-media-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 2.2rem;
-}
-
-.fb-like {
-  padding-left: 4px;
+  font-family: 'Open Sans';
 }
 
 h1 {
-  font-family: "Satisfy";
+  font-family: 'Satisfy';
   font-size: 4.4rem;
 }
 

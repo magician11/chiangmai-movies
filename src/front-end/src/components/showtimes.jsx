@@ -31,15 +31,9 @@ const Showtimes = props => {
 
     return (
       <tr key={`${cinemaNumber} - ${language}`}>
-        <td>
-          {cinemaNumber}
-        </td>
-        <td>
-          {language}
-        </td>
-        <td>
-          {cinema.times.replace(',', ', ')}
-        </td>
+        <td>{cinemaNumber}</td>
+        <td>{language}</td>
+        <td>{cinema.times.replace(/,/g, ', ')}</td>
       </tr>
     );
   });
@@ -53,9 +47,7 @@ const Showtimes = props => {
           <th>Showtimes</th>
         </tr>
       </thead>
-      <tbody>
-        {movieTimes}
-      </tbody>
+      <tbody>{movieTimes}</tbody>
     </Table>
   );
 };
