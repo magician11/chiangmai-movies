@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-// import ReactGA from 'react-ga';
+import ReactGA from 'react-ga';
 import {
   Grid,
   Col,
@@ -54,8 +54,8 @@ class MovieApp extends Component {
       });
 
     // track app views with Google Analytics
-    // ReactGA.initialize('UA-63340534-3');
-    // ReactGA.pageview(window.location.pathname);
+    ReactGA.initialize('UA-63340534-3');
+    ReactGA.pageview(window.location.pathname);
 
     this.handleDateChange = this.handleDateChange.bind(this);
   }
