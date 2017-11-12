@@ -17,21 +17,22 @@ const Showtimes = props => {
         language = cinema.language;
     }
 
-    let cinemaNumber;
-    switch (parseInt(cinema.cinemaNumber, 10)) {
-      case 10:
-        cinemaNumber = `${cinema.cinemaNumber} (First Class Cinema)`;
-        break;
-      case 2:
-        cinemaNumber = `${cinema.cinemaNumber} (Dolby Atmos)`;
-        break;
-      default:
-        cinemaNumber = cinema.cinemaNumber;
-    }
+    // let cinemaNumber;
+    // switch (parseInt(cinema.cinemaNumber, 10)) {
+    //   case 10:
+    //     cinemaNumber = `${cinema.cinemaNumber} (First Class Cinema)`;
+    //     break;
+    //   case 2:
+    //     cinemaNumber = `${cinema.cinemaNumber} (Dolby Atmos)`;
+    //     break;
+    //   default:
+    //     cinemaNumber = cinema.cinemaNumber;
+    // }
 
     return (
-      <tr key={`${cinemaNumber} - ${language}`}>
-        <td>{cinemaNumber}</td>
+      // <tr key={`${cinemaNumber} - ${language}`}>
+      <tr key={`${language} - ${cinema.times.substring(0, 5)}`}>
+        {/* <td>{cinemaNumber}</td> */}
         <td>{language}</td>
         <td>{cinema.times.replace(/,/g, ', ')}</td>
       </tr>
@@ -42,7 +43,7 @@ const Showtimes = props => {
     <Table bordered condensed>
       <thead>
         <tr>
-          <th>Cinema</th>
+          {/* <th>Cinema</th> */}
           <th>Language</th>
           <th>Showtimes</th>
         </tr>
