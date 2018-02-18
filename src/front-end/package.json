@@ -9,11 +9,11 @@
   "homepage": "https://chiangmaimovies.com/",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "firebase": "^4.6.2",
-    "react": "^16.1.0",
-    "react-bootstrap": "^0.31.5",
-    "react-dom": "^16.1.0",
-    "react-ga": "^2.3.5",
+    "firebase": "^4.8.2",
+    "react": "^16.2.0",
+    "react-bootstrap": "^0.32.0",
+    "react-dom": "^16.2.0",
+    "react-ga": "^2.4.1",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

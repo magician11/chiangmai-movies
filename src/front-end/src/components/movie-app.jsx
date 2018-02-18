@@ -22,7 +22,8 @@ class MovieApp extends Component {
     this.state = {
       movieData: null,
       targetDate: 'loading...',
-      availableDates: []
+      availableDates: [],
+      error: null
     };
 
     // grab data from firebase
@@ -36,21 +37,29 @@ class MovieApp extends Component {
     };
     firebase.initializeApp(config);
     const database = firebase.database();
+
     database
       .ref('/')
       .once('value')
       .then(dataSnapshot => {
         const movieData = dataSnapshot.val();
 
-        const availableDates = Object.keys(
-          movieData['movie-theatres'].chiangmai['9936']
-        );
+        if (movieData['movie-theatres']) {
+          const availableDates = Object.keys(
+            movieData['movie-theatres'].chiangmai['9936']
+          );
 
-        this.setState({
-          movieData,
-          availableDates,
-          targetDate: availableDates[0]
-        });
+          this.setState({
+            movieData,
+            availableDates,
+            targetDate: availableDates[0]
+          });
+        } else {
+          this.setState({
+            targetDate: 'no data',
+            error: 'Damn... no movie times available'
+          });
+        }
       });
 
     // track app views with Google Analytics
@@ -68,7 +77,9 @@ class MovieApp extends Component {
     const movieData = this.state.movieData;
     let content;
 
-    if (!movieData) {
+    if (this.state.error) {
+      content = <h3 className="text-center">{this.state.error}</h3>;
+    } else if (!movieData) {
       content = (
         <div className="sk-cube-grid">
           <div className="sk-cube sk-cube1" />
@@ -86,44 +97,48 @@ class MovieApp extends Component {
       content = (
         <div>
           <Panel>
-            <Row>
-              <Col xs={6} sm={3}>
-                <h2>MAYA Mall</h2>
-              </Col>
-              <Col className="text-center" sm={6} xsHidden>
-                <h1>Chiang Mai Movies</h1>
-              </Col>
-              <Col xs={6} sm={3} className="text-right">
-                <p>
-                  Corner of Huay Kaew Rd and Super Highway 11. Across from
-                  Nimmanhaemin.
-                </p>
-                <p>
-                  <Glyphicon glyph="map-marker" />{' '}
-                  <a href="https://goo.gl/maps/MJ2KMy2hvnG2">cinema location</a>
-                </p>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                <Form inline>
-                  <FormGroup controlId="formControlsSelect">
-                    <ControlLabel>Dates</ControlLabel>{' '}
-                    <FormControl
-                      componentClass="select"
-                      placeholder="select"
-                      onChange={this.handleDateChange}
-                    >
-                      {this.state.availableDates.map(date => (
-                        <option key={date} value={date}>
-                          {date}
-                        </option>
-                      ))}
-                    </FormControl>
-                  </FormGroup>
-                </Form>
-              </Col>
-            </Row>
+            <Panel.Body>
+              <Row>
+                <Col xs={6} sm={3}>
+                  <h2>MAYA Mall</h2>
+                </Col>
+                <Col className="text-center" sm={6} xsHidden>
+                  <h1>Chiang Mai Movies</h1>
+                </Col>
+                <Col xs={6} sm={3} className="text-right">
+                  <p>
+                    Corner of Huay Kaew Rd and Super Highway 11. Across from
+                    Nimmanhaemin.
+                  </p>
+                  <p>
+                    <Glyphicon glyph="map-marker" />{' '}
+                    <a href="https://goo.gl/maps/MJ2KMy2hvnG2">
+                      cinema location
+                    </a>
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12}>
+                  <Form inline>
+                    <FormGroup controlId="formControlsSelect">
+                      <ControlLabel>Dates</ControlLabel>{' '}
+                      <FormControl
+                        componentClass="select"
+                        placeholder="select"
+                        onChange={this.handleDateChange}
+                      >
+                        {this.state.availableDates.map(date => (
+                          <option key={date} value={date}>
+                            {date}
+                          </option>
+                        ))}
+                      </FormControl>
+                    </FormGroup>
+                  </Form>
+                </Col>
+              </Row>
+            </Panel.Body>
           </Panel>
           <MovieListings
             movieData={movieData}
