@@ -1,6 +1,6 @@
 /*
-Script to periodically grab movie data from various sources, and
-combine into a single useful movie object to be saved on Firebase.
+Script to fetch movie showtime data from sfcinemacity, and
+then the meta data for each of those movies, and store that data in Firebase.
 */
 
 // npm libraries
@@ -12,7 +12,6 @@ const movieDatabases = require('./modules/movie-databases');
 
 if (!process.env.MOVIES_DATABASE_URL) {
   console.log(`The MOVIES_DATABASE_URL environment variable cannot be found.
-You might need to run something like: source ~/.bash_profile
 Aborting...`);
   return;
 }
@@ -86,6 +85,3 @@ const updateMovieDB = async () => {
 };
 
 updateMovieDB();
-setInterval(() => {
-  updateMovieDB();
-}, 8.64e7); // updates the movie db every 24 hours
