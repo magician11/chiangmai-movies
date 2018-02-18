@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "Scrape websites to show movie information for Maya Mall in Chiang Mai, Thailand.",
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "firebase-admin": "^4.1.1",
-    "request": "^2.79.0",
-    "request-promise-native": "^1.0.3",
-    "sfcinemacity": "^2.0.2"
+    "cheerio": "^1.0.0-rc.2",
+    "firebase-admin": "^5.9.0",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "sfcinemacity": "^2.0.9"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.7.0"
+    "eslint": "^4.18.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
   },
   "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
   "license": "ISC"
