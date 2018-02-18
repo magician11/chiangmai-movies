@@ -43,7 +43,9 @@ const updateMovieDB = async () => {
       const showtimes = await sfcinemacity.getShowtimes(mayaMallId, dayOffset);
 
       console.log(
-        `Getting showtimes for ${showtimes.movieTheatreName} for ${showtimes.date}`
+        `Getting showtimes for ${showtimes.movieTheatreName} for ${
+          showtimes.date
+        }`
       );
 
       // check if showtimes were returned
@@ -86,4 +88,4 @@ const updateMovieDB = async () => {
 updateMovieDB();
 setInterval(() => {
   updateMovieDB();
-}, 3.96e6); // updates the movie db every 1.1 hours
+}, 8.64e7); // updates the movie db every 24 hours
