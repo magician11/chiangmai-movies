@@ -60,14 +60,14 @@ const updateMovieDB = async () => {
         console.log('Updating movie metadata for this day...');
         for (let movie of showtimes.movies) {
           // replace illegal Firebase keys with a -
-          const movieTitle = movie.movieTitle.replace(/\.|\$|\[|\]|#|\//g, '-');
+          const movieKey = movie.movieTitle.replace(/\.|\$|\[|\]|#|\//g, '-');
 
           // save the showtime info to Firebase
           await ref
             .child(
               `movie-theatres/chiangmai/${mayaMallId}/${
                 showtimes.date
-              }/${movieTitle}`
+              }/${movieKey}`
             )
             .set(movie.cinemas);
 
@@ -75,15 +75,15 @@ const updateMovieDB = async () => {
             rating: movie.rating
           };
 
-          const movieDbData = await movieDatabases.theMovieDB(movieTitle);
+          const movieDbData = await movieDatabases.theMovieDB(movie.movieTitle);
           movieData = Object.assign(movieData, movieDbData);
           const rottenTomatoesData = await movieDatabases.rottenTomatoes(
-            movieTitle
+            movie.movieTitle
           );
           movieData = Object.assign(movieData, rottenTomatoesData);
 
-          await ref.child(`movie-details/${movieTitle}`).set(movieData);
-          console.log(`Updated movie data for ${movieTitle}.`);
+          await ref.child(`movie-details/${movieKey}`).set(movieData);
+          console.log(`Updated movie data for ${movie.movieTitle}.`);
         }
       } else {
         console.log('No showtimes found.');
