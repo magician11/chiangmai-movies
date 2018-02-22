@@ -1,6 +1,6 @@
 /*
-Script to fetch movie showtime data from sfcinemacity, and
-then the meta data for each of those movies, and store that data in Firebase.
+Script to fetch movie showtimes from SF Cinemacity,
+as well as the meta data for each movie, and store that data to Firebase.
 */
 
 // npm libraries
@@ -15,6 +15,7 @@ if (!process.env.MOVIES_DATABASE_URL) {
 Aborting...`);
   return;
 }
+
 // setup Firebase
 const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert('./private-key.json'),
@@ -32,10 +33,10 @@ const updateMovieDB = async () => {
 
     const mayaMallId = 9936;
 
-    // first wipe out current showtime info
-    await ref.child(`movie-theatres/chiangmai/${mayaMallId}`).remove();
+    // first wipe out all the data to minimise the data downloaded on the client
+    await ref.remove();
 
-    const totalDaysToFetch = 8;
+    const totalDaysToFetch = 3;
 
     for (let dayOffset = 0; dayOffset < totalDaysToFetch; dayOffset += 1) {
       // get the showtimes for a specific day
@@ -48,18 +49,20 @@ const updateMovieDB = async () => {
       );
 
       // check if showtimes were returned
-      if (Object.keys(showtimes.movieTimes).length !== 0) {
+      if (showtimes.movies.length !== 0) {
         // save that showtime info to Firebase
         await ref
           .child(`movie-theatres/chiangmai/${mayaMallId}/${showtimes.date}`)
-          .set(showtimes.movieTimes);
+          .set(showtimes.movies);
         console.log(`Saved showtime data.`);
 
         // go through each movie and save the meta data for it to Firebase
         console.log('Updating movie metadata for this day...');
-        for (let movieTitle of Object.keys(showtimes.movieTimes)) {
+        for (let movie of showtimes.movies) {
+          // replace illegal Firebase keys with a -
+          const movieTitle = movie.movieTitle.replace(/\.|\$|\[|\]|#|\//g, '-');
           let movieData = {
-            rating: showtimes.movieTimes[movieTitle].rating
+            rating: movie.rating
           };
 
           const movieDbData = await movieDatabases.theMovieDB(movieTitle);
@@ -69,7 +72,7 @@ const updateMovieDB = async () => {
           );
           movieData = Object.assign(movieData, rottenTomatoesData);
 
-          await ref.child(`movie-details/${movieTitle}`).update(movieData);
+          await ref.child(`movie-details/${movieTitle}`).set(movieData);
           console.log(`Updated movie data for ${movieTitle}.`);
         }
       } else {
@@ -77,8 +80,7 @@ const updateMovieDB = async () => {
       }
     }
     console.log('Data scraping complete.');
-
-    // log out any errors
+    firebaseApp.delete();
   } catch (error) {
     console.log(`Something went wrong: ${error}`);
   }

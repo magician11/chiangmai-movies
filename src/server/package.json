@@ -1,19 +1,16 @@
 {
   "name": "get-movie-times",
-  "version": "1.0.0",
-  "description": "Scrape websites to show movie information for Maya Mall in Chiang Mai, Thailand.",
+  "version": "2.0.9",
+  "description":
+    "Scrape websites to show movie information for Maya Mall in Chiang Mai, Thailand.",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "firebase-admin": "^5.9.0",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
-    "sfcinemacity": "^2.0.9"
+    "sfcinemacity": "^3.0.11"
   },
-  "devDependencies": {
-    "eslint": "^4.18.0",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0"
-  },
-  "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
+  "author":
+    "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
   "license": "ISC"
 }
