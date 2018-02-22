@@ -8,16 +8,16 @@
   },
   "homepage": "https://chiangmaimovies.com/",
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "firebase": "^4.8.2",
+    "bootstrap": "3",
+    "firebase": "^4.10.0",
     "react": "^16.2.0",
-    "react-bootstrap": "^0.32.0",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-ga": "^2.4.1",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "react-scripts": "^1.0.17"
+    "react-scripts": "^1.1.1"
   },
   "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
   "license": "ISC"

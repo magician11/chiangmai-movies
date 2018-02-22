@@ -51,9 +51,9 @@ const updateMovieDB = async () => {
       // check if showtimes were returned
       if (showtimes.movies.length !== 0) {
         // save that showtime info to Firebase
-        await ref
-          .child(`movie-theatres/chiangmai/${mayaMallId}/${showtimes.date}`)
-          .set(showtimes.movies);
+        // await ref
+        //   .child(`movie-theatres/chiangmai/${mayaMallId}/${showtimes.date}`)
+        //   .set(showtimes.movies);
         console.log(`Saved showtime data.`);
 
         // go through each movie and save the meta data for it to Firebase
@@ -61,6 +61,16 @@ const updateMovieDB = async () => {
         for (let movie of showtimes.movies) {
           // replace illegal Firebase keys with a -
           const movieTitle = movie.movieTitle.replace(/\.|\$|\[|\]|#|\//g, '-');
+
+          // save the showtime info to Firebase
+          await ref
+            .child(
+              `movie-theatres/chiangmai/${mayaMallId}/${
+                showtimes.date
+              }/${movieTitle}`
+            )
+            .set(movie.cinemas);
+
           let movieData = {
             rating: movie.rating
           };
