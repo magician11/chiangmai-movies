@@ -9,6 +9,7 @@ Using:
 const rpn = require('request-promise-native');
 const cheerio = require('cheerio');
 
+// this make 4 separate requests to The Movie DB
 const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
   try {
     const theMovieDbBaseUrl = 'http://api.themoviedb.org/3';

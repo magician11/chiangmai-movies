@@ -6,6 +6,7 @@ as well as the meta data for each movie, and store that data to Firebase.
 // npm libraries
 const admin = require('firebase-admin');
 const sfcinemacity = require('sfcinemacity');
+const delay = require('delay');
 
 // modules
 const movieDatabases = require('./modules/movie-databases');
@@ -16,22 +17,19 @@ Aborting...`);
   return;
 }
 
-// setup Firebase
-const firebaseApp = admin.initializeApp({
-  credential: admin.credential.cert('./private-key.json'),
-  databaseURL: process.env.MOVIES_DATABASE_URL
-});
-
-const db = admin.database();
-const ref = db.ref('/');
-
-const updateMovieDB = async () => {
+const updateMovieDB = async movieTheatreId => {
   try {
-    console.log(
-      `Updating Maya Mall movie database information at ${new Date().toString()}`
-    );
+    // setup Firebase
+    const firebaseApp = admin.initializeApp({
+      credential: admin.credential.cert('./private-key.json'),
+      databaseURL: process.env.MOVIES_DATABASE_URL
+    });
 
-    const mayaMallId = 9936;
+    const db = admin.database();
+    const ref = db.ref('/');
+    console.log(
+      `Updating movie database information on ${new Date().toString()}`
+    );
 
     // first wipe out all the data to minimise the data downloaded on the client
     await ref.remove();
@@ -40,24 +38,21 @@ const updateMovieDB = async () => {
 
     for (let dayOffset = 0; dayOffset < totalDaysToFetch; dayOffset += 1) {
       // get the showtimes for a specific day
-      const showtimes = await sfcinemacity.getShowtimes(mayaMallId, dayOffset);
+      const showtimes = await sfcinemacity.getShowtimes(
+        movieTheatreId,
+        dayOffset
+      );
 
       console.log(
-        `Getting showtimes for ${showtimes.movieTheatreName} for ${
+        `Found ${showtimes.movies.length} movies playing on ${
           showtimes.date
-        }`
+        } at ${
+          showtimes.movieTheatreName
+        } (movie theatre ID: ${movieTheatreId})`
       );
 
       // check if showtimes were returned
       if (showtimes.movies.length !== 0) {
-        // save that showtime info to Firebase
-        // await ref
-        //   .child(`movie-theatres/chiangmai/${mayaMallId}/${showtimes.date}`)
-        //   .set(showtimes.movies);
-        console.log(`Saved showtime data.`);
-
-        // go through each movie and save the meta data for it to Firebase
-        console.log('Updating movie metadata for this day...');
         for (let movie of showtimes.movies) {
           // replace illegal Firebase keys with a -
           const movieKey = movie.movieTitle.replace(/\.|\$|\[|\]|#|\//g, '-');
@@ -65,7 +60,7 @@ const updateMovieDB = async () => {
           // save the showtime info to Firebase
           await ref
             .child(
-              `movie-theatres/chiangmai/${mayaMallId}/${
+              `movie-theatres/chiangmai/${movieTheatreId}/${
                 showtimes.date
               }/${movieKey}`
             )
@@ -83,7 +78,8 @@ const updateMovieDB = async () => {
           movieData = Object.assign(movieData, rottenTomatoesData);
 
           await ref.child(`movie-details/${movieKey}`).set(movieData);
-          console.log(`Updated movie data for ${movie.movieTitle}.`);
+          console.log(`Saved movie data for ${movie.movieTitle}.`);
+          await delay(1100);
         }
       } else {
         console.log('No showtimes found.');
@@ -96,4 +92,8 @@ const updateMovieDB = async () => {
   }
 };
 
-updateMovieDB();
+if (process.argv.length === 3) {
+  updateMovieDB(process.argv[2]);
+} else {
+  console.log('usage: node store-movie-details.js [movie theatre ID]');
+}
