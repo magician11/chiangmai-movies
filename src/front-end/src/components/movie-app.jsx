@@ -22,10 +22,11 @@ class MovieApp extends Component {
     this.state = {
       movieData: null,
       targetDate: 'loading...',
-      availableDates: [],
-      error: null
+      availableDates: []
     };
+  }
 
+  componentDidMount() {
     // grab data from firebase
     const config = {
       apiKey: 'AIzaSyC_Bv5Apio1PBrO048figZ6i3B_nkccoMw',
@@ -44,22 +45,18 @@ class MovieApp extends Component {
       .then(dataSnapshot => {
         const movieData = dataSnapshot.val();
 
-        if (movieData['movie-theatres']) {
-          const availableDates = Object.keys(
-            movieData['movie-theatres'].chiangmai['9936']
-          );
+        const availableDates = Object.keys(
+          movieData['movie-theatres'].chiangmai['9936']
+        );
 
-          this.setState({
-            movieData,
-            availableDates,
-            targetDate: availableDates[0]
-          });
-        } else {
-          this.setState({
-            targetDate: 'no data',
-            error: 'Damn... no movie times available'
-          });
-        }
+        this.setState({
+          movieData,
+          availableDates,
+          targetDate: availableDates[0]
+        });
+      })
+      .catch(error => {
+        this.setState({ error });
       });
 
     // track app views with Google Analytics
@@ -74,12 +71,13 @@ class MovieApp extends Component {
   }
 
   render() {
+    if (this.state.error) {
+      throw this.state.error;
+    }
     const movieData = this.state.movieData;
     let content;
 
-    if (this.state.error) {
-      content = <h3 className="text-center">{this.state.error}</h3>;
-    } else if (!movieData) {
+    if (!movieData) {
       content = (
         <div className="sk-cube-grid">
           <div className="sk-cube sk-cube1" />

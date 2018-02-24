@@ -79,6 +79,7 @@ const updateMovieDB = async movieTheatreId => {
 
           await ref.child(`movie-details/${movieKey}`).set(movieData);
           console.log(`Saved movie data for ${movie.movieTitle}.`);
+          // https://developers.themoviedb.org/3/getting-started/request-rate-limiting
           await delay(1100);
         }
       } else {

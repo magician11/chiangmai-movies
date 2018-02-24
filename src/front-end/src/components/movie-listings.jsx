@@ -38,7 +38,6 @@ class MovieListings extends Component {
         movieData['movie-details'][movie1].tomatoMeter
       );
     });
-
     const movieShowings = [];
     for (let i = 0; i < movieTitles.length; i += 1) {
       const sfcinemaMovieData = movieListingsForTargetDate[movieTitles[i]];
