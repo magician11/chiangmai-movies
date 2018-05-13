@@ -82,7 +82,7 @@ const updateMovieDB = async movieTheatreId => {
       }
     }
     console.log('Data scraping complete.');
-    firebaseApp.delete();
+    // firebaseApp.delete(); // commented out so the script never stops running
   } catch (error) {
     console.log(`Something went wrong: ${error}`);
   }
