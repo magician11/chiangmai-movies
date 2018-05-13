@@ -7,22 +7,17 @@ as well as the meta data for each movie, and store that data to Firebase.
 const admin = require('firebase-admin');
 const sfcinemacity = require('sfcinemacity');
 const delay = require('delay');
+const secrets = require('./config/secrets');
 
 // modules
 const movieDatabases = require('./modules/movie-databases');
-
-if (!process.env.MOVIES_DATABASE_URL) {
-  console.log(`The MOVIES_DATABASE_URL environment variable cannot be found.
-Aborting...`);
-  return;
-}
 
 const updateMovieDB = async movieTheatreId => {
   try {
     // setup Firebase
     const firebaseApp = admin.initializeApp({
-      credential: admin.credential.cert('./private-key.json'),
-      databaseURL: process.env.MOVIES_DATABASE_URL
+      credential: admin.credential.cert('./config/private-key.json'),
+      databaseURL: secrets.databaseURL
     });
 
     const db = admin.database();

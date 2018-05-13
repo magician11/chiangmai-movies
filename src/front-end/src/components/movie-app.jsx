@@ -49,6 +49,9 @@ class MovieApp extends Component {
           movieData['movie-theatres'].chiangmai['9936']
         );
 
+        console.log(movieData)
+        console.log(availableDates)
+
         this.setState({
           movieData,
           availableDates,

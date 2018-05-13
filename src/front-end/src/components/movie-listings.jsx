@@ -40,7 +40,9 @@ class MovieListings extends Component {
     });
     const movieShowings = [];
     for (let i = 0; i < movieTitles.length; i += 1) {
+            console.log(movieTitles[i])
       const sfcinemaMovieData = movieListingsForTargetDate[movieTitles[i]];
+
       const movieMetaData = movieData['movie-details'][movieTitles[i]];
       const movieImage = movieMetaData.posterImage
         ? movieMetaData.posterImage

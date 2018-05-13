@@ -8,6 +8,7 @@ Using:
 
 const rpn = require('request-promise-native');
 const cheerio = require('cheerio');
+const secrets = require('../config/secrets');
 
 // this make 4 separate requests to The Movie DB
 const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
@@ -16,7 +17,7 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
 
     const theMovieDbOptions = {
       uri: `${theMovieDbBaseUrl}/search/movie?query=${movieTitle}&api_key=${
-        process.env.THE_MOVIE_DB_API_KEY
+        secrets.movieDbAPIkey
       }&year=${year}`,
       json: true
     };
@@ -45,7 +46,7 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
       // Get the movie trailer for it
       theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${
         bestMatchingMovie.id
-      }/videos?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
+      }/videos?api_key=${secrets.movieDbAPIkey}&language=en-US`;
       const videoData = await rpn(theMovieDbOptions);
       if (videoData.results.length > 0) {
         /*
@@ -64,7 +65,7 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
       // now get other movie details
       theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${
         bestMatchingMovie.id
-      }?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
+      }?api_key=${secrets.movieDbAPIkey}&language=en-US`;
       const movieData = await rpn(theMovieDbOptions);
       theMovieDbData.runtime = movieData.runtime;
       theMovieDbData.tagline = movieData.tagline;
@@ -72,7 +73,7 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
       // now get the actors
       theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${
         bestMatchingMovie.id
-      }/credits?api_key=${process.env.THE_MOVIE_DB_API_KEY}&language=en-US`;
+      }/credits?api_key=${secrets.movieDbAPIkey}&language=en-US`;
       const actorData = await rpn(theMovieDbOptions);
 
       const actors = [];
