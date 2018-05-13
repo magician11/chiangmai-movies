@@ -82,14 +82,14 @@ const updateMovieDB = async movieTheatreId => {
       }
     }
     console.log('Data scraping complete.');
-    // firebaseApp.delete(); // commented out so the script never stops running
+    firebaseApp.delete();
   } catch (error) {
     console.log(`Something went wrong: ${error}`);
   }
 };
 
 if (process.argv.length === 3) {
-  setInterval(() => updateMovieDB(process.argv[2]), 21600000);
+  updateMovieDB(process.argv[2]);
 } else {
   console.log('usage: node store-movie-details.js [movie theatre ID]');
 }
