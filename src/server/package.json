@@ -8,7 +8,7 @@
     "firebase-admin": "^5.12.0",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
-    "sfcinemacity": "^3.0.22"
+    "sfcinemacity": "^3.0.33"
   },
   "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
   "license": "ISC"

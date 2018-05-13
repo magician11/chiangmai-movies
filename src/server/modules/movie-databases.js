@@ -128,7 +128,7 @@ const rottenTomatoes = async movieTitle => {
       };
     }
   } catch (err) {
-    reject(`Error grabbing data from Rotten Tomatoes: ${err}`);
+    throw `Error grabbing data from Rotten Tomatoes: ${err}`;
   }
 };
 
