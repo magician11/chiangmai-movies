@@ -88,8 +88,12 @@ const updateMovieDB = async movieTheatreId => {
   }
 };
 
-if (process.argv.length === 3) {
-  updateMovieDB(process.argv[2]);
-} else {
-  console.log('usage: node store-movie-details.js [movie theatre ID]');
-}
+// for manual execution
+// if (process.argv.length === 3) {
+//   updateMovieDB(process.argv[2]);
+// } else {
+//   console.log('usage: node store-movie-details.js [movie theatre ID]');
+// }
+
+// for executing this script once a day
+setInterval(() => updateMovieDB(9936), 86400000);
