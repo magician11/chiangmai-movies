@@ -96,4 +96,6 @@ const updateMovieDB = async movieTheatreId => {
 // }
 
 // for executing this script once a day
-setInterval(() => updateMovieDB(9936), 86400000);
+const mayaMall = 9936;
+updateMovieDB(mayaMall);
+setInterval(() => updateMovieDB(mayaMall), 86400000);
