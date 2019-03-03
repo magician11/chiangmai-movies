@@ -108,30 +108,30 @@ const rottenTomatoes = async movieTitle => {
 
     // first find the Rotten Tomatoes URL on google for this movie
     options.uri = `https://www.google.com/search?as_q=rotten+tomatoes+${movieTitle}`;
+
     const $ = await rpn(options);
     // then extract it and grab that page from Rotten Tomatoes
     const rottenTomatoesMatch = $('#search .g cite')
       .first()
       .text()
-      .match(/(https:\/\/www\.rottentomatoes\.com\/m.+)\//);
+      .match(/(https:\/\/www\.rottentomatoes\.com\/m.+)/);
     if (!rottenTomatoesMatch) {
       return noRtData;
     } else {
       const rottenTomatoesUrl = rottenTomatoesMatch[1];
       options.uri = rottenTomatoesUrl;
       const rtData = await rpn(options);
-      if (rtData('meta[name="movieTitle"]').attr('content') === movieTitle) {
-        return {
-          rottenTomatoesUrl,
-          tomatoMeter: rtData('#all-critics-numbers .meter-value span').text(),
-          tomatoConsensus: rtData('#all-critics-numbers .critic_consensus')
-            .text()
-            .replace('Critics Consensus:', '')
-            .trim()
-        };
-      } else {
-        return noRtData;
-      }
+      return {
+        rottenTomatoesUrl,
+        tomatoMeter: rtData(
+          '.mop-ratings-wrap__score .mop-ratings-wrap__percentage'
+        )
+          .first()
+          .text()
+          .trim()
+          .replace('%', ''),
+        tomatoConsensus: rtData('.mop-ratings-wrap__text--concensus').text()
+      };
     }
   } catch (err) {
     throw `Error grabbing data from Rotten Tomatoes: ${err}`;
