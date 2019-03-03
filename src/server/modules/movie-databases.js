@@ -123,10 +123,7 @@ const rottenTomatoes = async movieTitle => {
       const rtData = await rpn(options);
       return {
         rottenTomatoesUrl,
-        tomatoMeter: rtData(
-          '.mop-ratings-wrap__score .mop-ratings-wrap__percentage'
-        )
-          .first()
+        tomatoMeter: rtData('#tomato_meter_link')
           .text()
           .trim()
           .replace('%', ''),
