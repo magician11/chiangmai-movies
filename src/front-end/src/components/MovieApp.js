@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(3),
     padding: theme.spacing(3)
+  },
+  movieItem: {
+    marginBottom: theme.spacing(3)
   }
 }));
 
@@ -51,10 +54,17 @@ const MovieApp = () => {
   }, []);
 
   let content;
-  console.log(movieData['movie-details']);
+
   if (movieData['movie-details']) {
     content = Object.keys(movieData['movie-details']).map(movieTitle => (
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={4}
+        className={classes.movieItem}
+        key={movieTitle}
+      >
         <MovieCard movieData={movieData['movie-details'][movieTitle]} />
       </Grid>
     ));
