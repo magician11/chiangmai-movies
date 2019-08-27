@@ -5,10 +5,10 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "delay": "^4.3.0",
-    "firebase-admin": "^8.3.0",
+    "firebase-admin": "^8.4.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "rottentomatoes-data": "^1.4.6",
+    "rottentomatoes-data": "^2.0.9",
     "sfcinemacity": "^3.0.33"
   },
   "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",

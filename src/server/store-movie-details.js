@@ -40,11 +40,7 @@ const updateMovieDB = async movieTheatreId => {
       );
 
       console.log(
-        `Found ${showtimes.movies.length} movies playing on ${
-          showtimes.date
-        } at ${
-          showtimes.movieTheatreName
-        } (movie theatre ID: ${movieTheatreId})`
+        `Found ${showtimes.movies.length} movies playing on ${showtimes.date} at ${showtimes.movieTheatreName} (movie theatre ID: ${movieTheatreId})`
       );
 
       // check if showtimes were returned
@@ -56,9 +52,7 @@ const updateMovieDB = async movieTheatreId => {
           // save the showtime info to Firebase
           await ref
             .child(
-              `movie-theatres/chiangmai/${movieTheatreId}/${
-                showtimes.date
-              }/${movieKey}`
+              `movie-theatres/chiangmai/${movieTheatreId}/${showtimes.date}/${movieKey}`
             )
             .set(movie.cinemas);
 
@@ -69,7 +63,9 @@ const updateMovieDB = async movieTheatreId => {
           const movieDbData = await movieDatabases.theMovieDB(movie.movieTitle);
           movieData = Object.assign(movieData, movieDbData);
           const rottenTomatoesData = await rottenTomatoes(movie.movieTitle);
-          movieData = Object.assign(movieData, rottenTomatoesData);
+          if (rottenTomatoesData.ok) {
+            movieData = Object.assign(movieData, rottenTomatoesData.movie);
+          }
 
           await ref.child(`movie-details/${movieKey}`).set(movieData);
           console.log(`Saved movie data for ${movie.movieTitle}.`);

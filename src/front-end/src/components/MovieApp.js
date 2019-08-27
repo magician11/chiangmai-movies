@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import ReactGA from 'react-ga';
+import { CssBaseline, Grid, LinearProgress } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Header from './Header';
+import MovieCard from './MovieCard';
 // import MovieListings from './movie-listings';
 // import Header from './header';
 // import Footer from './footer';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(3)
+  }
+}));
+
 const MovieApp = () => {
-  const [movieData, setMovieData] = useState();
+  const classes = useStyles();
+  const [movieData, setMovieData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,12 +36,9 @@ const MovieApp = () => {
       const dataSnapshot = await database.ref('/').once('value');
       const firebaseMovieData = dataSnapshot.val();
 
-      const availableDates = Object.keys(
-        firebaseMovieData['movie-theatres'].chiangmai['9936']
-      );
-
-      console.log(firebaseMovieData);
-      console.log(availableDates);
+      // const availableDates = Object.keys(
+      //   firebaseMovieData['movie-theatres'].chiangmai['9936']
+      // );
 
       setMovieData(firebaseMovieData);
     };
@@ -41,7 +50,33 @@ const MovieApp = () => {
     fetchData();
   }, []);
 
-  return <h1>Chiang Mai Movies</h1>;
+  let content;
+  console.log(movieData['movie-details']);
+  if (movieData['movie-details']) {
+    content = Object.keys(movieData['movie-details']).map(movieTitle => (
+      <Grid item xs={12} sm={6} md={4}>
+        <MovieCard movieData={movieData['movie-details'][movieTitle]} />
+      </Grid>
+    ));
+  } else {
+    content = (
+      <Grid item xs={4}>
+        <LinearProgress />
+      </Grid>
+    );
+  }
+
+  return (
+    <Fragment>
+      <CssBaseline />
+      <Header />
+      <div className={classes.root}>
+        <Grid container justify="center">
+          {content}
+        </Grid>
+      </div>
+    </Fragment>
+  );
 };
 
 // class MovieApp extends Component {
