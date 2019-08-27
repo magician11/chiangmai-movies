@@ -6,6 +6,7 @@ as well as the meta data for each movie, and store that data to Firebase.
 // npm libraries
 const admin = require('firebase-admin');
 const sfcinemacity = require('sfcinemacity');
+const rottenTomatoes = require('rottentomatoes-data');
 const delay = require('delay');
 const secrets = require('./config/secrets');
 
@@ -67,9 +68,7 @@ const updateMovieDB = async movieTheatreId => {
 
           const movieDbData = await movieDatabases.theMovieDB(movie.movieTitle);
           movieData = Object.assign(movieData, movieDbData);
-          const rottenTomatoesData = await movieDatabases.rottenTomatoes(
-            movie.movieTitle
-          );
+          const rottenTomatoesData = await rottenTomatoes(movie.movieTitle);
           movieData = Object.assign(movieData, rottenTomatoesData);
 
           await ref.child(`movie-details/${movieKey}`).set(movieData);
