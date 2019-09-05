@@ -65,7 +65,15 @@ const MovieUI = () => {
   let content;
 
   if (movieListings && selectedDate) {
-    content = Object.keys(movieListings[selectedDate]).map(movieTitle => (
+    // sort the movies by Rotten Tomatoes score
+    const moviesForSelectedDate = Object.keys(movieListings[selectedDate]);
+    moviesForSelectedDate.sort((movieTitle1, movieTitle2) =>
+      movieDetails[movieTitle1].meterScore <
+      movieDetails[movieTitle2].meterScore
+        ? 1
+        : -1
+    );
+    content = moviesForSelectedDate.map(movieTitle => (
       <Grid
         item
         xs={12}
@@ -82,7 +90,7 @@ const MovieUI = () => {
     ));
   } else {
     content = (
-      <Grid item xs={4}>
+      <Grid item xs={8} sm={4}>
         <LinearProgress />
       </Grid>
     );
