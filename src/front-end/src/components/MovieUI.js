@@ -88,6 +88,9 @@ const MovieUI = () => {
     );
   }
 
+  // scroll to top of screen before rendering movie data
+  window.scrollTo(0, 0);
+
   return (
     <Fragment>
       <CssBaseline />

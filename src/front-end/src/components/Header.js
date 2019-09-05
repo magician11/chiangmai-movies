@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -6,8 +6,13 @@ import {
   Typography,
   Menu,
   MenuItem,
-  Button
+  Button,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContentText
 } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
 import { GetState } from './AppState';
 
 const useStyles = makeStyles(theme => ({
@@ -19,13 +24,20 @@ const useStyles = makeStyles(theme => ({
   },
   location: {
     marginRight: theme.spacing(3)
+  },
+  infoIcon: {
+    marginLeft: theme.spacing(2)
+  },
+  dialogContent: {
+    padding: theme.spacing(3)
   }
 }));
 
 const MovieBar = () => {
   const classes = useStyles();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [showAboutDialog, setShowAboutDialog] = useState(false);
   const [{ selectedDate, movieListings }, dispatch] = GetState();
 
   const handleMenuItemClick = newDateSelected => {
@@ -40,9 +52,9 @@ const MovieBar = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  function handleClose() {
+  const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -82,8 +94,39 @@ const MovieBar = () => {
               ))}
             </Menu>
           )}
+          <IconButton
+            aria-label="about this app"
+            aria-controls="info-appbar"
+            aria-haspopup="true"
+            onClick={() => setShowAboutDialog(true)}
+            color="inherit"
+            className={classes.infoIcon}
+          >
+            <InfoIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
+      <Dialog
+        onClose={() => setShowAboutDialog(false)}
+        aria-labelledby="simple-dialog-title"
+        open={showAboutDialog}
+      >
+        <DialogTitle id="simple-dialog-title">
+          About Chiang Mai Movies
+        </DialogTitle>
+        <DialogContentText className={classes.dialogContent}>
+          This app merges movie showtimes from the{' '}
+          <a href="https://goo.gl/maps/eko9pf2xbL3NVUnq6">Maya Mall</a> cinema
+          in Chiang Mai, Thailand with{' '}
+          <a href="https://rottentomatoes.com/">Rotten Tomatoes</a> metadata.
+        </DialogContentText>
+        <DialogContentText className={classes.dialogContent}>
+          Any questions, email{' '}
+          <a href="mailto:support@andrewgolightly.com">
+            support@andrewgolightly.com
+          </a>
+        </DialogContentText>
+      </Dialog>
     </div>
   );
 };
