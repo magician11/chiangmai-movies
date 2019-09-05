@@ -30,7 +30,7 @@ const updateMovieDB = async movieTheatreId => {
     // first wipe out all the data to minimise the data downloaded on the client
     await ref.remove();
 
-    const totalDaysToFetch = 3;
+    const totalDaysToFetch = 5;
 
     for (let dayOffset = 0; dayOffset < totalDaysToFetch; dayOffset += 1) {
       // get the showtimes for a specific day
