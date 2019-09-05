@@ -66,6 +66,8 @@ const MovieCard = props => {
         return 'English';
       case 'TH':
         return 'Thai';
+      case 'JP':
+        return 'Japanese';
       default:
         return languageCode;
     }
