@@ -1,18 +1,20 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {
+  Card,
+  CardHeader,
+  Button,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Avatar,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from '@material-ui/core';
 
 import certifiedFreshIcon from '../icons/certified-fresh.png';
 import freshIcon from '../icons/fresh.png';
@@ -40,13 +42,8 @@ const useStyles = makeStyles(theme => ({
 
 const MovieCard = props => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
 
-  function handleExpandClick() {
-    setExpanded(!expanded);
-  }
-
-  const { movieData } = props;
+  const { movieData, showTimes } = props;
 
   let iconFromClass;
   switch (movieData.meterClass) {
@@ -62,6 +59,17 @@ const MovieCard = props => {
     default:
       iconFromClass = '';
   }
+
+  const niceLanguage = languageCode => {
+    switch (languageCode) {
+      case 'ENG':
+        return 'English';
+      case 'TH':
+        return 'Thai';
+      default:
+        return languageCode;
+    }
+  };
 
   return (
     <Card className={classes.card}>
@@ -84,14 +92,33 @@ const MovieCard = props => {
         title={movieData.title}
       />
       <CardContent>
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          component="p"
-          gutterBottom
-        >
+        <Typography variant="body2" color="textSecondary" component="p">
           {movieData.overview}
         </Typography>
+      </CardContent>
+      <CardContent>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Language</TableCell>
+              <TableCell align="right">Showtimes</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {showTimes.map((row, i) => (
+              <TableRow key={i}>
+                <TableCell component="th" scope="row">
+                  {niceLanguage(row.language)}
+                </TableCell>
+                <TableCell align="right">
+                  {row.times.replace(/,/g, ', ')}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+      <CardContent>
         {movieData.actors && (
           <Typography variant="body2" gutterBottom>
             Actors: {movieData.actors.join(', ')}
@@ -103,33 +130,20 @@ const MovieCard = props => {
           </Typography>
         )}
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        {movieData.consensus && (
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        )}
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      {movieData.consensus && (
         <CardContent>
-          <Typography variant="body2" color="textSecondary">
-            "{movieData.consensus}"
+          <Typography variant="body2" color="textSecondary" component="div">
+            <blockquote>"{movieData.consensus}"</blockquote>
           </Typography>
         </CardContent>
-      </Collapse>
+      )}
+      <CardActions disableSpacing>
+        {movieData.trailer && (
+          <Button size="small" color="primary" href={movieData.trailer}>
+            View Trailer
+          </Button>
+        )}
+      </CardActions>
     </Card>
   );
 };
