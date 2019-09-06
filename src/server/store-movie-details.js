@@ -90,7 +90,7 @@ const updateMovieDB = async movieTheatreId => {
 //   console.log('usage: node store-movie-details.js [movie theatre ID]');
 // }
 
-// for executing this script once a day
+// this script runs ever 11 hours
 const mayaMall = 9936;
 updateMovieDB(mayaMall);
-setInterval(() => updateMovieDB(mayaMall), 86400000);
+setInterval(() => updateMovieDB(mayaMall), 39600000);
