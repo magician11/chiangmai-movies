@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MovieUI from './MovieUI';
+import ErrorBoundary from './ErrorBoundary';
 import { StateProvider } from './AppState';
 
 const MovieApp = () => {
@@ -35,7 +36,9 @@ const MovieApp = () => {
 
   return (
     <StateProvider reducer={reducer} initialState={initialState}>
-      <MovieUI />
+      <ErrorBoundary>
+        <MovieUI />
+      </ErrorBoundary>
     </StateProvider>
   );
 };
