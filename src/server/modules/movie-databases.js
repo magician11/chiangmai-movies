@@ -16,9 +16,7 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
     const theMovieDbBaseUrl = 'http://api.themoviedb.org/3';
 
     const theMovieDbOptions = {
-      uri: `${theMovieDbBaseUrl}/search/movie?query=${movieTitle}&api_key=${
-        secrets.movieDbAPIkey
-      }&year=${year}`,
+      uri: `${theMovieDbBaseUrl}/search/movie?query=${movieTitle}&api_key=${secrets.movieDbAPIkey}&year=${year}`,
       json: true
     };
 
@@ -37,16 +35,12 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
       const bestMatchingMovie = result.results[0];
 
       theMovieDbData.overview = bestMatchingMovie.overview;
-      theMovieDbData.posterImage = `https://image.tmdb.org/t/p/w500${
-        bestMatchingMovie.poster_path
-      }`;
+      theMovieDbData.posterImage = `https://image.tmdb.org/t/p/w500${bestMatchingMovie.poster_path}`;
       theMovieDbData.title = bestMatchingMovie.title;
       theMovieDbData.releaseDate = bestMatchingMovie.release_date;
 
       // Get the movie trailer for it
-      theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${
-        bestMatchingMovie.id
-      }/videos?api_key=${secrets.movieDbAPIkey}&language=en-US`;
+      theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/videos?api_key=${secrets.movieDbAPIkey}&language=en-US`;
       const videoData = await rpn(theMovieDbOptions);
       if (videoData.results.length > 0) {
         /*
@@ -55,25 +49,19 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
               */
         videoData.results.forEach(video => {
           if (video.type === 'Trailer') {
-            theMovieDbData.trailer = `https://www.youtube.com/watch?v=${
-              video.key
-            }`;
+            theMovieDbData.trailer = `https://www.youtube.com/watch?v=${video.key}`;
           }
         });
       }
 
       // now get other movie details
-      theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${
-        bestMatchingMovie.id
-      }?api_key=${secrets.movieDbAPIkey}&language=en-US`;
+      theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}?api_key=${secrets.movieDbAPIkey}&language=en-US`;
       const movieData = await rpn(theMovieDbOptions);
       theMovieDbData.runtime = movieData.runtime;
       theMovieDbData.tagline = movieData.tagline;
 
       // now get the actors
-      theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${
-        bestMatchingMovie.id
-      }/credits?api_key=${secrets.movieDbAPIkey}&language=en-US`;
+      theMovieDbOptions.uri = `${theMovieDbBaseUrl}/movie/${bestMatchingMovie.id}/credits?api_key=${secrets.movieDbAPIkey}&language=en-US`;
       const actorData = await rpn(theMovieDbOptions);
 
       const actors = [];
@@ -82,7 +70,7 @@ const theMovieDB = async (movieTitle, year = new Date().getFullYear()) => {
         const actor = actorData.cast[i];
         actors.push(`${actor.name} (${actor.character})`);
       }
-      theMovieDbData.actors = actors.join(', ');
+      theMovieDbData.actors = actors;
       return theMovieDbData;
     } else {
       return theMovieDbData;
