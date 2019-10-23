@@ -5,11 +5,11 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "delay": "^4.3.0",
-    "firebase-admin": "^8.5.0",
+    "firebase-admin": "^8.6.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "rottentomatoes-data": "^2.1.8",
-    "sfcinemacity": "^3.0.33"
+    "sfcinemacity": "^4.2.5"
   },
   "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
   "license": "ISC"
