@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import ReactGA from 'react-ga';
@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const MovieUI = () => {
   const classes = useStyles();
+  const [error, setError] = useState();
   const [{ movieDetails, movieListings, selectedDate }, dispatch] = GetState();
 
   useEffect(() => {
@@ -36,6 +37,13 @@ const MovieUI = () => {
       const database = firebase.database();
       const dataSnapshot = await database.ref('/').once('value');
       const firebaseMovieData = dataSnapshot.val();
+
+      if (!firebaseMovieData) {
+        setError(
+          "I'm sorry, but it doesn't look like any movie data is available at present."
+        );
+        return;
+      }
 
       dispatch({
         type: 'setMovieListings',
@@ -61,6 +69,10 @@ const MovieUI = () => {
 
     fetchData();
   }, [dispatch]);
+
+  if (error) {
+    throw new Error(error);
+  }
 
   let content;
 
