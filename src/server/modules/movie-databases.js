@@ -7,7 +7,6 @@ Using:
 */
 
 const rpn = require('request-promise-native');
-const cheerio = require('cheerio');
 const secrets = require('../config/secrets');
 
 // this make 4 separate requests to The Movie DB

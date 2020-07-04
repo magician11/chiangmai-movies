@@ -8,19 +8,20 @@ const admin = require('firebase-admin');
 const sfcinemacity = require('sfcinemacity');
 const rottenTomatoes = require('rottentomatoes-data');
 const delay = require('delay');
+const sendEmail = require('./modules/email');
 const secrets = require('./config/secrets');
 
 // modules
 const movieDatabases = require('./modules/movie-databases');
 
+// setup Firebase
+admin.initializeApp({
+  credential: admin.credential.cert('./config/private-key.json'),
+  databaseURL: secrets.databaseURL
+});
+
 const updateMovieDB = async movieTheatreId => {
   try {
-    // setup Firebase
-    const firebaseApp = admin.initializeApp({
-      credential: admin.credential.cert('./config/private-key.json'),
-      databaseURL: secrets.databaseURL
-    });
-
     const db = admin.database();
     const ref = db.ref('/');
     console.log(
@@ -77,9 +78,14 @@ const updateMovieDB = async movieTheatreId => {
       }
     }
     console.log('Data scraping complete.');
-    firebaseApp.delete();
+    // firebaseApp.delete();
   } catch (error) {
     console.log(`Something went wrong: ${error}`);
+    sendEmail(
+      'support@andrewgolightly.com',
+      'Error with storing CM movie data',
+      error
+    );
   }
 };
 
