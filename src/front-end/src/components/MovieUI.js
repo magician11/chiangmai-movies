@@ -78,14 +78,26 @@ const MovieUI = () => {
 
   if (movieListings && selectedDate) {
     // sort the movies by Rotten Tomatoes score
-    const moviesForSelectedDate = Object.keys(movieListings[selectedDate]);
-    moviesForSelectedDate.sort((movieTitle1, movieTitle2) =>
+    const knownScores = [],
+      unknownScores = [];
+    // separate the movies that have scores with those that don't
+    for (const title of Object.keys(movieListings[selectedDate])) {
+      if (movieDetails[title].meterScore) {
+        knownScores.push(title);
+      } else {
+        unknownScores.push(title);
+      }
+    }
+    // sort the movies that have scores
+    knownScores.sort((movieTitle1, movieTitle2) =>
       movieDetails[movieTitle1].meterScore <
       movieDetails[movieTitle2].meterScore
         ? 1
         : -1
     );
-    content = moviesForSelectedDate.map(movieTitle => (
+
+    // define the grid item that will hold the movie card
+    const movieGridItem = movieTitle => (
       <Grid
         item
         xs={12}
@@ -99,7 +111,11 @@ const MovieUI = () => {
           showTimes={movieListings[selectedDate][movieTitle]}
         />
       </Grid>
-    ));
+    );
+
+    // add the sorted movies by scores first, then the unsorted items
+    content = knownScores.map(movieTitle => movieGridItem(movieTitle));
+    content.push(unknownScores.map(movieTitle => movieGridItem(movieTitle)));
   } else {
     content = (
       <Grid item xs={8} sm={4}>
