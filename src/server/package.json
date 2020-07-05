@@ -9,7 +9,7 @@
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "rottentomatoes-data": "^2.1.8",
-    "sfcinemacity": "^4.3.4"
+    "sfcinemacity": "^4.4.4"
   },
   "author": "Andrew Golightly <support@andrewgolightly.com> (http://www.golightlyplus.com)",
   "license": "ISC"
