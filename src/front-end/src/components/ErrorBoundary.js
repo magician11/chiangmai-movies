@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { Grid, Paper, Typography, CssBaseline } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
@@ -26,6 +28,13 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true, error: error.message });
+    firebase
+      .firestore()
+      .collection('errors')
+      .add({
+        error: error.message,
+        timestamp: firebase.firestore.Timestamp.now()
+      });
   }
 
   render() {
