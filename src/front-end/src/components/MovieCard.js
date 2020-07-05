@@ -15,6 +15,7 @@ import {
   TableHead,
   TableRow
 } from '@material-ui/core';
+import { Movie, Link } from '@material-ui/icons';
 
 import certifiedFreshIcon from '../icons/certified-fresh.png';
 import freshIcon from '../icons/fresh.png';
@@ -140,8 +141,23 @@ const MovieCard = props => {
       )}
       <CardActions disableSpacing>
         {movieData.trailer && (
-          <Button size="small" color="primary" href={movieData.trailer}>
-            View Trailer
+          <Button
+            size="small"
+            color="primary"
+            href={movieData.trailer}
+            startIcon={<Movie />}
+          >
+            Trailer
+          </Button>
+        )}
+        {movieData.url && (
+          <Button
+            size="small"
+            color="primary"
+            href={movieData.url}
+            startIcon={<Link />}
+          >
+            Rotten Tomatoes
           </Button>
         )}
       </CardActions>
